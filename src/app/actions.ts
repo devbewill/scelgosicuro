@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { phaseASchema } from "@/lib/schemas/quote-session"
+import { generateQuotes } from "@/lib/engine/generate"
 
 export type PhaseAResult =
   | { ok: true; sessionId: string }
@@ -9,6 +10,10 @@ export type PhaseAResult =
 
 export type SaveAnswersResult =
   | { ok: true }
+  | { ok: false; error: string }
+
+export type RunEngineResult =
+  | { ok: true; resultCount: number; userScore: number }
   | { ok: false; error: string }
 
 export async function createQuoteSession(
@@ -92,4 +97,17 @@ export async function saveQuestionnaireAnswers(input: {
   }
 
   return { ok: true }
+}
+
+export async function runEngine(sessionId: string): Promise<RunEngineResult> {
+  if (!sessionId) return { ok: false, error: "Sessione mancante" }
+  try {
+    return await generateQuotes(sessionId)
+  } catch (err) {
+    console.error("[runEngine] failed:", err)
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : "Errore motore",
+    }
+  }
 }
