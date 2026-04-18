@@ -1,0 +1,451 @@
+{
+  "slug": "amtrust-commercialista-protetto",
+  "insurer": "amtrust",
+  "product_type": "rc_professionale_commercialista",
+  "name": "AmTrust Commercialista Protetto",
+  "version": "2024-10",
+  "source_pdf": "PRODUCTS/amtrustcommercialistaprotetto (1)/Tariffa_CommercialistaProtetto_V6_def.pdf",
+
+  "questions": [
+    {
+      "key": "q_fascia_fatturato",
+      "label": "Qual è il tuo fatturato annuo?",
+      "type": "dropdown",
+      "options": [
+        {"value": "0_25k",     "label": "Fino a €25.000"},
+        {"value": "25_50k",    "label": "€25.001 – €50.000"},
+        {"value": "50_75k",    "label": "€50.001 – €75.000"},
+        {"value": "75_100k",   "label": "€75.001 – €100.000"},
+        {"value": "100_150k",  "label": "€100.001 – €150.000"},
+        {"value": "150_200k",  "label": "€150.001 – €200.000"},
+        {"value": "200_250k",  "label": "€200.001 – €250.000"},
+        {"value": "250_300k",  "label": "€250.001 – €300.000"},
+        {"value": "over_300k", "label": "Oltre €300.000"}
+      ]
+    },
+    {
+      "key": "q_massimale_rc",
+      "label": "Quale massimale per la RC Professionale?",
+      "type": "dropdown",
+      "options": [
+        {"value": 250000},
+        {"value": 350000},
+        {"value": 500000},
+        {"value": 1000000},
+        {"value": 2000000},
+        {"value": 3000000},
+        {"value": 5000000}
+      ]
+    },
+    {
+      "key": "q_retroattivita_rc",
+      "label": "Retroattività desiderata?",
+      "type": "dropdown",
+      "options": [
+        {"value": "2_anni",     "label": "2 anni"},
+        {"value": "10_anni",    "label": "10 anni"},
+        {"value": "illimitata", "label": "Illimitata"}
+      ]
+    },
+    {
+      "key": "q_franchigia_opzione",
+      "label": "Opzione franchigia",
+      "type": "dropdown",
+      "options": [
+        {"value": "standard",    "label": "Franchigia standard"},
+        {"value": "raddoppio",   "label": "Raddoppio franchigia (sconto)"},
+        {"value": "dimezzamento","label": "Dimezzamento franchigia (aumento)"}
+      ]
+    },
+    {
+      "key": "q_sinistri_5_anni",
+      "label": "Quanti sinistri negli ultimi 5 anni?",
+      "type": "number",
+      "validation": {"min": 0, "max": 10}
+    },
+    {
+      "key": "q_high_risk_ratio",
+      "label": "Percentuale compensi da attività High Risk sul totale",
+      "help_text": "Attività High Risk: visto pesante, OCC, revisione, DPO, etc.",
+      "type": "number",
+      "validation": {"min": 0, "max": 1, "step": 0.01}
+    },
+    {
+      "key": "q_massimale_tl",
+      "label": "Massimale Tutela Legale",
+      "type": "dropdown",
+      "options": [
+        {"value": 12000},
+        {"value": 30000},
+        {"value": 50000}
+      ]
+    }
+  ],
+
+  "coverages": [
+    {
+      "key": "rc_professionale",
+      "name": "RC Professionale – Garanzia Base",
+      "mandatory": true,
+      "dimensions": ["q_fascia_fatturato", "q_massimale_rc", "q_retroattivita_rc"],
+      "rates": [
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":250000,  "q_retroattivita_rc":"10_anni",    "premium":256},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":350000,  "q_retroattivita_rc":"10_anni",    "premium":277},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":500000,  "q_retroattivita_rc":"10_anni",    "premium":304},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":383},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":574},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":685},
+
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":250000,  "q_retroattivita_rc":"10_anni",    "premium":399},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":350000,  "q_retroattivita_rc":"10_anni",    "premium":452},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":500000,  "q_retroattivita_rc":"10_anni",    "premium":484},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":611},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":653},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":706},
+
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":350000,  "q_retroattivita_rc":"10_anni",    "premium":542},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":500000,  "q_retroattivita_rc":"10_anni",    "premium":563},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":651},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":696},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":744},
+
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":350000,  "q_retroattivita_rc":"10_anni",    "premium":563},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":500000,  "q_retroattivita_rc":"10_anni",    "premium":595},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":806},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":871},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":942},
+
+        {"q_fascia_fatturato":"100_150k", "q_massimale_rc":500000,  "q_retroattivita_rc":"10_anni",    "premium":611},
+        {"q_fascia_fatturato":"100_150k", "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":1173},
+        {"q_fascia_fatturato":"100_150k", "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":1268},
+        {"q_fascia_fatturato":"100_150k", "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":1373},
+
+        {"q_fascia_fatturato":"150_200k", "q_massimale_rc":500000,  "q_retroattivita_rc":"10_anni",    "premium":982},
+        {"q_fascia_fatturato":"150_200k", "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":1631},
+        {"q_fascia_fatturato":"150_200k", "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":1765},
+        {"q_fascia_fatturato":"150_200k", "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":1910},
+
+        {"q_fascia_fatturato":"200_250k", "q_massimale_rc":500000,  "q_retroattivita_rc":"10_anni",    "premium":1172},
+        {"q_fascia_fatturato":"200_250k", "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":1951},
+        {"q_fascia_fatturato":"200_250k", "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":2113},
+        {"q_fascia_fatturato":"200_250k", "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":2364},
+
+        {"q_fascia_fatturato":"250_300k", "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":2434},
+        {"q_fascia_fatturato":"250_300k", "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":2639},
+        {"q_fascia_fatturato":"250_300k", "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":3129},
+
+
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":250000,  "q_retroattivita_rc":"2_anni",     "premium":247},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":350000,  "q_retroattivita_rc":"2_anni",     "premium":265},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":500000,  "q_retroattivita_rc":"2_anni",     "premium":289},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":1000000, "q_retroattivita_rc":"2_anni",     "premium":356},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":2000000, "q_retroattivita_rc":"2_anni",     "premium":518},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":3000000, "q_retroattivita_rc":"2_anni",     "premium":613},
+
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":250000,  "q_retroattivita_rc":"2_anni",     "premium":369},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":350000,  "q_retroattivita_rc":"2_anni",     "premium":415},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":500000,  "q_retroattivita_rc":"2_anni",     "premium":441},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":1000000, "q_retroattivita_rc":"2_anni",     "premium":550},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":2000000, "q_retroattivita_rc":"2_anni",     "premium":586},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":3000000, "q_retroattivita_rc":"2_anni",     "premium":631},
+
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":350000,  "q_retroattivita_rc":"2_anni",     "premium":491},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":500000,  "q_retroattivita_rc":"2_anni",     "premium":509},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":1000000, "q_retroattivita_rc":"2_anni",     "premium":583},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":2000000, "q_retroattivita_rc":"2_anni",     "premium":622},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":3000000, "q_retroattivita_rc":"2_anni",     "premium":662},
+
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":350000,  "q_retroattivita_rc":"2_anni",     "premium":509},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":500000,  "q_retroattivita_rc":"2_anni",     "premium":536},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":1000000, "q_retroattivita_rc":"2_anni",     "premium":715},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":2000000, "q_retroattivita_rc":"2_anni",     "premium":770},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":3000000, "q_retroattivita_rc":"2_anni",     "premium":830},
+
+        {"q_fascia_fatturato":"100_150k", "q_massimale_rc":500000,  "q_retroattivita_rc":"2_anni",     "premium":550},
+        {"q_fascia_fatturato":"100_150k", "q_massimale_rc":1000000, "q_retroattivita_rc":"2_anni",     "premium":1028},
+        {"q_fascia_fatturato":"100_150k", "q_massimale_rc":2000000, "q_retroattivita_rc":"2_anni",     "premium":1108},
+        {"q_fascia_fatturato":"100_150k", "q_massimale_rc":3000000, "q_retroattivita_rc":"2_anni",     "premium":1197},
+
+        {"q_fascia_fatturato":"150_200k", "q_massimale_rc":500000,  "q_retroattivita_rc":"2_anni",     "premium":865},
+        {"q_fascia_fatturato":"150_200k", "q_massimale_rc":1000000, "q_retroattivita_rc":"2_anni",     "premium":1417},
+        {"q_fascia_fatturato":"150_200k", "q_massimale_rc":2000000, "q_retroattivita_rc":"2_anni",     "premium":1531},
+        {"q_fascia_fatturato":"150_200k", "q_massimale_rc":3000000, "q_retroattivita_rc":"2_anni",     "premium":1653},
+
+        {"q_fascia_fatturato":"200_250k", "q_massimale_rc":500000,  "q_retroattivita_rc":"2_anni",     "premium":1027},
+        {"q_fascia_fatturato":"200_250k", "q_massimale_rc":1000000, "q_retroattivita_rc":"2_anni",     "premium":1688},
+        {"q_fascia_fatturato":"200_250k", "q_massimale_rc":2000000, "q_retroattivita_rc":"2_anni",     "premium":1827},
+        {"q_fascia_fatturato":"200_250k", "q_massimale_rc":3000000, "q_retroattivita_rc":"2_anni",     "premium":2040},
+
+        {"q_fascia_fatturato":"250_300k", "q_massimale_rc":1000000, "q_retroattivita_rc":"2_anni",     "premium":2099},
+        {"q_fascia_fatturato":"250_300k", "q_massimale_rc":2000000, "q_retroattivita_rc":"2_anni",     "premium":2273},
+        {"q_fascia_fatturato":"250_300k", "q_massimale_rc":3000000, "q_retroattivita_rc":"2_anni",     "premium":2690},
+
+
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":250000,  "q_retroattivita_rc":"illimitata", "premium":310},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":350000,  "q_retroattivita_rc":"illimitata", "premium":332},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":500000,  "q_retroattivita_rc":"illimitata", "premium":360},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":444},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":644},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":761},
+
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":250000,  "q_retroattivita_rc":"illimitata", "premium":459},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":350000,  "q_retroattivita_rc":"illimitata", "premium":516},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":500000,  "q_retroattivita_rc":"illimitata", "premium":549},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":682},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":727},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":783},
+
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":350000,  "q_retroattivita_rc":"illimitata", "premium":610},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":500000,  "q_retroattivita_rc":"illimitata", "premium":632},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":724},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":771},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":822},
+
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":350000,  "q_retroattivita_rc":"illimitata", "premium":632},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":500000,  "q_retroattivita_rc":"illimitata", "premium":666},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":887},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":956},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":1030},
+
+        {"q_fascia_fatturato":"100_150k", "q_massimale_rc":500000,  "q_retroattivita_rc":"illimitata", "premium":682},
+        {"q_fascia_fatturato":"100_150k", "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":1272},
+        {"q_fascia_fatturato":"100_150k", "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":1372},
+        {"q_fascia_fatturato":"100_150k", "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":1482},
+
+        {"q_fascia_fatturato":"150_200k", "q_massimale_rc":500000,  "q_retroattivita_rc":"illimitata", "premium":1072},
+        {"q_fascia_fatturato":"150_200k", "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":1753},
+        {"q_fascia_fatturato":"150_200k", "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":1895},
+        {"q_fascia_fatturato":"150_200k", "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":2046},
+
+        {"q_fascia_fatturato":"200_250k", "q_massimale_rc":500000,  "q_retroattivita_rc":"illimitata", "premium":1271},
+        {"q_fascia_fatturato":"200_250k", "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":2089},
+        {"q_fascia_fatturato":"200_250k", "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":2259},
+        {"q_fascia_fatturato":"200_250k", "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":2523},
+
+        {"q_fascia_fatturato":"250_300k", "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":2596},
+        {"q_fascia_fatturato":"250_300k", "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":2812},
+        {"q_fascia_fatturato":"250_300k", "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":3326}
+      ],
+      "multipliers": [
+        {"if": {"q_franchigia_opzione": "raddoppio"},               "factor": 0.90, "reason": "Raddoppio franchigia"},
+        {"if": {"q_franchigia_opzione": "dimezzamento"},            "factor": 1.05, "reason": "Dimezzamento franchigia"},
+        {"if": {"q_sinistri_5_anni": 1},                            "factor": 1.15, "reason": "1 sinistro pregresso"},
+        {"if": {"q_high_risk_ratio": {"between": [0.50, 0.70]}},    "factor": 1.15, "reason": "High-risk 50-70%"},
+        {"if": {"q_high_risk_ratio": {"between": [0.70, 0.85]}},    "factor": 1.45, "reason": "High-risk 70-85%"},
+        {"if": {"q_high_risk_ratio": {"greater_than": 0.85}},       "factor": 1.65, "reason": "High-risk oltre 85%"}
+      ]
+    },
+
+    {
+      "key": "tutela_legale",
+      "name": "Tutela Legale",
+      "mandatory": false,
+      "dimensions": ["q_fascia_fatturato", "q_massimale_tl"],
+      "rates": [
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_tl":12000, "premium":120},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_tl":30000, "premium":145},
+        {"q_fascia_fatturato":"0_25k",    "q_massimale_tl":50000, "premium":180},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_tl":12000, "premium":120},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_tl":30000, "premium":145},
+        {"q_fascia_fatturato":"25_50k",   "q_massimale_tl":50000, "premium":180},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_tl":12000, "premium":145},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_tl":30000, "premium":185},
+        {"q_fascia_fatturato":"50_75k",   "q_massimale_tl":50000, "premium":215},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_tl":12000, "premium":145},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_tl":30000, "premium":185},
+        {"q_fascia_fatturato":"75_100k",  "q_massimale_tl":50000, "premium":215},
+        {"q_fascia_fatturato":"100_150k", "q_massimale_tl":12000, "premium":145},
+        {"q_fascia_fatturato":"100_150k", "q_massimale_tl":30000, "premium":185},
+        {"q_fascia_fatturato":"100_150k", "q_massimale_tl":50000, "premium":215},
+        {"q_fascia_fatturato":"150_200k", "q_massimale_tl":12000, "premium":180},
+        {"q_fascia_fatturato":"150_200k", "q_massimale_tl":30000, "premium":225},
+        {"q_fascia_fatturato":"150_200k", "q_massimale_tl":50000, "premium":260},
+        {"q_fascia_fatturato":"200_250k", "q_massimale_tl":12000, "premium":180},
+        {"q_fascia_fatturato":"200_250k", "q_massimale_tl":30000, "premium":225},
+        {"q_fascia_fatturato":"200_250k", "q_massimale_tl":50000, "premium":260},
+        {"q_fascia_fatturato":"250_300k", "q_massimale_tl":30000, "premium":270},
+        {"q_fascia_fatturato":"250_300k", "q_massimale_tl":50000, "premium":330}
+      ],
+      "multipliers": [
+        {"if": {"q_sinistri_5_anni": 1}, "factor": 1.05},
+        {"if": {"q_sinistri_5_anni": 2}, "factor": 1.15}
+      ]
+    }
+  ],
+
+  "addons": [
+    {
+      "key": "sindaco_revisore_cda",
+      "name": "Attività di Sindaco, Revisore, CdA, Membro di OdV",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_fascia_fatturato", "q_massimale_rc", "q_retroattivita_rc"],
+      "available_if": {"q_fascia_fatturato": {"in": ["0_25k","25_50k","50_75k","75_100k"]}},
+      "rates": [
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":250000,  "q_retroattivita_rc":"10_anni",    "premium":85},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":350000,  "q_retroattivita_rc":"10_anni",    "premium":127},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":500000,  "q_retroattivita_rc":"10_anni",    "premium":141},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":162},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":193},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":246},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":250000,  "q_retroattivita_rc":"10_anni",    "premium":297},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":350000,  "q_retroattivita_rc":"10_anni",    "premium":361},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":500000,  "q_retroattivita_rc":"10_anni",    "premium":403},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":462},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":551},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":702},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":350000,  "q_retroattivita_rc":"10_anni",    "premium":630},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":500000,  "q_retroattivita_rc":"10_anni",    "premium":702},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":805},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":961},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":1226},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":350000,  "q_retroattivita_rc":"10_anni",    "premium":881},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":500000,  "q_retroattivita_rc":"10_anni",    "premium":983},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":1127},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":1345},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":1716},
+
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":250000,  "q_retroattivita_rc":"2_anni",     "premium":73},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":350000,  "q_retroattivita_rc":"2_anni",     "premium":108},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":500000,  "q_retroattivita_rc":"2_anni",     "premium":120},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":1000000, "q_retroattivita_rc":"2_anni",     "premium":138},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":2000000, "q_retroattivita_rc":"2_anni",     "premium":165},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":3000000, "q_retroattivita_rc":"2_anni",     "premium":210},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":250000,  "q_retroattivita_rc":"2_anni",     "premium":253},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":350000,  "q_retroattivita_rc":"2_anni",     "premium":307},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":500000,  "q_retroattivita_rc":"2_anni",     "premium":343},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":1000000, "q_retroattivita_rc":"2_anni",     "premium":393},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":2000000, "q_retroattivita_rc":"2_anni",     "premium":469},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":3000000, "q_retroattivita_rc":"2_anni",     "premium":597},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":350000,  "q_retroattivita_rc":"2_anni",     "premium":536},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":500000,  "q_retroattivita_rc":"2_anni",     "premium":597},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":1000000, "q_retroattivita_rc":"2_anni",     "premium":685},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":2000000, "q_retroattivita_rc":"2_anni",     "premium":817},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":3000000, "q_retroattivita_rc":"2_anni",     "premium":1043},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":350000,  "q_retroattivita_rc":"2_anni",     "premium":749},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":500000,  "q_retroattivita_rc":"2_anni",     "premium":836},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":1000000, "q_retroattivita_rc":"2_anni",     "premium":958},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":2000000, "q_retroattivita_rc":"2_anni",     "premium":1144},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":3000000, "q_retroattivita_rc":"2_anni",     "premium":1459},
+
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":250000,  "q_retroattivita_rc":"illimitata", "premium":90},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":350000,  "q_retroattivita_rc":"illimitata", "premium":134},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":500000,  "q_retroattivita_rc":"illimitata", "premium":149},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":171},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":203},
+        {"q_fascia_fatturato":"0_25k",   "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":259},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":250000,  "q_retroattivita_rc":"illimitata", "premium":312},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":350000,  "q_retroattivita_rc":"illimitata", "premium":380},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":500000,  "q_retroattivita_rc":"illimitata", "premium":424},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":486},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":579},
+        {"q_fascia_fatturato":"25_50k",  "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":738},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":350000,  "q_retroattivita_rc":"illimitata", "premium":662},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":500000,  "q_retroattivita_rc":"illimitata", "premium":738},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":846},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":1010},
+        {"q_fascia_fatturato":"50_75k",  "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":1288},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":350000,  "q_retroattivita_rc":"illimitata", "premium":926},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":500000,  "q_retroattivita_rc":"illimitata", "premium":1033},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":1184},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":1413},
+        {"q_fascia_fatturato":"75_100k", "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":1802}
+      ]
+    },
+
+    {
+      "key": "visto_leggero_730",
+      "name": "Visto leggero ed Elaborazione 730",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_massimale_rc"],
+      "rates": [
+        {"q_massimale_rc": 3000000, "premium": 220},
+        {"q_massimale_rc": 5000000, "premium": 290}
+      ]
+    },
+
+    {"key":"cyber_liability",    "name":"Cyber Liability",                              "pricing_mode":"flat", "premium":96},
+    {"key":"amm_stabili",        "name":"Attività di amministratore di stabili",        "pricing_mode":"flat", "premium":187},
+    {"key":"visto_pesante",      "name":"Visto pesante",                                "pricing_mode":"flat", "premium":248},
+    {"key":"funzioni_pubbliche", "name":"Funzioni pubbliche e RAAC",                    "pricing_mode":"flat", "premium":35},
+    {"key":"crisi_impresa",      "name":"Crisi d'impresa – OCRI – OCC",                 "pricing_mode":"flat", "premium":15},
+    {"key":"dpo",                "name":"Data Protection Officer",                      "pricing_mode":"flat", "premium":187},
+
+    {
+      "key": "vertenze_passive",
+      "name": "Tutela Legale – Vertenze passive con clienti",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_fascia_fatturato"],
+      "mandatory_with": ["tutela_legale"],
+      "rates": [
+        {"q_fascia_fatturato":"0_25k",    "premium":195},
+        {"q_fascia_fatturato":"25_50k",   "premium":195},
+        {"q_fascia_fatturato":"50_75k",   "premium":195},
+        {"q_fascia_fatturato":"75_100k",  "premium":195},
+        {"q_fascia_fatturato":"100_150k", "premium":195},
+        {"q_fascia_fatturato":"150_200k", "premium":250},
+        {"q_fascia_fatturato":"200_250k", "premium":250},
+        {"q_fascia_fatturato":"250_300k", "premium":250}
+      ]
+    }
+  ],
+
+  "eligibility": [
+    {"if": {"q_sinistri_5_anni": {"greater_than": 2}}, "action": "manual_quote", "reason": "Più di 2 sinistri pregressi — riservato alla Direzione"},
+    {"if": {"q_fascia_fatturato": "over_300k"},        "action": "manual_quote", "reason": "Fatturato oltre €300.000 — riservato alla Direzione"},
+    {"if": {"q_massimale_rc": 5000000},                "action": "manual_quote", "reason": "Massimale €5.000.000 — riservato alla Direzione"},
+    {"if": {"all": [
+        {"q_fascia_fatturato": {"in": ["50_75k","75_100k","100_150k","150_200k","200_250k","250_300k"]}},
+        {"q_massimale_rc": 250000}
+      ]}, "action": "manual_quote", "reason": "Combinazione fatturato/massimale riservata alla Direzione"},
+    {"if": {"all": [
+        {"q_fascia_fatturato": {"in": ["100_150k","150_200k","200_250k","250_300k"]}},
+        {"q_massimale_rc": 350000}
+      ]}, "action": "manual_quote", "reason": "Combinazione fatturato/massimale riservata alla Direzione"},
+    {"if": {"all": [
+        {"q_fascia_fatturato": "250_300k"},
+        {"q_massimale_rc": 500000}
+      ]}, "action": "manual_quote", "reason": "Combinazione fatturato/massimale riservata alla Direzione"}
+  ],
+
+  "test_cases": [
+    {
+      "name": "Commercialista, fatturato 40k, massimale 1M, retro 10 anni, no sinistri, franchigia standard",
+      "answers": {
+        "q_fascia_fatturato": "25_50k",
+        "q_massimale_rc": 1000000,
+        "q_retroattivita_rc": "10_anni",
+        "q_franchigia_opzione": "standard",
+        "q_sinistri_5_anni": 0,
+        "q_high_risk_ratio": 0.20
+      },
+      "addons_selected": [],
+      "expected_premium": 611
+    },
+    {
+      "name": "Come sopra ma con 1 sinistro e raddoppio franchigia — base 611 × 0.90 × 1.15",
+      "answers": {
+        "q_fascia_fatturato": "25_50k",
+        "q_massimale_rc": 1000000,
+        "q_retroattivita_rc": "10_anni",
+        "q_franchigia_opzione": "raddoppio",
+        "q_sinistri_5_anni": 1,
+        "q_high_risk_ratio": 0.20
+      },
+      "addons_selected": [],
+      "expected_premium": 632.385
+    },
+    {
+      "name": "Fatturato 120k, massimale 2M, retro illimitata, + Cyber + DPO",
+      "answers": {
+        "q_fascia_fatturato": "100_150k",
+        "q_massimale_rc": 2000000,
+        "q_retroattivita_rc": "illimitata",
+        "q_franchigia_opzione": "standard",
+        "q_sinistri_5_anni": 0,
+        "q_high_risk_ratio": 0.30
+      },
+      "addons_selected": ["cyber_liability", "dpo"],
+      "expected_premium": 1655
+    }
+  ]
+}

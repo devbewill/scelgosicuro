@@ -1,0 +1,251 @@
+{
+  "slug": "amtrust-pubblico-impiego",
+  "insurer": "amtrust",
+  "product_type": "rc_amministrativa_pubblico_impiego",
+  "name": "AmTrust PubblicoImpiego",
+  "version": "2022-09",
+  "source_pdf": "PRODUCTS/amtrust_pubblicoimpiego/Tariffario - AmTrust Pubblico Impiego ( Agg. 09.22 ).pdf",
+
+  "questions": [
+    {
+      "key": "q_fascia_carica",
+      "label": "Fascia della carica da assicurare",
+      "help_text": "Fascia 1: organi di vertice, dirigenti tecnici, DG, parlamentari, magistrati, CDA/sindaci, membri OdV, ecc. Fascia 2: dirigenti amministrativi, assessori, consiglieri regionali/provinciali, RUP, segretari comunali, ecc. Fascia 3: posizioni organizzative, consiglieri comunali, docenti, polizia locale, dipendenti amministrativi, ecc.",
+      "type": "dropdown",
+      "options": [
+        {"value": "fascia_1", "label": "Fascia 1 – Organi di vertice / Dirigenti tecnici / DG / Magistrati / CDA / OdV"},
+        {"value": "fascia_2", "label": "Fascia 2 – Dirigenti amministrativi / Assessori / Consiglieri regionali / RUP / Segretari"},
+        {"value": "fascia_3", "label": "Fascia 3 – Posizioni organizzative / Consiglieri comunali / Docenti / Polizia locale / Dipendenti amministrativi"}
+      ]
+    },
+    {
+      "key": "q_massimale_periodo",
+      "label": "Massimale per periodo di assicurazione (Responsabilità Amministrativa)",
+      "type": "dropdown",
+      "options": [
+        {"value": 500000,  "label": "€500.000"},
+        {"value": 1000000, "label": "€1.000.000"},
+        {"value": 2000000, "label": "€2.000.000"},
+        {"value": 4000000, "label": "€4.000.000"},
+        {"value": 6000000, "label": "€6.000.000"}
+      ]
+    },
+    {
+      "key": "q_tipologia_ente",
+      "label": "Tipologia di ente",
+      "type": "dropdown",
+      "options": [
+        {"value": "amm_comunale_fino_15k",       "label": "Amministrazione Comunale fino a 15.000 abitanti"},
+        {"value": "amm_comunale_tra_15_50k",     "label": "Amministrazione Comunale 15.001 – 50.000 abitanti"},
+        {"value": "amm_comunale_oltre_50k",      "label": "Amministrazione Comunale oltre 50.000 abitanti"},
+        {"value": "amm_regionale",               "label": "Amministrazione Regionale"},
+        {"value": "ente_sanitario_socioass_amb", "label": "Ente sanitario / socioassistenziale / ambientale"},
+        {"value": "societa_enti_pubblici",       "label": "Società o Ente Pubblico Economico"},
+        {"value": "altro",                        "label": "Altro ente pubblico"}
+      ]
+    },
+    {
+      "key": "q_is_dipendente_tecnico_rup",
+      "label": "La carica è 'Dipendente Tecnico incluso RUP'?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_retroattivita_rc_amm",
+      "label": "Retroattività Responsabilità Amministrativa",
+      "type": "dropdown",
+      "options": [
+        {"value": "standard",   "label": "Standard"},
+        {"value": "illimitata", "label": "Illimitata (+20%)"}
+      ]
+    },
+    {
+      "key": "q_franchigia_facoltativa",
+      "label": "Vuoi aggiungere la Franchigia facoltativa di €2.500 (sconto -16%, solo in assenza di sinistri)?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_sinistri_5_anni",
+      "label": "Sinistri pregressi negli ultimi 5 anni",
+      "type": "number",
+      "validation": {"min": 0, "max": 10}
+    },
+    {
+      "key": "q_estensione_danni_materiali",
+      "label": "Aggiungere A.1 – Estensione ai danni materiali (assicurati senza qualifica tecnica)?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_tutela_legale_pi",
+      "label": "Aggiungere Sezione B – Tutela Legale?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_svolgimento_cariche_tl",
+      "label": "Cariche svolte presso quanti Enti?",
+      "type": "dropdown",
+      "options": [
+        {"value": "same_ente",    "label": "1 o più cariche presso lo stesso Ente"},
+        {"value": "fino_3_enti",  "label": "1 o più cariche svolte fino a 3 Enti diversi"},
+        {"value": "oltre_3_enti", "label": "1 o più cariche svolte presso oltre 3 Enti diversi"}
+      ]
+    },
+    {
+      "key": "q_retroattivita_tl",
+      "label": "Retroattività Tutela Legale",
+      "type": "dropdown",
+      "options": [
+        {"value": "standard", "label": "Standard"},
+        {"value": "5_anni",   "label": "5 anni (+30%)"}
+      ]
+    },
+    {
+      "key": "q_vertenze_lavoro_pi",
+      "label": "Aggiungere B.1 – Vertenze di lavoro, Circolazione stradale, Vita privata (richiede Tutela Legale)?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_infortuni_morte",
+      "label": "Aggiungere Sezione C – Infortuni: Morte (€50.000)?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_infortuni_invalidita",
+      "label": "Aggiungere Sezione C – Infortuni: Invalidità Permanente (€50.000, franchigia 3%)?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    }
+  ],
+
+  "coverages": [
+    {
+      "key": "rc_amministrativa",
+      "name": "Responsabilità Amministrativa e Amministrativo/Contabile (Sezione A)",
+      "mandatory": true,
+      "dimensions": ["q_fascia_carica", "q_massimale_periodo"],
+      "rates": [
+        {"q_fascia_carica":"fascia_1", "q_massimale_periodo":500000,  "manual_quote": true},
+        {"q_fascia_carica":"fascia_1", "q_massimale_periodo":1000000, "manual_quote": true},
+        {"q_fascia_carica":"fascia_1", "q_massimale_periodo":2000000, "manual_quote": true},
+        {"q_fascia_carica":"fascia_1", "q_massimale_periodo":4000000, "manual_quote": true},
+        {"q_fascia_carica":"fascia_1", "q_massimale_periodo":6000000, "manual_quote": true},
+
+        {"q_fascia_carica":"fascia_2", "q_massimale_periodo":500000,  "premium":190},
+        {"q_fascia_carica":"fascia_2", "q_massimale_periodo":1000000, "premium":230},
+        {"q_fascia_carica":"fascia_2", "q_massimale_periodo":2000000, "premium":250},
+        {"q_fascia_carica":"fascia_2", "q_massimale_periodo":4000000, "premium":340},
+        {"q_fascia_carica":"fascia_2", "q_massimale_periodo":6000000, "manual_quote": true},
+
+        {"q_fascia_carica":"fascia_3", "q_massimale_periodo":500000,  "premium":120},
+        {"q_fascia_carica":"fascia_3", "q_massimale_periodo":1000000, "premium":140},
+        {"q_fascia_carica":"fascia_3", "q_massimale_periodo":2000000, "premium":180},
+        {"q_fascia_carica":"fascia_3", "q_massimale_periodo":4000000, "premium":230},
+        {"q_fascia_carica":"fascia_3", "q_massimale_periodo":6000000, "manual_quote": true}
+      ],
+      "multipliers": [
+        {"if": {"q_retroattivita_rc_amm": "illimitata"},                                                                 "factor": 1.20, "reason": "Retroattività illimitata (+20%)"},
+        {"if": {"all": [{"q_franchigia_facoltativa": "si"}, {"q_sinistri_5_anni": 0}]},                                    "factor": 0.84, "reason": "Franchigia facoltativa €2.500 (-16%)"},
+        {"if": {"all": [{"q_tipologia_ente": "amm_comunale_fino_15k"}, {"q_is_dipendente_tecnico_rup": "no"}]},             "factor": 0.85, "reason": "Amm. Comunale ≤15k abitanti (-15%)"},
+        {"if": {"q_tipologia_ente": "amm_comunale_oltre_50k"},                                                             "factor": 1.10, "reason": "Amm. Comunale >50k abitanti (+10%)"},
+        {"if": {"all": [{"q_tipologia_ente": "amm_regionale"}, {"q_fascia_carica": "fascia_1"}]},                           "factor": 1.10, "reason": "Amm. Regionale, fascia 1 (+10%)"},
+        {"if": {"all": [{"q_tipologia_ente": "ente_sanitario_socioass_amb"}, {"q_fascia_carica": {"in": ["fascia_1","fascia_2"]}}]}, "factor": 1.15, "reason": "Ente sanitario/socioassistenziale/ambientale, fasce 1-2 (+15%)"},
+        {"if": {"all": [{"q_tipologia_ente": "societa_enti_pubblici"}, {"q_fascia_carica": "fascia_1"}]},                    "factor": 1.10, "reason": "Società o Ente Pubblico Economico, fascia 1 (+10%)"}
+      ]
+    },
+    {
+      "key": "tutela_legale",
+      "name": "Tutela Legale (Sezione B)",
+      "mandatory": false,
+      "dimensions": ["q_fascia_carica", "q_svolgimento_cariche_tl"],
+      "available_if": {"q_tutela_legale_pi": "si"},
+      "rates": [
+        {"q_fascia_carica":"fascia_1", "q_svolgimento_cariche_tl":"same_ente",    "manual_quote": true},
+        {"q_fascia_carica":"fascia_1", "q_svolgimento_cariche_tl":"fino_3_enti",  "manual_quote": true},
+        {"q_fascia_carica":"fascia_1", "q_svolgimento_cariche_tl":"oltre_3_enti", "manual_quote": true},
+
+        {"q_fascia_carica":"fascia_2", "q_svolgimento_cariche_tl":"same_ente",    "premium":285},
+        {"q_fascia_carica":"fascia_2", "q_svolgimento_cariche_tl":"fino_3_enti",  "premium":315},
+        {"q_fascia_carica":"fascia_2", "q_svolgimento_cariche_tl":"oltre_3_enti", "manual_quote": true},
+
+        {"q_fascia_carica":"fascia_3", "q_svolgimento_cariche_tl":"same_ente",    "premium":200},
+        {"q_fascia_carica":"fascia_3", "q_svolgimento_cariche_tl":"fino_3_enti",  "premium":250},
+        {"q_fascia_carica":"fascia_3", "q_svolgimento_cariche_tl":"oltre_3_enti", "manual_quote": true}
+      ],
+      "multipliers": [
+        {"if": {"q_retroattivita_tl": "5_anni"}, "factor": 1.30, "reason": "Retroattività Tutela Legale 5 anni (+30%)"}
+      ]
+    }
+  ],
+
+  "addons": [
+    {
+      "key": "estensione_danni_materiali",
+      "name": "A.1 Estensione ai danni materiali per Assicurati senza qualifica tecnica",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_fascia_carica"],
+      "triggered_by": {"q_estensione_danni_materiali": "si"},
+      "rates": [
+        {"q_fascia_carica": "fascia_1", "premium": 90},
+        {"q_fascia_carica": "fascia_2", "premium": 70},
+        {"q_fascia_carica": "fascia_3", "premium": 30}
+      ]
+    },
+    {
+      "key": "vertenze_lavoro_tl",
+      "name": "B.1 Vertenze di lavoro / Circolazione stradale / Vita privata",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_fascia_carica"],
+      "available_if": {"q_tutela_legale_pi": "si"},
+      "triggered_by": {"q_vertenze_lavoro_pi": "si"},
+      "rates": [
+        {"q_fascia_carica": "fascia_1", "premium": 80},
+        {"q_fascia_carica": "fascia_2", "premium": 60},
+        {"q_fascia_carica": "fascia_3", "premium": 40}
+      ]
+    },
+    {
+      "key": "infortuni_morte",
+      "name": "Sezione C – Infortuni: Morte (€50.000)",
+      "pricing_mode": "flat",
+      "premium": 35,
+      "triggered_by": {"q_infortuni_morte": "si"}
+    },
+    {
+      "key": "infortuni_invalidita",
+      "name": "Sezione C – Infortuni: Invalidità Permanente (€50.000, franchigia 3%)",
+      "pricing_mode": "flat",
+      "premium": 35,
+      "triggered_by": {"q_infortuni_invalidita": "si"}
+    }
+  ],
+
+  "eligibility": [
+    {"if": {"q_sinistri_5_anni": {"greater_than": 0}}, "action": "manual_quote", "reason": "Sinistri pregressi o deroghe direzionali — assumibilità soggetta a valutazione della Società"}
+  ],
+
+  "test_cases": [
+    {
+      "name": "Fascia 3, 1M, Amm. Comunale ≤15k (non RUP)",
+      "answers": {"q_fascia_carica":"fascia_3","q_massimale_periodo":1000000,"q_tipologia_ente":"amm_comunale_fino_15k","q_is_dipendente_tecnico_rup":"no","q_retroattivita_rc_amm":"standard","q_franchigia_facoltativa":"no","q_sinistri_5_anni":0},
+      "expected_premium_note": "140 × 0.85 = 119.00",
+      "expected_premium": 119.00
+    },
+    {
+      "name": "Fascia 2, 2M, Amm. Regionale, retro illimitata + A.1",
+      "answers": {"q_fascia_carica":"fascia_2","q_massimale_periodo":2000000,"q_tipologia_ente":"amm_regionale","q_is_dipendente_tecnico_rup":"no","q_retroattivita_rc_amm":"illimitata","q_franchigia_facoltativa":"no","q_sinistri_5_anni":0,"q_estensione_danni_materiali":"si"},
+      "expected_premium_note": "250 × 1.20 (retro) = 300 (A.1 +20% non applicato per semplificazione engine) + 70 (A.1) = 370",
+      "expected_premium": 370
+    },
+    {
+      "name": "Fascia 3, 500k, altro ente, con TL same_ente",
+      "answers": {"q_fascia_carica":"fascia_3","q_massimale_periodo":500000,"q_tipologia_ente":"altro","q_is_dipendente_tecnico_rup":"no","q_retroattivita_rc_amm":"standard","q_franchigia_facoltativa":"no","q_sinistri_5_anni":0,"q_tutela_legale_pi":"si","q_svolgimento_cariche_tl":"same_ente","q_retroattivita_tl":"standard"},
+      "expected_premium_note": "120 (RC) + 200 (TL) = 320",
+      "expected_premium": 320
+    }
+  ]
+}

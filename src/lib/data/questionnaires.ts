@@ -1,90 +1,65 @@
 import "server-only"
 
 import { createClient } from "@/lib/supabase/server"
-import type {
-  Question,
-  QuestionOption,
-  QuestionType,
-  QuestionValidation,
-  Questionnaire,
-  QuestionnaireDefinition,
-  QuoteSession,
-} from "@/lib/types"
+import type { SectorQuestion, Question, QuestionOption, QuestionValidation, QuestionType, QuoteSession } from "@/lib/types"
 
-export async function getPublishedQuestionnaire(
-  activityId: string
-): Promise<Questionnaire | null> {
+export async function getSectorQuestions(sectorId: string): Promise<SectorQuestion[]> {
   const supabase = await createClient()
   const { data, error } = await supabase
-    .from("questionnaires")
-    .select("id, activity_id, version, definition")
-    .eq("activity_id", activityId)
-    .eq("status", "published")
-    .order("version", { ascending: false })
-    .limit(1)
-    .maybeSingle()
+    .from("sector_questions")
+    .select(`
+      position, section, is_required, visible_if,
+      questions!inner(key, label, help_text, type, options, validation)
+    `)
+    .eq("sector_id", sectorId)
+    .order("position", { ascending: true })
 
-  if (error) {
-    throw new Error(`Failed to load questionnaire: ${error.message}`)
-  }
-  if (!data) return null
+  if (error) throw new Error(`Failed to load sector questions: ${error.message}`)
 
-  return {
-    id: data.id,
-    activityId: data.activity_id,
-    version: data.version,
-    definition: data.definition as QuestionnaireDefinition,
-  }
-}
-
-export async function getQuestionsByKeys(
-  keys: string[]
-): Promise<Record<string, Question>> {
-  if (keys.length === 0) return {}
-  const supabase = await createClient()
-  const { data, error } = await supabase
-    .from("questions")
-    .select("key, label, help_text, type, options, validation")
-    .in("key", keys)
-
-  if (error) {
-    throw new Error(`Failed to load questions: ${error.message}`)
-  }
-
-  const map: Record<string, Question> = {}
-  for (const row of data ?? []) {
-    map[row.key] = {
-      key: row.key,
-      label: row.label,
-      helpText: row.help_text,
-      type: row.type as QuestionType,
-      options: (row.options as QuestionOption[] | null) ?? null,
-      validation: (row.validation as QuestionValidation | null) ?? null,
+  return ((data ?? []) as unknown as Array<{
+    position: number
+    section: string | null
+    is_required: boolean
+    visible_if: Record<string, unknown> | null
+    questions: {
+      key: string
+      label: string
+      help_text: string | null
+      type: string
+      options: QuestionOption[] | null
+      validation: QuestionValidation | null
     }
-  }
-  return map
+  }>).map((row) => ({
+    position: row.position,
+    section: row.section,
+    isRequired: row.is_required,
+    visibleIf: row.visible_if,
+    question: {
+      key: row.questions.key,
+      label: row.questions.label,
+      helpText: row.questions.help_text,
+      type: row.questions.type as QuestionType,
+      options: row.questions.options,
+      validation: row.questions.validation,
+    } satisfies Question,
+  }))
 }
 
-export async function getQuoteSession(
-  sessionId: string
-): Promise<QuoteSession | null> {
+export async function getQuoteSession(sessionId: string): Promise<QuoteSession | null> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from("quote_sessions")
-    .select("id, activity_id, questionnaire_id, answers, status")
+    .select("id, sector_id, answers, status")
     .eq("id", sessionId)
     .maybeSingle()
 
-  if (error) {
-    throw new Error(`Failed to load quote session: ${error.message}`)
-  }
+  if (error) throw new Error(`Failed to load quote session: ${error.message}`)
   if (!data) return null
 
   return {
     id: data.id,
-    activityId: data.activity_id,
-    questionnaireId: data.questionnaire_id,
-    answers: (data.answers as Record<string, unknown> | null) ?? {},
+    sectorId: data.sector_id,
+    answers: (data.answers as Record<string, unknown>) ?? {},
     status: data.status,
   }
 }

@@ -1,11 +1,8 @@
 import { notFound } from "next/navigation"
 
 import { DynamicForm } from "@/components/quote/dynamic-form"
-import {
-  getPublishedQuestionnaire,
-  getQuestionsByKeys,
-  getQuoteSession,
-} from "@/lib/data/questionnaires"
+import { getQuoteSession } from "@/lib/data/questionnaires"
+import { getSectorQuestions } from "@/lib/data/questionnaires"
 
 export default async function DomandePage({
   params,
@@ -17,31 +14,24 @@ export default async function DomandePage({
   const session = await getQuoteSession(sessionId)
   if (!session) notFound()
 
-  const questionnaire = await getPublishedQuestionnaire(session.activityId)
-  if (!questionnaire) {
+  const questions = await getSectorQuestions(session.sectorId)
+
+  if (questions.length === 0) {
     return (
       <main className="mx-auto flex min-h-screen w-full max-w-lg flex-col justify-center p-6">
-        <p className="text-sm">
-          Nessun questionario disponibile per questa attività.
+        <p className="text-sm text-muted-foreground">
+          Nessuna domanda configurata per questo settore.
         </p>
       </main>
     )
   }
 
-  const keys = questionnaire.definition.sections.flatMap((s) =>
-    s.items.map((i) => i.question_key)
-  )
-  const questions = await getQuestionsByKeys(keys)
-
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-xl flex-col p-6">
-      <h1 className="mb-6 text-2xl font-semibold">
-        {questionnaire.definition.title}
-      </h1>
+      <h1 className="mb-6 text-2xl font-semibold">Raccontaci di te</h1>
       <DynamicForm
         sessionId={session.id}
-        questionnaire={questionnaire}
-        questions={questions}
+        sectorQuestions={questions}
         savedAnswers={session.answers}
       />
     </main>

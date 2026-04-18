@@ -1,0 +1,265 @@
+{
+  "slug": "amtrust-sanitario-protetto",
+  "insurer": "amtrust",
+  "product_type": "rc_professionale_sanitario",
+  "name": "AmTrust Professionista Sanitario Protetto",
+  "version": "2025-09",
+  "source_pdf": "PRODUCTS/amtrust_sanitarioprotetto/Tariffa_PS_V2.pdf",
+
+  "questions": [
+    {
+      "key": "q_categoria_sanitario",
+      "label": "Categoria professionale sanitaria",
+      "help_text": "Seleziona la categoria che raggruppa la tua attività.",
+      "type": "dropdown",
+      "options": [
+        {"value": "cat_1_ausiliari",       "label": "Ausiliari sanitari (infermieri, tecnici, OSS, logopedisti, odontotecnici, ottici, podologi, dietisti, assistenti sanitari, ortottisti, puericultrici, terapisti occupazionali, ecc.)"},
+        {"value": "cat_2_riabilitativi",   "label": "Professionisti riabilitativi (fisioterapista, massoterapista, massofisioterapista, chinesiologo, massaggiatore e capo bagnino)"},
+        {"value": "cat_3_soccorritore",   "label": "Soccorritore di emergenza sanitaria"},
+        {"value": "cat_3_psico_socio",     "label": "Psicologo, Sociologo, Assistente sociale, Educatore professionale, Farmacista, Farmacista nutrizionista, Biologo nutrizionista (esclusa fecondazione assistita)"},
+        {"value": "cat_4_osteopata",       "label": "Osteopata, Chiropratico"},
+        {"value": "cat_4_chimico",         "label": "Chimico sanitario, Fisico medico"},
+        {"value": "cat_4_biologo_feconda", "label": "Biologo (inclusa fecondazione assistita)"},
+        {"value": "cat_4_veterinario",     "label": "Veterinario"},
+        {"value": "cat_4_ostetrica",       "label": "Ostetrica"}
+      ]
+    },
+    {
+      "key": "q_massimale_sinistro",
+      "label": "Massimale per sinistro",
+      "help_text": "Il massimale per periodo è pari al massimale per sinistro in 'Solo Colpa Grave'; in 'Responsabilità Civile e Colpa Grave' è 3x (o 2x per 3M).",
+      "type": "dropdown",
+      "options": [
+        {"value": 1000000, "label": "€1.000.000"},
+        {"value": 2000000, "label": "€2.000.000"},
+        {"value": 3000000, "label": "€3.000.000"}
+      ]
+    },
+    {
+      "key": "q_tipo_copertura",
+      "label": "Tipologia di copertura",
+      "type": "dropdown",
+      "options": [
+        {"value": "solo_colpa_grave",  "label": "Solo Colpa Grave"},
+        {"value": "rc_e_colpa_grave",  "label": "Responsabilità Civile e Colpa Grave"}
+      ]
+    },
+    {
+      "key": "q_retroattivita_rc",
+      "label": "Retroattività",
+      "help_text": "Retroattività di polizza standard 10 anni. È possibile estenderla a Illimitata con premio aggiuntivo.",
+      "type": "dropdown",
+      "options": [
+        {"value": "10_anni",    "label": "10 anni (inclusa)"},
+        {"value": "illimitata", "label": "Illimitata"}
+      ]
+    },
+    {
+      "key": "q_sinistri_5_anni",
+      "label": "Sinistri o fatti noti negli ultimi 5 anni",
+      "type": "number",
+      "validation": {"min": 0, "max": 10}
+    },
+    {
+      "key": "q_tutela_legale_base",
+      "label": "Vuoi aggiungere Tutela Legale Base?",
+      "type": "dropdown",
+      "options": [
+        {"value": "no", "label": "No"},
+        {"value": "si", "label": "Sì"}
+      ]
+    },
+    {
+      "key": "q_vertenze_lavoro",
+      "label": "Vuoi aggiungere Vertenze Individuali di Lavoro?",
+      "type": "dropdown",
+      "options": [
+        {"value": "no", "label": "No"},
+        {"value": "si", "label": "Sì"}
+      ]
+    },
+    {
+      "key": "q_rc_plus",
+      "label": "Vuoi aggiungere la garanzia RC Plus?",
+      "type": "dropdown",
+      "options": [
+        {"value": "no", "label": "No"},
+        {"value": "si", "label": "Sì"}
+      ]
+    }
+  ],
+
+  "coverages": [
+    {
+      "key": "rc_professionale",
+      "name": "RC Professionale – Sanitario",
+      "mandatory": true,
+      "dimensions": ["q_categoria_sanitario", "q_massimale_sinistro", "q_tipo_copertura"],
+      "rates": [
+        {"q_categoria_sanitario": "cat_1_ausiliari",       "q_massimale_sinistro": 1000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 40},
+        {"q_categoria_sanitario": "cat_1_ausiliari",       "q_massimale_sinistro": 1000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 73},
+        {"q_categoria_sanitario": "cat_1_ausiliari",       "q_massimale_sinistro": 2000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 48},
+        {"q_categoria_sanitario": "cat_1_ausiliari",       "q_massimale_sinistro": 2000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 88},
+        {"q_categoria_sanitario": "cat_1_ausiliari",       "q_massimale_sinistro": 3000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 54},
+        {"q_categoria_sanitario": "cat_1_ausiliari",       "q_massimale_sinistro": 3000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 99},
+
+        {"q_categoria_sanitario": "cat_2_riabilitativi",   "q_massimale_sinistro": 1000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 40},
+        {"q_categoria_sanitario": "cat_2_riabilitativi",   "q_massimale_sinistro": 1000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 84},
+        {"q_categoria_sanitario": "cat_2_riabilitativi",   "q_massimale_sinistro": 2000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 48},
+        {"q_categoria_sanitario": "cat_2_riabilitativi",   "q_massimale_sinistro": 2000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 101},
+        {"q_categoria_sanitario": "cat_2_riabilitativi",   "q_massimale_sinistro": 3000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 54},
+        {"q_categoria_sanitario": "cat_2_riabilitativi",   "q_massimale_sinistro": 3000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 113},
+
+        {"q_categoria_sanitario": "cat_3_soccorritore",    "q_massimale_sinistro": 1000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 54},
+        {"q_categoria_sanitario": "cat_3_soccorritore",    "q_massimale_sinistro": 1000000, "q_tipo_copertura": "rc_e_colpa_grave", "manual_quote": true},
+        {"q_categoria_sanitario": "cat_3_soccorritore",    "q_massimale_sinistro": 2000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 65},
+        {"q_categoria_sanitario": "cat_3_soccorritore",    "q_massimale_sinistro": 2000000, "q_tipo_copertura": "rc_e_colpa_grave", "manual_quote": true},
+        {"q_categoria_sanitario": "cat_3_soccorritore",    "q_massimale_sinistro": 3000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 73},
+        {"q_categoria_sanitario": "cat_3_soccorritore",    "q_massimale_sinistro": 3000000, "q_tipo_copertura": "rc_e_colpa_grave", "manual_quote": true},
+
+        {"q_categoria_sanitario": "cat_3_psico_socio",     "q_massimale_sinistro": 1000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 54},
+        {"q_categoria_sanitario": "cat_3_psico_socio",     "q_massimale_sinistro": 1000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 110},
+        {"q_categoria_sanitario": "cat_3_psico_socio",     "q_massimale_sinistro": 2000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 65},
+        {"q_categoria_sanitario": "cat_3_psico_socio",     "q_massimale_sinistro": 2000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 132},
+        {"q_categoria_sanitario": "cat_3_psico_socio",     "q_massimale_sinistro": 3000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 73},
+        {"q_categoria_sanitario": "cat_3_psico_socio",     "q_massimale_sinistro": 3000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 149},
+
+        {"q_categoria_sanitario": "cat_4_osteopata",       "q_massimale_sinistro": 1000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 90},
+        {"q_categoria_sanitario": "cat_4_osteopata",       "q_massimale_sinistro": 1000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 270},
+        {"q_categoria_sanitario": "cat_4_osteopata",       "q_massimale_sinistro": 2000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 100},
+        {"q_categoria_sanitario": "cat_4_osteopata",       "q_massimale_sinistro": 2000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 300},
+        {"q_categoria_sanitario": "cat_4_osteopata",       "q_massimale_sinistro": 3000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 122},
+        {"q_categoria_sanitario": "cat_4_osteopata",       "q_massimale_sinistro": 3000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 324},
+
+        {"q_categoria_sanitario": "cat_4_chimico",         "q_massimale_sinistro": 1000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 90},
+        {"q_categoria_sanitario": "cat_4_chimico",         "q_massimale_sinistro": 1000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 270},
+        {"q_categoria_sanitario": "cat_4_chimico",         "q_massimale_sinistro": 2000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 100},
+        {"q_categoria_sanitario": "cat_4_chimico",         "q_massimale_sinistro": 2000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 300},
+        {"q_categoria_sanitario": "cat_4_chimico",         "q_massimale_sinistro": 3000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 122},
+        {"q_categoria_sanitario": "cat_4_chimico",         "q_massimale_sinistro": 3000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 365},
+
+        {"q_categoria_sanitario": "cat_4_biologo_feconda", "q_massimale_sinistro": 1000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 110},
+        {"q_categoria_sanitario": "cat_4_biologo_feconda", "q_massimale_sinistro": 1000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 350},
+        {"q_categoria_sanitario": "cat_4_biologo_feconda", "q_massimale_sinistro": 2000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 122},
+        {"q_categoria_sanitario": "cat_4_biologo_feconda", "q_massimale_sinistro": 2000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 389},
+        {"q_categoria_sanitario": "cat_4_biologo_feconda", "q_massimale_sinistro": 3000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 149},
+        {"q_categoria_sanitario": "cat_4_biologo_feconda", "q_massimale_sinistro": 3000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 473},
+
+        {"q_categoria_sanitario": "cat_4_veterinario",     "q_massimale_sinistro": 1000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 195},
+        {"q_categoria_sanitario": "cat_4_veterinario",     "q_massimale_sinistro": 1000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 225},
+        {"q_categoria_sanitario": "cat_4_veterinario",     "q_massimale_sinistro": 2000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 216},
+        {"q_categoria_sanitario": "cat_4_veterinario",     "q_massimale_sinistro": 2000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 250},
+        {"q_categoria_sanitario": "cat_4_veterinario",     "q_massimale_sinistro": 3000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 263},
+        {"q_categoria_sanitario": "cat_4_veterinario",     "q_massimale_sinistro": 3000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 304},
+
+        {"q_categoria_sanitario": "cat_4_ostetrica",       "q_massimale_sinistro": 1000000, "q_tipo_copertura": "solo_colpa_grave", "manual_quote": true},
+        {"q_categoria_sanitario": "cat_4_ostetrica",       "q_massimale_sinistro": 1000000, "q_tipo_copertura": "rc_e_colpa_grave", "manual_quote": true},
+        {"q_categoria_sanitario": "cat_4_ostetrica",       "q_massimale_sinistro": 2000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 175},
+        {"q_categoria_sanitario": "cat_4_ostetrica",       "q_massimale_sinistro": 2000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 435},
+        {"q_categoria_sanitario": "cat_4_ostetrica",       "q_massimale_sinistro": 3000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 194},
+        {"q_categoria_sanitario": "cat_4_ostetrica",       "q_massimale_sinistro": 3000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 522}
+      ],
+      "multipliers": []
+    },
+    {
+      "key": "infortuni_aggressione",
+      "name": "Inabilità Temporanea da Infortunio per Aggressione",
+      "mandatory": true,
+      "dimensions": ["q_tipo_copertura"],
+      "rates": [
+        {"q_tipo_copertura": "rc_e_colpa_grave", "premium": 15},
+        {"q_tipo_copertura": "solo_colpa_grave", "premium": 20}
+      ],
+      "multipliers": []
+    }
+  ],
+
+  "addons": [
+    {
+      "key": "retroattivita_illimitata",
+      "name": "Estensione retroattività illimitata",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_categoria_sanitario"],
+      "triggered_by": {"q_retroattivita_rc": "illimitata"},
+      "rates": [
+        {"q_categoria_sanitario": "cat_1_ausiliari",       "premium": 10},
+        {"q_categoria_sanitario": "cat_2_riabilitativi",   "premium": 10},
+        {"q_categoria_sanitario": "cat_3_soccorritore",    "premium": 10},
+        {"q_categoria_sanitario": "cat_3_psico_socio",     "premium": 10},
+        {"q_categoria_sanitario": "cat_4_osteopata",       "premium": 15},
+        {"q_categoria_sanitario": "cat_4_chimico",         "premium": 15},
+        {"q_categoria_sanitario": "cat_4_biologo_feconda", "premium": 20},
+        {"q_categoria_sanitario": "cat_4_veterinario",     "premium": 20},
+        {"q_categoria_sanitario": "cat_4_ostetrica",       "premium": 35}
+      ]
+    },
+    {
+      "key": "rc_plus",
+      "name": "RC Plus",
+      "pricing_mode": "flat",
+      "premium": 75,
+      "triggered_by": {"q_rc_plus": "si"}
+    },
+    {
+      "key": "tutela_legale_base",
+      "name": "Tutela Legale Base",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_categoria_sanitario"],
+      "triggered_by": {"q_tutela_legale_base": "si"},
+      "rates": [
+        {"q_categoria_sanitario": "cat_1_ausiliari",       "premium": 35},
+        {"q_categoria_sanitario": "cat_2_riabilitativi",   "premium": 35},
+        {"q_categoria_sanitario": "cat_3_soccorritore",    "premium": 35},
+        {"q_categoria_sanitario": "cat_3_psico_socio",     "premium": 35},
+        {"q_categoria_sanitario": "cat_4_osteopata",       "premium": 35},
+        {"q_categoria_sanitario": "cat_4_chimico",         "premium": 35},
+        {"q_categoria_sanitario": "cat_4_biologo_feconda", "premium": 35},
+        {"q_categoria_sanitario": "cat_4_veterinario",     "premium": 35},
+        {"q_categoria_sanitario": "cat_4_ostetrica",       "premium": 60}
+      ]
+    },
+    {
+      "key": "vertenze_lavoro",
+      "name": "Vertenze Individuali di Lavoro",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_categoria_sanitario"],
+      "triggered_by": {"q_vertenze_lavoro": "si"},
+      "rates": [
+        {"q_categoria_sanitario": "cat_1_ausiliari",       "premium": 35},
+        {"q_categoria_sanitario": "cat_2_riabilitativi",   "premium": 35},
+        {"q_categoria_sanitario": "cat_3_soccorritore",    "premium": 35},
+        {"q_categoria_sanitario": "cat_3_psico_socio",     "premium": 35},
+        {"q_categoria_sanitario": "cat_4_osteopata",       "premium": 35},
+        {"q_categoria_sanitario": "cat_4_chimico",         "premium": 35},
+        {"q_categoria_sanitario": "cat_4_biologo_feconda", "premium": 35},
+        {"q_categoria_sanitario": "cat_4_veterinario",     "premium": 35},
+        {"q_categoria_sanitario": "cat_4_ostetrica",       "premium": 80}
+      ]
+    }
+  ],
+
+  "eligibility": [
+    {"if": {"q_sinistri_5_anni": {"greater_than": 0}}, "action": "manual_quote", "reason": "Sinistri o fatti noti pregressi — quotazione riservata alla Direzione"}
+  ],
+
+  "test_cases": [
+    {
+      "name": "Infermiere, 2M RC+CG, retro 10, infortuni incluso",
+      "answers": {"q_categoria_sanitario": "cat_1_ausiliari", "q_massimale_sinistro": 2000000, "q_tipo_copertura": "rc_e_colpa_grave", "q_retroattivita_rc": "10_anni", "q_sinistri_5_anni": 0},
+      "expected_premium_note": "88 (RC) + 15 (infortuni) = 103",
+      "expected_premium": 103
+    },
+    {
+      "name": "Osteopata, 3M RC+CG, retro illimitata, TL base sì",
+      "answers": {"q_categoria_sanitario": "cat_4_osteopata", "q_massimale_sinistro": 3000000, "q_tipo_copertura": "rc_e_colpa_grave", "q_retroattivita_rc": "illimitata", "q_sinistri_5_anni": 0, "q_tutela_legale_base": "si"},
+      "expected_premium_note": "324 (RC) + 15 (infortuni) + 15 (retro illimitata) + 35 (TL base) = 389",
+      "expected_premium": 389
+    },
+    {
+      "name": "Ostetrica, 3M RC+CG, retro illimitata, TL + vertenze",
+      "answers": {"q_categoria_sanitario": "cat_4_ostetrica", "q_massimale_sinistro": 3000000, "q_tipo_copertura": "rc_e_colpa_grave", "q_retroattivita_rc": "illimitata", "q_sinistri_5_anni": 0, "q_tutela_legale_base": "si", "q_vertenze_lavoro": "si"},
+      "expected_premium_note": "522 + 15 + 35 + 60 + 80 = 712",
+      "expected_premium": 712
+    }
+  ]
+}

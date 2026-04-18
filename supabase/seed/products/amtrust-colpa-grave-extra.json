@@ -1,0 +1,233 @@
+{
+  "slug": "amtrust-colpa-grave-extra",
+  "insurer": "amtrust",
+  "product_type": "rc_professionale_medico",
+  "name": "AmTrust Colpagrave Extra",
+  "version": "2023-02",
+  "source_pdf": "PRODUCTS/amtrust_Colpagrave extra/Tariffario - AmTrust Colpa Grave Extra ( Agg. 02.23 ).pdf",
+
+  "questions": [
+    {
+      "key": "q_categoria_rischio_cg",
+      "label": "Categoria di rischio",
+      "help_text": "Cod. 01: Dirigente Pubblico con Ginecologia; 02: Dirigente Pubblico no Ginecologia; 03: Dirigente Privato con Ginecologia; 04: Dirigente Privato no Ginecologia; 05: Specializzando.",
+      "type": "dropdown",
+      "options": [
+        {"value": "cod_01", "label": "Cod. 01 – Dirigente medico Dipendente Pubblico inclusa Ginecologia/Ostetricia"},
+        {"value": "cod_02", "label": "Cod. 02 – Dirigente medico Dipendente Pubblico esclusa Ginecologia/Ostetricia"},
+        {"value": "cod_03", "label": "Cod. 03 – Dirigente medico Dipendente Privato inclusa Ginecologia/Ostetricia"},
+        {"value": "cod_04", "label": "Cod. 04 – Dirigente medico Dipendente Privato esclusa Ginecologia/Ostetricia"},
+        {"value": "cod_05", "label": "Cod. 05 – Specializzando"}
+      ]
+    },
+    {
+      "key": "q_massimale_rc",
+      "label": "Massimale per sinistro e per periodo",
+      "type": "dropdown",
+      "options": [
+        {"value": 1000000, "label": "€1.000.000"},
+        {"value": 2000000, "label": "€2.000.000"},
+        {"value": 3000000, "label": "€3.000.000"},
+        {"value": 5000000, "label": "€5.000.000"}
+      ]
+    },
+    {
+      "key": "q_retroattivita_rc",
+      "label": "Retroattività",
+      "type": "dropdown",
+      "options": [
+        {"value": "10_anni",    "label": "10 anni"},
+        {"value": "illimitata", "label": "Illimitata"}
+      ]
+    },
+    {
+      "key": "q_dipendente_pubblico_plus",
+      "label": "Aggiungere Dipendente Pubblico Plus (sottolimite €500.000)?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_pregressa_dip_privato",
+      "label": "Aggiungere Pregressa attività da Dipendente Privato (sottolimite €1.000.000)?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_ruolo_apicale",
+      "label": "Aggiungere Ruolo apicale – Perdite Patrimoniali (sottolimite €200.000)?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_altre_perdite_patrimoniali",
+      "label": "Aggiungere Altre Perdite Patrimoniali (sottolimite €200.000)?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_attivita_compatibili_specializzazione",
+      "label": "Aggiungere Attività compatibili con la Scuola di Specializzazione (sottolimite €1.000.000)?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_attivita_accessorie_rc",
+      "label": "Aggiungere Attività accessorie – Responsabilità Civile (sottolimite €1.000.000)?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    }
+  ],
+
+  "coverages": [
+    {
+      "key": "rc_colpa_grave",
+      "name": "RC Professionale Medico – Colpa Grave",
+      "mandatory": true,
+      "dimensions": ["q_categoria_rischio_cg", "q_massimale_rc", "q_retroattivita_rc"],
+      "rates": [
+        {"q_categoria_rischio_cg":"cod_01", "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":365},
+        {"q_categoria_rischio_cg":"cod_01", "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":395},
+        {"q_categoria_rischio_cg":"cod_01", "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":415},
+        {"q_categoria_rischio_cg":"cod_01", "q_massimale_rc":5000000, "q_retroattivita_rc":"10_anni",    "premium":440},
+        {"q_categoria_rischio_cg":"cod_01", "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":400},
+        {"q_categoria_rischio_cg":"cod_01", "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":435},
+        {"q_categoria_rischio_cg":"cod_01", "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":460},
+        {"q_categoria_rischio_cg":"cod_01", "q_massimale_rc":5000000, "q_retroattivita_rc":"illimitata", "premium":485},
+
+        {"q_categoria_rischio_cg":"cod_02", "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":320},
+        {"q_categoria_rischio_cg":"cod_02", "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":345},
+        {"q_categoria_rischio_cg":"cod_02", "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":365},
+        {"q_categoria_rischio_cg":"cod_02", "q_massimale_rc":5000000, "q_retroattivita_rc":"10_anni",    "premium":385},
+        {"q_categoria_rischio_cg":"cod_02", "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":350},
+        {"q_categoria_rischio_cg":"cod_02", "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":380},
+        {"q_categoria_rischio_cg":"cod_02", "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":400},
+        {"q_categoria_rischio_cg":"cod_02", "q_massimale_rc":5000000, "q_retroattivita_rc":"illimitata", "premium":420},
+
+        {"q_categoria_rischio_cg":"cod_03", "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":440},
+        {"q_categoria_rischio_cg":"cod_03", "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":475},
+        {"q_categoria_rischio_cg":"cod_03", "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":500},
+        {"q_categoria_rischio_cg":"cod_03", "q_massimale_rc":5000000, "q_retroattivita_rc":"10_anni",    "premium":530},
+        {"q_categoria_rischio_cg":"cod_03", "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":480},
+        {"q_categoria_rischio_cg":"cod_03", "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":520},
+        {"q_categoria_rischio_cg":"cod_03", "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":550},
+        {"q_categoria_rischio_cg":"cod_03", "q_massimale_rc":5000000, "q_retroattivita_rc":"illimitata", "premium":580},
+
+        {"q_categoria_rischio_cg":"cod_04", "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":380},
+        {"q_categoria_rischio_cg":"cod_04", "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":415},
+        {"q_categoria_rischio_cg":"cod_04", "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":435},
+        {"q_categoria_rischio_cg":"cod_04", "q_massimale_rc":5000000, "q_retroattivita_rc":"10_anni",    "premium":460},
+        {"q_categoria_rischio_cg":"cod_04", "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":420},
+        {"q_categoria_rischio_cg":"cod_04", "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":455},
+        {"q_categoria_rischio_cg":"cod_04", "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":480},
+        {"q_categoria_rischio_cg":"cod_04", "q_massimale_rc":5000000, "q_retroattivita_rc":"illimitata", "premium":505},
+
+        {"q_categoria_rischio_cg":"cod_05", "q_massimale_rc":1000000, "q_retroattivita_rc":"10_anni",    "premium":185},
+        {"q_categoria_rischio_cg":"cod_05", "q_massimale_rc":2000000, "q_retroattivita_rc":"10_anni",    "premium":195},
+        {"q_categoria_rischio_cg":"cod_05", "q_massimale_rc":3000000, "q_retroattivita_rc":"10_anni",    "premium":205},
+        {"q_categoria_rischio_cg":"cod_05", "q_massimale_rc":5000000, "q_retroattivita_rc":"10_anni",    "premium":220},
+        {"q_categoria_rischio_cg":"cod_05", "q_massimale_rc":1000000, "q_retroattivita_rc":"illimitata", "premium":200},
+        {"q_categoria_rischio_cg":"cod_05", "q_massimale_rc":2000000, "q_retroattivita_rc":"illimitata", "premium":220},
+        {"q_categoria_rischio_cg":"cod_05", "q_massimale_rc":3000000, "q_retroattivita_rc":"illimitata", "premium":230},
+        {"q_categoria_rischio_cg":"cod_05", "q_massimale_rc":5000000, "q_retroattivita_rc":"illimitata", "premium":240}
+      ],
+      "multipliers": []
+    }
+  ],
+
+  "addons": [
+    {
+      "key": "dipendente_pubblico_plus",
+      "name": "Dipendente Pubblico Plus (sottolimite €500.000)",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_retroattivita_rc"],
+      "available_if": {"q_categoria_rischio_cg": {"in": ["cod_01", "cod_02"]}},
+      "triggered_by": {"q_dipendente_pubblico_plus": "si"},
+      "rates": [
+        {"q_retroattivita_rc": "10_anni",    "premium": 400},
+        {"q_retroattivita_rc": "illimitata", "premium": 440}
+      ]
+    },
+    {
+      "key": "pregressa_dip_privato",
+      "name": "Pregressa attività da Dipendente Privato (sottolimite €1.000.000)",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_retroattivita_rc"],
+      "available_if": {"q_categoria_rischio_cg": {"in": ["cod_01", "cod_02"]}},
+      "triggered_by": {"q_pregressa_dip_privato": "si"},
+      "rates": [
+        {"q_retroattivita_rc": "10_anni",    "premium": 50},
+        {"q_retroattivita_rc": "illimitata", "premium": 55}
+      ]
+    },
+    {
+      "key": "ruolo_apicale_perdite_patrimoniali",
+      "name": "Ruolo apicale – Perdite Patrimoniali (sottolimite €200.000)",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_retroattivita_rc"],
+      "available_if": {"q_categoria_rischio_cg": {"in": ["cod_01", "cod_02", "cod_03", "cod_04"]}},
+      "triggered_by": {"q_ruolo_apicale": "si"},
+      "rates": [
+        {"q_retroattivita_rc": "10_anni",    "premium": 450},
+        {"q_retroattivita_rc": "illimitata", "premium": 495}
+      ]
+    },
+    {
+      "key": "altre_perdite_patrimoniali",
+      "name": "Altre Perdite Patrimoniali (sottolimite €200.000)",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_retroattivita_rc"],
+      "available_if": {"q_categoria_rischio_cg": {"in": ["cod_01", "cod_02", "cod_03", "cod_04"]}},
+      "triggered_by": {"q_altre_perdite_patrimoniali": "si"},
+      "rates": [
+        {"q_retroattivita_rc": "10_anni",    "premium": 100},
+        {"q_retroattivita_rc": "illimitata", "premium": 110}
+      ]
+    },
+    {
+      "key": "attivita_compatibili_specializzazione",
+      "name": "Attività compatibili con la Scuola di Specializzazione (sottolimite €1.000.000)",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_retroattivita_rc"],
+      "available_if": {"q_categoria_rischio_cg": "cod_05"},
+      "triggered_by": {"q_attivita_compatibili_specializzazione": "si"},
+      "rates": [
+        {"q_retroattivita_rc": "10_anni",    "premium": 100},
+        {"q_retroattivita_rc": "illimitata", "premium": 110}
+      ]
+    },
+    {
+      "key": "attivita_accessorie_rc",
+      "name": "Attività accessorie – Responsabilità Civile (sottolimite €1.000.000)",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_retroattivita_rc"],
+      "available_if": {"q_categoria_rischio_cg": {"in": ["cod_01", "cod_02", "cod_03", "cod_04"]}},
+      "triggered_by": {"q_attivita_accessorie_rc": "si"},
+      "rates": [
+        {"q_retroattivita_rc": "10_anni",    "premium": 300},
+        {"q_retroattivita_rc": "illimitata", "premium": 330}
+      ]
+    }
+  ],
+
+  "eligibility": [],
+
+  "test_cases": [
+    {
+      "name": "Dirigente pubblico con ginecologia, 2M, retro 10",
+      "answers": {"q_categoria_rischio_cg":"cod_01","q_massimale_rc":2000000,"q_retroattivita_rc":"10_anni"},
+      "expected_premium": 395
+    },
+    {
+      "name": "Specializzando, 3M, retro illimitata + attività compatibili",
+      "answers": {"q_categoria_rischio_cg":"cod_05","q_massimale_rc":3000000,"q_retroattivita_rc":"illimitata","q_attivita_compatibili_specializzazione":"si"},
+      "expected_premium_note": "230 + 110 = 340",
+      "expected_premium": 340
+    },
+    {
+      "name": "Dirigente privato con ginecologia, 5M, retro ill + ruolo apicale + altre perdite",
+      "answers": {"q_categoria_rischio_cg":"cod_03","q_massimale_rc":5000000,"q_retroattivita_rc":"illimitata","q_ruolo_apicale":"si","q_altre_perdite_patrimoniali":"si"},
+      "expected_premium_note": "580 + 495 + 110 = 1185",
+      "expected_premium": 1185
+    }
+  ]
+}

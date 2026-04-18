@@ -1,0 +1,50 @@
+{
+  "slug": "amtrust-medico-under-35",
+  "insurer": "amtrust",
+  "product_type": "rc_professionale_medico",
+  "name": "AmTrust Medico Under 35",
+  "version": "2023-02",
+  "source_pdf": "PRODUCTS/amtrust_medicounder35/Tariffario - AmTrust Medico Under 35 ( Agg. 02.23 ).pdf",
+
+  "questions": [
+    {
+      "key": "q_eta",
+      "label": "Età",
+      "type": "number",
+      "validation": {"min": 18, "max": 35}
+    }
+  ],
+
+  "coverages": [
+    {
+      "key": "rc_professionale",
+      "name": "RC Professionale – Massimale 2.000.000 – Retro 10 anni",
+      "mandatory": true,
+      "dimensions": ["q_fascia_eta"],
+      "rates": [
+        {"q_fascia_eta": "under_28", "premium": 300},
+        {"q_fascia_eta": "29_35",    "premium": 340}
+      ],
+      "multipliers": []
+    }
+  ],
+
+  "addons": [],
+
+  "eligibility": [
+    {"if": {"q_eta": {"greater_than": 35}}, "action": "exclude", "reason": "Prodotto riservato a medici fino a 35 anni"}
+  ],
+
+  "test_cases": [
+    {
+      "name": "Medico 27 anni",
+      "answers": {"q_eta": 27, "q_fascia_eta": "under_28"},
+      "expected_premium": 300
+    },
+    {
+      "name": "Medico 32 anni",
+      "answers": {"q_eta": 32, "q_fascia_eta": "29_35"},
+      "expected_premium": 340
+    }
+  ]
+}

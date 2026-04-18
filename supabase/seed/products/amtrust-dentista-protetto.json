@@ -1,0 +1,168 @@
+{
+  "slug": "amtrust-dentista-protetto",
+  "insurer": "amtrust",
+  "product_type": "rc_professionale_medico",
+  "name": "AmTrust Dentista Protetto",
+  "version": "2024-06",
+  "source_pdf": "PRODUCTS/amtrust_dentistaprotetto/Tariffario - AmTrust Dentista Protetto ( Agg. 06.24 ).pdf",
+
+  "questions": [
+    {
+      "key": "q_attivita_dentista",
+      "label": "Qual è la tua attività principale?",
+      "type": "dropdown",
+      "options": [
+        {"value": "odontoiatria_senza_implant",   "label": "Odontoiatria senza implantologia"},
+        {"value": "ortodonzia",                   "label": "Ortodonzia"},
+        {"value": "odontoiatria_implant_osseo",   "label": "Odontoiatria con implantologia osteointegrata"},
+        {"value": "odontoiatria_implant_altre",   "label": "Odontoiatria con implantologia altre metodiche"}
+      ]
+    },
+    {
+      "key": "q_massimale_rc",
+      "label": "Massimale RC Professionale",
+      "type": "dropdown",
+      "options": [
+        {"value": 2000000},
+        {"value": 3000000},
+        {"value": 5000000}
+      ]
+    },
+    {
+      "key": "q_retroattivita_rc",
+      "label": "Retroattività",
+      "type": "dropdown",
+      "options": [
+        {"value": "10_anni",    "label": "10 anni"},
+        {"value": "illimitata", "label": "Illimitata"}
+      ]
+    },
+    {
+      "key": "q_svolge_in_struttura",
+      "label": "Svolgi la tua attività esclusivamente presso una struttura?",
+      "type": "boolean"
+    },
+    {
+      "key": "q_eta",
+      "label": "Età",
+      "type": "number",
+      "validation": {"min": 18, "max": 100}
+    },
+    {
+      "key": "q_franchigia",
+      "label": "Franchigia desiderata",
+      "type": "dropdown",
+      "options": [
+        {"value": 0,    "label": "Nessuna franchigia"},
+        {"value": 1000, "label": "€1.000"},
+        {"value": 2500, "label": "€2.500"},
+        {"value": 5000, "label": "€5.000"}
+      ]
+    },
+    {
+      "key": "q_sinistri_5_anni",
+      "label": "Sinistri negli ultimi 5 anni",
+      "type": "number",
+      "validation": {"min": 0, "max": 10}
+    }
+  ],
+
+  "coverages": [
+    {
+      "key": "rc_professionale",
+      "name": "RC Professionale – Garanzia Base",
+      "mandatory": true,
+      "dimensions": ["q_attivita_dentista", "q_massimale_rc"],
+      "rates": [
+        {"q_attivita_dentista":"odontoiatria_senza_implant", "q_massimale_rc":2000000, "premium":842},
+        {"q_attivita_dentista":"odontoiatria_senza_implant", "q_massimale_rc":3000000, "premium":884},
+        {"q_attivita_dentista":"odontoiatria_senza_implant", "q_massimale_rc":5000000, "premium":919},
+        {"q_attivita_dentista":"ortodonzia",                 "q_massimale_rc":2000000, "premium":842},
+        {"q_attivita_dentista":"ortodonzia",                 "q_massimale_rc":3000000, "premium":884},
+        {"q_attivita_dentista":"ortodonzia",                 "q_massimale_rc":5000000, "premium":919},
+        {"q_attivita_dentista":"odontoiatria_implant_osseo", "q_massimale_rc":2000000, "premium":1684},
+        {"q_attivita_dentista":"odontoiatria_implant_osseo", "q_massimale_rc":3000000, "premium":1735},
+        {"q_attivita_dentista":"odontoiatria_implant_osseo", "q_massimale_rc":5000000, "premium":1770},
+        {"q_attivita_dentista":"odontoiatria_implant_altre", "q_massimale_rc":2000000, "premium":2105},
+        {"q_attivita_dentista":"odontoiatria_implant_altre", "q_massimale_rc":3000000, "premium":2168},
+        {"q_attivita_dentista":"odontoiatria_implant_altre", "q_massimale_rc":5000000, "premium":2211}
+      ],
+      "multipliers": [
+        {"if": {"q_svolge_in_struttura": true},                  "factor": 0.85, "reason": "Attività esclusivamente in struttura"},
+        {"if": {"q_eta": {"less_than": 30}},                     "factor": 0.93, "reason": "Cliente under 30"},
+        {"if": {"q_eta": {"between": [30, 35]}},                 "factor": 0.95, "reason": "Cliente 30-35 anni"},
+        {"if": {"q_eta": {"greater_than": 69}},                  "factor": 1.03, "reason": "Cliente 70+"},
+        {"if": {"q_franchigia": 1000},                           "factor": 0.95, "reason": "Franchigia €1.000"},
+        {"if": {"q_franchigia": 2500},                           "factor": 0.90, "reason": "Franchigia €2.500"},
+        {"if": {"q_franchigia": 5000},                           "factor": 0.80, "reason": "Franchigia €5.000"},
+        {"if": {"q_sinistri_5_anni": 1},                         "factor": 1.15, "reason": "1 sinistro pregresso"},
+        {"if": {"q_sinistri_5_anni": 2},                         "factor": 2.00, "reason": "2 sinistri pregressi"}
+      ]
+    }
+  ],
+
+  "addons": [
+    {
+      "key": "retroattivita_illimitata",
+      "name": "Estensione retroattività illimitata",
+      "pricing_mode": "flat",
+      "premium": 45,
+      "triggered_by": {"q_retroattivita_rc": "illimitata"}
+    },
+    {
+      "key": "ruolo_apicale_pp",
+      "name": "Ruolo apicale e direzione sanitaria – Perdite Patrimoniali",
+      "pricing_mode": "flat",
+      "premium": 50
+    },
+    {
+      "key": "altre_pp_rcto",
+      "name": "Altre Perdite Patrimoniali e conduzione dello studio (RCT-RCO)",
+      "pricing_mode": "flat",
+      "premium": 100
+    },
+    {
+      "key": "omesso_ecm",
+      "name": "Omesso adempimento Crediti ECM",
+      "pricing_mode": "flat",
+      "premium": 40
+    }
+  ],
+
+  "eligibility": [
+    {"if": {"q_franchigia": {"greater_than": 0}, "q_sinistri_5_anni": {"greater_than": 0}}, "action": "exclude", "reason": "La franchigia agevolata non è acquistabile con sinistri pregressi"},
+    {"if": {"q_sinistri_5_anni": {"greater_than": 2}}, "action": "manual_quote", "reason": "Più di 2 sinistri — riservato alla Direzione"}
+  ],
+
+  "test_cases": [
+    {
+      "name": "Ortodontista, massimale 3M, retro 10 anni, base",
+      "answers": {
+        "q_attivita_dentista": "ortodonzia",
+        "q_massimale_rc": 3000000,
+        "q_retroattivita_rc": "10_anni",
+        "q_svolge_in_struttura": false,
+        "q_eta": 45,
+        "q_franchigia": 0,
+        "q_sinistri_5_anni": 0
+      },
+      "addons_selected": [],
+      "expected_premium": 884
+    },
+    {
+      "name": "Implantologia osseo, retro illimitata, 28 anni, in struttura, franchigia 2.5k",
+      "answers": {
+        "q_attivita_dentista": "odontoiatria_implant_osseo",
+        "q_massimale_rc": 2000000,
+        "q_retroattivita_rc": "illimitata",
+        "q_svolge_in_struttura": true,
+        "q_eta": 28,
+        "q_franchigia": 2500,
+        "q_sinistri_5_anni": 0
+      },
+      "addons_selected": ["retroattivita_illimitata"],
+      "expected_premium_note": "1684 × 0.85 × 0.93 × 0.90 + 45 = 1243.08",
+      "expected_premium": 1243.08
+    }
+  ]
+}

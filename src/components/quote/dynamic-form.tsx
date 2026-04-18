@@ -1,141 +1,229 @@
 "use client"
 
 import * as React from "react"
-import { useForm, useWatch } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm, useWatch, Controller } from "react-hook-form"
 import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
-import { Form } from "@/components/ui/form"
-import { QuestionField } from "@/components/quote/question-field"
-import { saveQuestionnaireAnswers } from "@/app/actions"
-import type {
-  Question,
-  Questionnaire,
-  QuestionnaireItem,
-  VisibleIfRule,
-} from "@/lib/types"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {
-  buildQuestionnaireSchema,
-  defaultsFor,
-} from "@/lib/schemas/questionnaire"
-
-type Values = Record<string, unknown>
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { saveAnswers } from "@/app/actions"
+import { evalCondition } from "@/lib/engine/operators"
+import type { SectorQuestion } from "@/lib/types"
 
 export function DynamicForm({
   sessionId,
-  questionnaire,
-  questions,
+  sectorQuestions,
   savedAnswers,
+  onSuccess,
+  splitRequiredOptional = false,
 }: {
   sessionId: string
-  questionnaire: Questionnaire
-  questions: Record<string, Question>
+  sectorQuestions: SectorQuestion[]
   savedAnswers: Record<string, unknown>
+  onSuccess?: (sessionId: string) => void
+  splitRequiredOptional?: boolean
 }) {
   const router = useRouter()
   const [submitting, setSubmitting] = React.useState(false)
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null)
 
-  const schema = React.useMemo(
-    () => buildQuestionnaireSchema(questionnaire.definition, questions),
-    [questionnaire.definition, questions]
-  )
-  const defaults = React.useMemo(
-    () => defaultsFor(questionnaire.definition, questions, savedAnswers),
-    [questionnaire.definition, questions, savedAnswers]
-  )
+  const defaultValues = React.useMemo(() => {
+    const d: Record<string, unknown> = {}
+    for (const sq of sectorQuestions) {
+      const key = sq.question.key
+      d[key] = savedAnswers[key] ?? ""
+    }
+    return d
+  }, [sectorQuestions, savedAnswers])
 
-  const form = useForm<Values>({
-    resolver: zodResolver(schema),
-    mode: "onTouched",
-    defaultValues: defaults,
-  })
+  const { control, handleSubmit, getValues } = useForm({ defaultValues })
+  const watchedValues = useWatch({ control })
 
-  async function onSubmit(values: Values) {
+  function isVisible(sq: SectorQuestion): boolean {
+    if (!sq.visibleIf) return true
+    const answers = getValues() as Record<string, unknown>
+    return evalCondition(sq.visibleIf, answers)
+  }
+
+  // Group by section
+  const sections = React.useMemo(() => {
+    const map = new Map<string, SectorQuestion[]>()
+    for (const sq of sectorQuestions) {
+      const key = sq.section ?? ""
+      const list = map.get(key) ?? []
+      list.push(sq)
+      map.set(key, list)
+    }
+    return map
+  }, [sectorQuestions])
+
+  async function onSubmit(values: Record<string, unknown>) {
+    // strip empty strings and hidden fields
+    const answers: Record<string, unknown> = {}
+    for (const sq of sectorQuestions) {
+      if (!isVisible(sq)) continue
+      const v = values[sq.question.key]
+      if (v !== "" && v !== null && v !== undefined) {
+        answers[sq.question.key] = v
+      }
+    }
+
     setSubmitting(true)
     setErrorMsg(null)
     try {
-      const res = await saveQuestionnaireAnswers({
-        sessionId,
-        questionnaireId: questionnaire.id,
-        answers: values,
-      })
+      const res = await saveAnswers({ sessionId, answers })
       if (res.ok) {
-        router.push(`/preventivo/${sessionId}/risultati`)
+        if (onSuccess) {
+          onSuccess(sessionId)
+        } else {
+          router.push(`/preventivo/${sessionId}/risultati`)
+        }
       } else {
         setErrorMsg(res.error)
+        setSubmitting(false)
       }
-    } finally {
+    } catch {
+      setErrorMsg("Errore imprevisto, riprova.")
       setSubmitting(false)
     }
   }
 
+  void watchedValues // consumed by useWatch to trigger re-renders for visible_if
+
+  const required = sectorQuestions.filter((sq) => sq.isRequired)
+  const optional = sectorQuestions.filter((sq) => !sq.isRequired)
+
+  function renderQuestions(qs: SectorQuestion[]) {
+    return qs.map((sq) => {
+      if (!isVisible(sq)) return null
+      return <QuestionField key={sq.question.key} sq={sq} control={control} />
+    })
+  }
+
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-8"
-        noValidate
-      >
-        {questionnaire.definition.sections.map((section) => (
-          <section key={section.key} className="flex flex-col gap-4">
-            <h2 className="text-lg font-semibold">{section.title}</h2>
-            {section.items.map((item) => {
-              const q = questions[item.question_key]
-              if (!q) return null
-              return (
-                <VisibleItem key={item.question_key} item={item}>
-                  <QuestionField
-                    question={q}
-                    required={item.required ?? q.validation?.required ?? false}
-                    control={form.control}
-                  />
-                </VisibleItem>
-              )
-            })}
-          </section>
-        ))}
+    <form onSubmit={handleSubmit(onSubmit as never)} className="space-y-8">
+      {splitRequiredOptional ? (
+        <>
+          <div className="space-y-4">{renderQuestions(required)}</div>
+          {optional.length > 0 && (
+            <details className="group">
+              <summary className="cursor-pointer text-sm font-medium text-muted-foreground select-none list-none flex items-center gap-1">
+                <span className="group-open:hidden">▶</span>
+                <span className="hidden group-open:inline">▼</span>
+                Domande opzionali ({optional.length})
+              </summary>
+              <div className="mt-4 space-y-4 border-l pl-4">
+                {renderQuestions(optional)}
+              </div>
+            </details>
+          )}
+        </>
+      ) : (
+        [...sections.entries()].map(([section, qs]) => (
+          <div key={section} className="space-y-4">
+            {section && (
+              <h2 className="text-base font-medium text-muted-foreground border-b pb-1">
+                {section}
+              </h2>
+            )}
+            {renderQuestions(qs)}
+          </div>
+        ))
+      )}
 
-        <Button type="submit" disabled={submitting}>
-          {submitting ? "Invio in corso..." : "Continua"}
-        </Button>
+      {errorMsg && <p className="text-sm text-destructive">{errorMsg}</p>}
 
-        {errorMsg ? (
-          <p role="alert" className="text-destructive text-sm">
-            {errorMsg}
-          </p>
-        ) : null}
-      </form>
-    </Form>
+      <Button type="submit" className="w-full" disabled={submitting}>
+        {submitting ? "Calcolo preventivi…" : "Vedi le proposte"}
+      </Button>
+    </form>
   )
 }
 
-function VisibleItem({
-  item,
-  children,
+function QuestionField({
+  sq,
+  control,
 }: {
-  item: QuestionnaireItem
-  children: React.ReactNode
+  sq: SectorQuestion
+  control: ReturnType<typeof useForm>["control"]
 }) {
-  const rule = item.visible_if
-  const watched = useWatch({ name: rule?.question_key ?? "__none__" })
-  if (!rule) return <>{children}</>
-  return evalVisibleIf(rule, watched) ? <>{children}</> : null
-}
+  const q = sq.question
 
-function evalVisibleIf(rule: VisibleIfRule, value: unknown): boolean {
-  const target = rule.value
-  switch (rule.operator) {
-    case "equals":
-      return value === target
-    case "not_equals":
-      return value !== target
-    case "in":
-      return Array.isArray(target) && target.includes(String(value))
-    case "not_in":
-      return Array.isArray(target) && !target.includes(String(value))
-    default:
-      return true
-  }
+  return (
+    <Controller
+      control={control}
+      name={q.key}
+      render={({ field, fieldState }) => (
+        <div className="space-y-1.5">
+          <Label htmlFor={q.key}>{q.label}</Label>
+          {q.helpText && (
+            <p className="text-xs text-muted-foreground">{q.helpText}</p>
+          )}
+
+          {q.type === "dropdown" && q.options ? (
+            <Select
+              onValueChange={field.onChange}
+              value={String(field.value ?? "")}
+            >
+              <SelectTrigger id={q.key}>
+                <SelectValue placeholder="Seleziona…" />
+              </SelectTrigger>
+              <SelectContent>
+                {q.options.map((opt) => (
+                  <SelectItem key={String(opt.value)} value={String(opt.value)}>
+                    {opt.label ?? String(opt.value)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          ) : q.type === "number" ? (
+            <Input
+              id={q.key}
+              type="number"
+              min={q.validation?.min}
+              max={q.validation?.max}
+              step={q.validation?.step ?? 1}
+              value={String(field.value ?? "")}
+              onChange={(e) => {
+                const n = e.target.value === "" ? "" : Number(e.target.value)
+                field.onChange(n)
+              }}
+            />
+          ) : q.type === "boolean" ? (
+            <Select
+              onValueChange={(v) => field.onChange(v === "true")}
+              value={field.value === true ? "true" : field.value === false ? "false" : ""}
+            >
+              <SelectTrigger id={q.key}>
+                <SelectValue placeholder="Seleziona…" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="true">Sì</SelectItem>
+                <SelectItem value="false">No</SelectItem>
+              </SelectContent>
+            </Select>
+          ) : (
+            <Input
+              id={q.key}
+              type="text"
+              value={String(field.value ?? "")}
+              onChange={field.onChange}
+            />
+          )}
+
+          {fieldState.error && (
+            <p className="text-xs text-destructive">{fieldState.error.message}</p>
+          )}
+        </div>
+      )}
+    />
+  )
 }

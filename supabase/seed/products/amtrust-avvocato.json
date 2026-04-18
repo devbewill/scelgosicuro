@@ -1,0 +1,348 @@
+{
+  "slug": "amtrust-avvocato",
+  "insurer": "amtrust",
+  "product_type": "rc_professionale_avvocato",
+  "name": "AmTrust ProfessionIntellettuali – Avvocati (Conv. 0091)",
+  "version": "2021-09",
+  "source_pdf": "PRODUCTS/AMTRUST_AVVOCATO_Tariffario Professioni Intellettuali ( Agg. 09.21 ).pdf",
+
+  "questions": [
+    {
+      "key": "q_tipo_assicurato_avvocato",
+      "label": "Tipologia di assicurato",
+      "type": "dropdown",
+      "options": [
+        {"value": "avvocato",   "label": "Avvocato (professionista individuale)"},
+        {"value": "studio_stp", "label": "Studio Associato / Società tra Professionisti"}
+      ]
+    },
+    {
+      "key": "q_fascia_compensi",
+      "label": "Fascia di compensi annui",
+      "type": "dropdown",
+      "options": [
+        {"value": "0_30k",      "label": "Fino a €30.000"},
+        {"value": "30_50k",     "label": "€30.001 – €50.000"},
+        {"value": "50_70k",     "label": "€50.001 – €70.000"},
+        {"value": "70_150k",    "label": "€70.001 – €150.000"},
+        {"value": "150_300k",   "label": "€150.001 – €300.000"},
+        {"value": "300_500k",   "label": "€300.001 – €500.000"},
+        {"value": "500_1M",     "label": "€500.001 – €1.000.000"},
+        {"value": "1M_2M",      "label": "€1.000.001 – €2.000.000"},
+        {"value": "2M_5M",      "label": "€2.000.001 – €5.000.000"},
+        {"value": "over_5M",    "label": "Oltre €5.000.000"}
+      ]
+    },
+    {
+      "key": "q_massimale_rc",
+      "label": "Massimale RC Professionale",
+      "help_text": "Per Studio Associato/STP il massimale per periodo è pari al doppio del massimale per sinistro.",
+      "type": "dropdown",
+      "options": [
+        {"value": 350000,  "label": "€350.000"},
+        {"value": 500000,  "label": "€500.000"},
+        {"value": 1000000, "label": "€1.000.000"},
+        {"value": 1500000, "label": "€1.500.000"},
+        {"value": 2000000, "label": "€2.000.000"},
+        {"value": 4000000, "label": "€4.000.000"},
+        {"value": 5000000, "label": "€5.000.000"}
+      ]
+    },
+    {
+      "key": "q_franchigia_facoltativa_avv",
+      "label": "Aggiungere Franchigia Facoltativa (sconto -14% sulla RC)?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_sinistri_5_anni",
+      "label": "Sinistri pregressi negli ultimi 5 anni",
+      "type": "number",
+      "validation": {"min": 0, "max": 10}
+    },
+    {
+      "key": "q_garanzia_a1_sindaco_revisore",
+      "label": "Aggiungere A.1 – Estensione Sindaco/Revisore/Legale/CdA?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_garanzia_a2_funzioni_pubbliche",
+      "label": "Aggiungere A.2 – Funzioni Pubbliche?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_garanzia_a3_gestore_occ",
+      "label": "Aggiungere A.3 – Gestore dell'O.C.C.?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_garanzia_a4_dpo",
+      "label": "Aggiungere A.4 – D.P.O.?",
+      "type": "dropdown",
+      "options": [{"value":"no","label":"No"},{"value":"si","label":"Sì"}]
+    },
+    {
+      "key": "q_infortuni_opzione_avv",
+      "label": "Sezione B – Infortuni e Rimborso Spese Mediche (opzionale)",
+      "type": "dropdown",
+      "options": [
+        {"value": "none",      "label": "Nessuna"},
+        {"value": "opzione_1", "label": "B.1 – Rischio professionale + in itinere (€145)"},
+        {"value": "opzione_2", "label": "B.2 – Rischio professionale + in itinere + extra-professionale (€200)"}
+      ]
+    }
+  ],
+
+  "coverages": [
+    {
+      "key": "rc_professionale",
+      "name": "Garanzia A – RC Professionale e RCT/O",
+      "mandatory": true,
+      "dimensions": ["q_tipo_assicurato_avvocato", "q_fascia_compensi", "q_massimale_rc"],
+      "rates": [
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"0_30k",    "q_massimale_rc":350000,  "premium":185},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"0_30k",    "q_massimale_rc":500000,  "premium":210},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"0_30k",    "q_massimale_rc":1000000, "premium":250},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"0_30k",    "q_massimale_rc":1500000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"0_30k",    "q_massimale_rc":2000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"0_30k",    "q_massimale_rc":4000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"0_30k",    "q_massimale_rc":5000000, "manual_quote":true},
+
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"30_50k",   "q_massimale_rc":350000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"30_50k",   "q_massimale_rc":500000,  "premium":235},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"30_50k",   "q_massimale_rc":1000000, "premium":290},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"30_50k",   "q_massimale_rc":1500000, "premium":360},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"30_50k",   "q_massimale_rc":2000000, "premium":400},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"30_50k",   "q_massimale_rc":4000000, "premium":550},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"30_50k",   "q_massimale_rc":5000000, "manual_quote":true},
+
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"50_70k",   "q_massimale_rc":350000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"50_70k",   "q_massimale_rc":500000,  "premium":305},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"50_70k",   "q_massimale_rc":1000000, "premium":420},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"50_70k",   "q_massimale_rc":1500000, "premium":525},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"50_70k",   "q_massimale_rc":2000000, "premium":750},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"50_70k",   "q_massimale_rc":4000000, "premium":800},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"50_70k",   "q_massimale_rc":5000000, "manual_quote":true},
+
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"70_150k",  "q_massimale_rc":350000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"70_150k",  "q_massimale_rc":500000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"70_150k",  "q_massimale_rc":1000000, "premium":500},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"70_150k",  "q_massimale_rc":1500000, "premium":720},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"70_150k",  "q_massimale_rc":2000000, "premium":890},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"70_150k",  "q_massimale_rc":4000000, "premium":980},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"70_150k",  "q_massimale_rc":5000000, "manual_quote":true},
+
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"150_300k", "q_massimale_rc":350000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"150_300k", "q_massimale_rc":500000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"150_300k", "q_massimale_rc":1000000, "premium":990},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"150_300k", "q_massimale_rc":1500000, "premium":1200},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"150_300k", "q_massimale_rc":2000000, "premium":1400},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"150_300k", "q_massimale_rc":4000000, "premium":1600},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"150_300k", "q_massimale_rc":5000000, "manual_quote":true},
+
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"300_500k", "q_massimale_rc":350000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"300_500k", "q_massimale_rc":500000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"300_500k", "q_massimale_rc":1000000, "premium":1200},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"300_500k", "q_massimale_rc":1500000, "premium":1560},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"300_500k", "q_massimale_rc":2000000, "premium":1800},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"300_500k", "q_massimale_rc":4000000, "premium":2000},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"300_500k", "q_massimale_rc":5000000, "manual_quote":true},
+
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"500_1M",   "q_massimale_rc":350000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"500_1M",   "q_massimale_rc":500000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"500_1M",   "q_massimale_rc":1000000, "premium":1800},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"500_1M",   "q_massimale_rc":1500000, "premium":2160},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"500_1M",   "q_massimale_rc":2000000, "premium":2520},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"500_1M",   "q_massimale_rc":4000000, "premium":2700},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"500_1M",   "q_massimale_rc":5000000, "manual_quote":true},
+
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"1M_2M",    "q_massimale_rc":350000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"1M_2M",    "q_massimale_rc":500000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"1M_2M",    "q_massimale_rc":1000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"1M_2M",    "q_massimale_rc":1500000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"1M_2M",    "q_massimale_rc":2000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"1M_2M",    "q_massimale_rc":4000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"1M_2M",    "q_massimale_rc":5000000, "manual_quote":true},
+
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"2M_5M",    "q_massimale_rc":350000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"2M_5M",    "q_massimale_rc":500000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"2M_5M",    "q_massimale_rc":1000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"2M_5M",    "q_massimale_rc":1500000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"2M_5M",    "q_massimale_rc":2000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"2M_5M",    "q_massimale_rc":4000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"2M_5M",    "q_massimale_rc":5000000, "manual_quote":true},
+
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"over_5M",  "q_massimale_rc":350000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"over_5M",  "q_massimale_rc":500000,  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"over_5M",  "q_massimale_rc":1000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"over_5M",  "q_massimale_rc":1500000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"over_5M",  "q_massimale_rc":2000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"over_5M",  "q_massimale_rc":4000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"over_5M",  "q_massimale_rc":5000000, "manual_quote":true},
+
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"0_30k",    "q_massimale_rc":1000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"0_30k",    "q_massimale_rc":2000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"30_50k",   "q_massimale_rc":1000000, "premium":650},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"30_50k",   "q_massimale_rc":2000000, "premium":850},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"50_70k",   "q_massimale_rc":1000000, "premium":730},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"50_70k",   "q_massimale_rc":2000000, "premium":910},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"70_150k",  "q_massimale_rc":1000000, "premium":810},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"70_150k",  "q_massimale_rc":2000000, "premium":970},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"150_300k", "q_massimale_rc":1000000, "premium":1050},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"150_300k", "q_massimale_rc":2000000, "premium":1400},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"300_500k", "q_massimale_rc":1000000, "premium":1380},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"300_500k", "q_massimale_rc":2000000, "premium":1900},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"500_1M",   "q_massimale_rc":1000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"500_1M",   "q_massimale_rc":2000000, "premium":2890},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"1M_2M",    "q_massimale_rc":1000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"1M_2M",    "q_massimale_rc":2000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"2M_5M",    "q_massimale_rc":1000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"2M_5M",    "q_massimale_rc":2000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"over_5M",  "q_massimale_rc":1000000, "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"over_5M",  "q_massimale_rc":2000000, "manual_quote":true}
+      ],
+      "multipliers": [
+        {"if": {"q_franchigia_facoltativa_avv": "si"}, "factor": 0.86, "reason": "Franchigia facoltativa (-14%)"}
+      ]
+    }
+  ],
+
+  "addons": [
+    {
+      "key": "garanzia_a1_sindaco_revisore",
+      "name": "A.1 Estensione Sindaco/Revisore/Legale/CdA (sottolimite 50% massimale, max €2.000.000)",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_tipo_assicurato_avvocato", "q_fascia_compensi"],
+      "triggered_by": {"q_garanzia_a1_sindaco_revisore": "si"},
+      "rates": [
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"0_30k",    "premium":280},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"30_50k",   "premium":280},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"50_70k",   "premium":280},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"70_150k",  "premium":450},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"150_300k", "premium":450},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"300_500k", "premium":450},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"500_1M",   "premium":450},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"1M_2M",    "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"2M_5M",    "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"over_5M",  "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"0_30k",    "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"30_50k",   "premium":450},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"50_70k",   "premium":450},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"70_150k",  "premium":450},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"150_300k", "premium":450},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"300_500k", "premium":600},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"500_1M",   "premium":600},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"1M_2M",    "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"2M_5M",    "manual_quote":true},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"over_5M",  "manual_quote":true}
+      ]
+    },
+    {
+      "key": "garanzia_a2_funzioni_pubbliche",
+      "name": "A.2 Funzioni Pubbliche",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_tipo_assicurato_avvocato", "q_fascia_compensi"],
+      "triggered_by": {"q_garanzia_a2_funzioni_pubbliche": "si"},
+      "rates": [
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"0_30k",    "premium":120},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"30_50k",   "premium":120},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"50_70k",   "premium":120},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"70_150k",  "premium":150},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"150_300k", "premium":150},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"300_500k", "premium":150},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"500_1M",   "premium":150},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"30_50k",   "premium":200},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"50_70k",   "premium":200},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"70_150k",  "premium":200},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"150_300k", "premium":200},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"300_500k", "premium":350},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"500_1M",   "premium":350}
+      ]
+    },
+    {
+      "key": "garanzia_a3_gestore_occ",
+      "name": "A.3 Gestore dell'O.C.C. (sottolimite €1.000.000)",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_tipo_assicurato_avvocato", "q_fascia_compensi"],
+      "triggered_by": {"q_garanzia_a3_gestore_occ": "si"},
+      "rates": [
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"0_30k",    "premium":80},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"30_50k",   "premium":80},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"50_70k",   "premium":80},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"70_150k",  "premium":150},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"150_300k", "premium":150},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"300_500k", "premium":150},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"500_1M",   "premium":150},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"30_50k",   "premium":150},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"50_70k",   "premium":150},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"70_150k",  "premium":150},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"150_300k", "premium":150},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"300_500k", "premium":250},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"500_1M",   "premium":250}
+      ]
+    },
+    {
+      "key": "garanzia_a4_dpo",
+      "name": "A.4 D.P.O. (sottolimite €500.000)",
+      "pricing_mode": "rate_table",
+      "dimensions": ["q_tipo_assicurato_avvocato", "q_fascia_compensi"],
+      "triggered_by": {"q_garanzia_a4_dpo": "si"},
+      "rates": [
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"0_30k",    "premium":150},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"30_50k",   "premium":150},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"50_70k",   "premium":150},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"70_150k",  "premium":150},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"150_300k", "premium":150},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"300_500k", "premium":150},
+        {"q_tipo_assicurato_avvocato":"avvocato",  "q_fascia_compensi":"500_1M",   "premium":150},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"30_50k",   "premium":250},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"50_70k",   "premium":250},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"70_150k",  "premium":250},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"150_300k", "premium":250},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"300_500k", "premium":250},
+        {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"500_1M",   "premium":250}
+      ]
+    },
+    {
+      "key": "infortuni_opzione_1",
+      "name": "B.1 Infortuni + RSM: rischio professionale + in itinere",
+      "pricing_mode": "flat",
+      "premium": 145,
+      "triggered_by": {"q_infortuni_opzione_avv": "opzione_1"}
+    },
+    {
+      "key": "infortuni_opzione_2",
+      "name": "B.2 Infortuni + RSM: rischio professionale + in itinere + extra-professionale",
+      "pricing_mode": "flat",
+      "premium": 200,
+      "triggered_by": {"q_infortuni_opzione_avv": "opzione_2"}
+    }
+  ],
+
+  "eligibility": [
+    {"if": {"q_sinistri_5_anni": {"greater_than": 0}}, "action": "manual_quote", "reason": "Sinistri pregressi — assumibilità soggetta a valutazione della Direzione"}
+  ],
+
+  "test_cases": [
+    {
+      "name": "Avvocato, compensi 50-70k, massimale 1M",
+      "answers": {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"50_70k","q_massimale_rc":1000000,"q_franchigia_facoltativa_avv":"no","q_sinistri_5_anni":0,"q_infortuni_opzione_avv":"none"},
+      "expected_premium": 420
+    },
+    {
+      "name": "STP, compensi 150-300k, 2M + A.1 + A.3",
+      "answers": {"q_tipo_assicurato_avvocato":"studio_stp","q_fascia_compensi":"150_300k","q_massimale_rc":2000000,"q_franchigia_facoltativa_avv":"no","q_sinistri_5_anni":0,"q_garanzia_a1_sindaco_revisore":"si","q_garanzia_a3_gestore_occ":"si","q_infortuni_opzione_avv":"none"},
+      "expected_premium_note": "1400 + 450 + 150 = 2000",
+      "expected_premium": 2000
+    },
+    {
+      "name": "Avvocato, 70-150k, 2M, franchigia facoltativa + B.2",
+      "answers": {"q_tipo_assicurato_avvocato":"avvocato","q_fascia_compensi":"70_150k","q_massimale_rc":2000000,"q_franchigia_facoltativa_avv":"si","q_sinistri_5_anni":0,"q_infortuni_opzione_avv":"opzione_2"},
+      "expected_premium_note": "890 × 0.86 + 200 = 765.40 + 200 = 965.40",
+      "expected_premium": 965.40
+    }
+  ]
+}

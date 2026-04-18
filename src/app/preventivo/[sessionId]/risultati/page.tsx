@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 
 import { ResultsView } from "@/components/quote/results-view"
-import { countQuoteResults, getQuoteResults } from "@/lib/data/results"
+import { getQuoteResults, countQuoteResults } from "@/lib/data/results"
 import { getQuoteSession } from "@/lib/data/questionnaires"
 import { generateQuotes } from "@/lib/engine/generate"
 
@@ -21,10 +21,8 @@ export default async function RisultatiPage({
     if (!res.ok) {
       return (
         <main className="mx-auto flex min-h-screen w-full max-w-xl flex-col p-6">
-          <h1 className="mb-6 text-2xl font-semibold">Risultati</h1>
-          <p className="text-destructive text-sm">
-            Errore nel motore: {res.error}
-          </p>
+          <h1 className="mb-4 text-2xl font-semibold">Risultati</h1>
+          <p className="text-sm text-destructive">Errore: {res.error}</p>
         </main>
       )
     }

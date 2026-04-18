@@ -1,0 +1,81 @@
+{
+  "slug": "amtrust-infortuni-h24",
+  "insurer": "amtrust",
+  "product_type": "infortuni",
+  "product_type_name": "Infortuni",
+  "name": "AmTrust Infortuni h24",
+  "version": "2023-04",
+  "source_pdf": "PRODUCTS/AmTrust Infortuni h24 ( Agg. 04.23 ).pdf - Nextcloud.pdf",
+
+  "questions": [
+    {
+      "key": "q_opzione_protezione",
+      "label": "Somma assicurata (Morte / Invalidità Permanente)",
+      "type": "dropdown",
+      "options": [
+        {"value": "prot_25",  "label": "Protezione 25 – €25.000"},
+        {"value": "prot_50",  "label": "Protezione 50 – €50.000"},
+        {"value": "prot_75",  "label": "Protezione 75 – €75.000"},
+        {"value": "prot_100", "label": "Protezione 100 – €100.000"},
+        {"value": "prot_150", "label": "Protezione 150 – €150.000"},
+        {"value": "prot_200", "label": "Protezione 200 – €200.000"}
+      ]
+    },
+    {
+      "key": "q_nucleo_familiare",
+      "label": "Estensione al nucleo familiare",
+      "type": "dropdown",
+      "options": [
+        {"value": "solo_assicurato", "label": "Solo assicurato (no nucleo)"},
+        {"value": "fino_3",           "label": "Nucleo familiare fino a 3 componenti"},
+        {"value": "oltre_3",          "label": "Nucleo familiare oltre 3 componenti"}
+      ]
+    }
+  ],
+
+  "coverages": [
+    {
+      "key": "infortuni",
+      "name": "Infortuni H24",
+      "mandatory": true,
+      "dimensions": ["q_opzione_protezione", "q_nucleo_familiare"],
+      "rates": [
+        {"q_opzione_protezione": "prot_25",  "q_nucleo_familiare": "solo_assicurato", "premium": 52.50},
+        {"q_opzione_protezione": "prot_50",  "q_nucleo_familiare": "solo_assicurato", "premium": 105.00},
+        {"q_opzione_protezione": "prot_75",  "q_nucleo_familiare": "solo_assicurato", "premium": 147.50},
+        {"q_opzione_protezione": "prot_100", "q_nucleo_familiare": "solo_assicurato", "premium": 190.00},
+        {"q_opzione_protezione": "prot_150", "q_nucleo_familiare": "solo_assicurato", "premium": 310.00},
+        {"q_opzione_protezione": "prot_200", "q_nucleo_familiare": "solo_assicurato", "premium": 430.00},
+        {"q_opzione_protezione": "prot_25",  "q_nucleo_familiare": "fino_3",           "premium": 99.76},
+        {"q_opzione_protezione": "prot_50",  "q_nucleo_familiare": "fino_3",           "premium": 199.50},
+        {"q_opzione_protezione": "prot_75",  "q_nucleo_familiare": "fino_3",           "premium": 280.24},
+        {"q_opzione_protezione": "prot_100", "q_nucleo_familiare": "fino_3",           "premium": 361.00},
+        {"q_opzione_protezione": "prot_150", "q_nucleo_familiare": "fino_3",           "premium": 589.00},
+        {"q_opzione_protezione": "prot_200", "q_nucleo_familiare": "fino_3",           "premium": 817.00},
+        {"q_opzione_protezione": "prot_25",  "q_nucleo_familiare": "oltre_3",          "premium": 131.24},
+        {"q_opzione_protezione": "prot_50",  "q_nucleo_familiare": "oltre_3",          "premium": 262.50},
+        {"q_opzione_protezione": "prot_75",  "q_nucleo_familiare": "oltre_3",          "premium": 368.76},
+        {"q_opzione_protezione": "prot_100", "q_nucleo_familiare": "oltre_3",          "premium": 475.00},
+        {"q_opzione_protezione": "prot_150", "q_nucleo_familiare": "oltre_3",          "premium": 775.00},
+        {"q_opzione_protezione": "prot_200", "q_nucleo_familiare": "oltre_3",          "premium": 1075.00}
+      ],
+      "multipliers": []
+    }
+  ],
+
+  "addons": [],
+  "eligibility": [],
+
+  "test_cases": [
+    {
+      "name": "Protezione 100, solo assicurato",
+      "answers": {"q_opzione_protezione": "prot_100", "q_nucleo_familiare": "solo_assicurato"},
+      "expected_premium": 190.00
+    },
+    {
+      "name": "Protezione 200, nucleo oltre 3",
+      "answers": {"q_opzione_protezione": "prot_200", "q_nucleo_familiare": "oltre_3"},
+      "expected_premium": 1075.00
+    }
+  ]
+}

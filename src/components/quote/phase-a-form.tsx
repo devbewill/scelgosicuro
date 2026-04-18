@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useForm, useWatch } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 
@@ -23,111 +23,76 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { createQuoteSession } from "@/app/actions"
-import type { Activity, Sector } from "@/lib/data/catalog"
-import { phaseASchema } from "@/lib/schemas/quote-session"
+import type { Sector } from "@/lib/data/catalog"
+import { phaseASchema, type PhaseAInput } from "@/lib/schemas/quote-session"
 
-type FormValues = {
-  sectorId: string
-  activityId: string
-  contactName: string
-  contactEmail: string
-  contactPhone: string
-}
-
-const DEFAULTS: FormValues = {
+// age omitted from defaults — rendered as empty; coerced to number by zod on submit
+const DEFAULTS: Partial<PhaseAInput> = {
   sectorId: "",
-  activityId: "",
   contactName: "",
   contactEmail: "",
   contactPhone: "",
 }
 
-export function PhaseAForm({
-  sectors,
-  activities,
-}: {
-  sectors: Sector[]
-  activities: Activity[]
-}) {
+export function PhaseAForm({ sectors }: { sectors: Sector[] }) {
   const router = useRouter()
   const [submitting, setSubmitting] = React.useState(false)
-  const [result, setResult] = React.useState<
-    | { kind: "idle" }
-    | { kind: "error"; message: string }
-  >({ kind: "idle" })
+  const [errorMsg, setErrorMsg] = React.useState<string | null>(null)
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(phaseASchema),
+  const form = useForm<PhaseAInput>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(phaseASchema) as any,
     mode: "onTouched",
     defaultValues: DEFAULTS,
   })
 
-  const selectedSector = useWatch({ control: form.control, name: "sectorId" })
-  const availableActivities = React.useMemo(
-    () =>
-      selectedSector
-        ? activities.filter((a) => a.sectorId === selectedSector)
-        : [],
-    [selectedSector, activities]
-  )
-
-  async function onSubmit(values: FormValues) {
+  async function onSubmit(values: PhaseAInput) {
     setSubmitting(true)
-    setResult({ kind: "idle" })
+    setErrorMsg(null)
     try {
       const res = await createQuoteSession(values)
       if (res.ok) {
         router.push(`/preventivo/${res.sessionId}/domande`)
       } else {
-        setResult({ kind: "error", message: res.error })
+        setErrorMsg(res.error)
         setSubmitting(false)
       }
-    } catch (err) {
-      setResult({
-        kind: "error",
-        message: err instanceof Error ? err.message : "Errore sconosciuto",
-      })
+    } catch {
+      setErrorMsg("Errore imprevisto, riprova.")
       setSubmitting(false)
     }
   }
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-6"
-        noValidate
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-semibold">Ottieni il tuo preventivo</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Confrontiamo le migliori offerte per la tua professione.
+          </p>
+        </div>
+
         <FormField
           control={form.control}
           name="sectorId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Settore</FormLabel>
-              <FormControl>
-                <Select
-                  value={field.value || null}
-                  onValueChange={(value) => {
-                    field.onChange(value ?? "")
-                    if (form.getValues("activityId")) {
-                      form.setValue("activityId", "", {
-                        shouldValidate: false,
-                      })
-                    }
-                  }}
-                >
+              <FormLabel>Settore professionale</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Seleziona un settore" />
+                    <SelectValue placeholder="Seleziona il tuo settore" />
                   </SelectTrigger>
-                  <SelectContent>
-                    {sectors.map((s) => (
-                      <SelectItem key={s.id} value={s.id}>
-                        {s.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormControl>
+                </FormControl>
+                <SelectContent>
+                  {sectors.map((s) => (
+                    <SelectItem key={s.id} value={s.id}>
+                      {s.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -135,33 +100,19 @@ export function PhaseAForm({
 
         <FormField
           control={form.control}
-          name="activityId"
+          name="age"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Attività</FormLabel>
+              <FormLabel>Età</FormLabel>
               <FormControl>
-                <Select
-                  value={field.value || null}
-                  onValueChange={(value) => field.onChange(value ?? "")}
-                  disabled={!selectedSector}
-                >
-                  <SelectTrigger>
-                    <SelectValue
-                      placeholder={
-                        selectedSector
-                          ? "Seleziona un'attività"
-                          : "Seleziona prima un settore"
-                      }
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availableActivities.map((a) => (
-                      <SelectItem key={a.id} value={a.id}>
-                        {a.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Input
+                  type="number"
+                  placeholder="35"
+                  min={18}
+                  max={99}
+                  value={field.value ?? ""}
+                  onChange={(e) => field.onChange(e.target.value === "" ? undefined : Number(e.target.value))}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -175,7 +126,7 @@ export function PhaseAForm({
             <FormItem>
               <FormLabel>Nome e cognome</FormLabel>
               <FormControl>
-                <Input autoComplete="name" {...field} />
+                <Input placeholder="Mario Rossi" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -189,7 +140,7 @@ export function PhaseAForm({
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" autoComplete="email" {...field} />
+                <Input type="email" placeholder="mario@studio.it" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -201,24 +152,22 @@ export function PhaseAForm({
           name="contactPhone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Cellulare</FormLabel>
+              <FormLabel>Telefono</FormLabel>
               <FormControl>
-                <Input type="tel" autoComplete="tel" {...field} />
+                <Input type="tel" placeholder="+39 333 1234567" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit" disabled={submitting}>
-          {submitting ? "Invio in corso..." : "Continua"}
-        </Button>
+        {errorMsg && (
+          <p className="text-sm text-destructive">{errorMsg}</p>
+        )}
 
-        {result.kind === "error" ? (
-          <p role="alert" className="text-destructive text-sm">
-            {result.message}
-          </p>
-        ) : null}
+        <Button type="submit" className="w-full" disabled={submitting}>
+          {submitting ? "Creazione sessione…" : "Continua"}
+        </Button>
       </form>
     </Form>
   )

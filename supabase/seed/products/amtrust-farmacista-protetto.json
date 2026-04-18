@@ -1,0 +1,97 @@
+{
+  "slug": "amtrust-farmacista-protetto",
+  "insurer": "amtrust",
+  "product_type": "rc_professionale_farmacista",
+  "name": "AmTrust Farmacista Protetto",
+  "version": "2025-09",
+  "source_pdf": "PRODUCTS/AMTRUST_Farmacista Protetto_V1.pdf",
+
+  "questions": [
+    {
+      "key": "q_massimale_sinistro",
+      "label": "Massimale per sinistro",
+      "type": "dropdown",
+      "options": [
+        {"value": 1000000, "label": "€1.000.000"},
+        {"value": 2000000, "label": "€2.000.000"},
+        {"value": 3000000, "label": "€3.000.000"}
+      ]
+    },
+    {
+      "key": "q_tipo_copertura",
+      "label": "Tipologia di copertura",
+      "type": "dropdown",
+      "options": [
+        {"value": "solo_colpa_grave",     "label": "Solo Colpa Grave (dipendente SSN)"},
+        {"value": "rc_e_colpa_grave",     "label": "Responsabilità Civile e Colpa Grave"}
+      ]
+    },
+    {
+      "key": "q_retroattivita_rc",
+      "label": "Retroattività",
+      "type": "dropdown",
+      "options": [
+        {"value": "10_anni",    "label": "10 anni"},
+        {"value": "illimitata", "label": "Illimitata"}
+      ]
+    },
+    {
+      "key": "q_sinistri_5_anni",
+      "label": "Sinistri negli ultimi 5 anni",
+      "type": "number",
+      "validation": {"min": 0, "max": 10}
+    }
+  ],
+
+  "coverages": [
+    {
+      "key": "rc_professionale",
+      "name": "RC Professionale – Farmacista",
+      "mandatory": true,
+      "dimensions": ["q_massimale_sinistro", "q_tipo_copertura"],
+      "rates": [
+        {"q_massimale_sinistro": 1000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 54},
+        {"q_massimale_sinistro": 1000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 110},
+        {"q_massimale_sinistro": 2000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 65},
+        {"q_massimale_sinistro": 2000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 132},
+        {"q_massimale_sinistro": 3000000, "q_tipo_copertura": "solo_colpa_grave", "premium": 73},
+        {"q_massimale_sinistro": 3000000, "q_tipo_copertura": "rc_e_colpa_grave", "premium": 149}
+      ],
+      "multipliers": []
+    }
+  ],
+
+  "addons": [
+    {
+      "key": "retroattivita_illimitata",
+      "name": "Estensione retroattività illimitata",
+      "pricing_mode": "flat",
+      "premium": 10,
+      "triggered_by": {"q_retroattivita_rc": "illimitata"}
+    },
+    {
+      "key": "rc_plus",
+      "name": "RC Plus",
+      "pricing_mode": "flat",
+      "premium": 75
+    }
+  ],
+
+  "eligibility": [
+    {"if": {"q_sinistri_5_anni": {"greater_than": 0}}, "action": "manual_quote", "reason": "Sinistri pregressi — quotazione riservata alla Direzione"}
+  ],
+
+  "test_cases": [
+    {
+      "name": "Solo CG 2M, retro 10, nessun sinistro",
+      "answers": {"q_massimale_sinistro": 2000000, "q_tipo_copertura": "solo_colpa_grave", "q_retroattivita_rc": "10_anni", "q_sinistri_5_anni": 0},
+      "expected_premium": 65
+    },
+    {
+      "name": "RC+CG 3M, retro illimitata",
+      "answers": {"q_massimale_sinistro": 3000000, "q_tipo_copertura": "rc_e_colpa_grave", "q_retroattivita_rc": "illimitata", "q_sinistri_5_anni": 0},
+      "expected_premium_note": "149 + 10 = 159",
+      "expected_premium": 159
+    }
+  ]
+}
