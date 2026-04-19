@@ -19,8 +19,8 @@ export async function getQuoteResults(sessionId: string): Promise<QuoteResult[]>
   if (error) throw new Error(`Failed to load quote results: ${error.message}`)
 
   type Row = {
-    id: string
-    product_id: string
+    id: number
+    product_id: number
     slot: "safe" | "economic" | null
     premium_total: number | null
     premium_breakdown: Record<string, unknown> | null

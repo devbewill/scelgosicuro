@@ -461,6 +461,59 @@ Il Dott. Rossi vede quindi `amtrust-medico-protetto` nella sezione **"Proposte i
 
 ---
 
+## Gerarchia dei dati e come sono collegati
+
+```
+insurers                              ← "chi è la compagnia"
+  └── products                        ← "qual è il prodotto"
+        ├── product_coverages          ← "cosa copre (RC, infortuni…)"
+        │     ├── product_rate_rows    ← "quanto costa per ogni combo di risposte"
+        │     └── product_multipliers  ← "sconti/maggiorazioni sulla singola copertura"
+        ├── product_multipliers        ← "sconti/maggiorazioni su tutto il prodotto (coverage_id NULL)"
+        ├── product_addons             ← "estensioni opzionali/automatiche"
+        │     └── product_addon_rate_rows ← "quanto costa ogni addon"
+        └── product_eligibility_rules  ← "quando escludere o mandare a preventivo manuale"
+
+sectors                               ← "medici / avvocati / …"
+  ├── sector_questions                 ← "quali domande fanno parte del form di questo settore"
+  │     └── questions                  ← "testo, tipo, opzioni (bank globale condiviso)"
+  ├── sector_scoring_rules             ← "come calcolare lo score utente dalle risposte"
+  └── sector_product_recommendations   ← "score X → mostra prodotto Y come safe/economic"
+```
+
+Le due sotto-gerarchie si incontrano in `quote_results`: il motore prende le risposte da `quote_sessions.answers` (che usano i `question_key`), le confronta con le regole di ogni prodotto, e produce un risultato.
+
+---
+
+## Aggiungere una nuova compagnia (stesso settore, stesse domande)
+
+Scenario tipico: la Compagnia X fornisce un tariffario medici con le stesse domande di AmTrust ma prezzi diversi.
+
+**Cosa aggiungere:**
+
+| Tabella | Cosa inserire |
+|---|---|
+| `insurers` | Una riga: `{slug: "compagnia-x", name: "Compagnia X Srl"}` |
+| `products` | Una riga con `insurer_id = compagnia-x`, `sector_id = medici` |
+| `product_coverages` | Una riga per copertura — stessa struttura, `product_id` del nuovo prodotto |
+| `product_rate_rows` | Tutte le righe con le **nuove tariffe** — stesse `dimension_values`, `premium` diversi |
+| `product_multipliers` | Nuove righe se le regole di sconto differiscono; identiche se uguali (con il nuovo `product_id`) |
+| `product_addons` + `product_addon_rate_rows` | Solo se offre estensioni diverse o a prezzi diversi |
+| `product_eligibility_rules` | Solo se ha regole di esclusione diverse |
+
+**Cosa NON toccare:**
+
+| Tabella | Perché |
+|---|---|
+| `sectors` | Il settore "medici" esiste già |
+| `questions` / `sector_questions` | Le domande del form sono le stesse |
+| `sector_scoring_rules` | Lo scoring è di settore, non di prodotto |
+| `sector_product_recommendations` | Idem — si aggiorna solo se si vuole che il nuovo prodotto venga raccomandato come safe/economic |
+
+**In pratica:** crea `supabase/seed/products/compagnia-x-medico.json` con la stessa struttura di `amtrust-medico-protetto.json`, cambia `insurer`, `slug`, `name`, e sostituisci i `premium` nelle `rates`. Il form mostra automaticamente il nuovo prodotto nella comparazione senza toccare il codice.
+
+---
+
 ## Aggiungere un nuovo prodotto
 
 1. Crea `supabase/seed/products/<slug>.json` seguendo il formato canonico

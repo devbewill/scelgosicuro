@@ -36,15 +36,15 @@ export type SectorQuestion = {
 }
 
 export type QuoteSession = {
-  id: string
-  sectorId: string
+  id: number
+  sectorId: number
   answers: Record<string, unknown>
   status: string
 }
 
 export type QuoteResult = {
-  id: string
-  productId: string
+  id: number
+  productId: number
   productName: string
   productSlug: string
   insurerName: string

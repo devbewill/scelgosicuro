@@ -46,7 +46,7 @@ export async function generateQuotes(sessionId: string): Promise<GenerateResult>
       .select("coverage_id, dimension_values, premium, manual_quote")
       .in("coverage_id",
         // populated after covRes — placeholder; refetched below
-        ["00000000-0000-0000-0000-000000000000"]
+        [-1]
       ),
     supabase.from("product_multipliers")
       .select("product_id, coverage_id, name, factor, condition, priority")
@@ -69,14 +69,14 @@ export async function generateQuotes(sessionId: string): Promise<GenerateResult>
   const [rateRes2, addonRateRes] = await Promise.all([
     supabase.from("product_rate_rows")
       .select("coverage_id, dimension_values, premium, manual_quote")
-      .in("coverage_id", coverageIds.length ? coverageIds : ["00000000-0000-0000-0000-000000000000"]),
+      .in("coverage_id", coverageIds.length ? coverageIds : [-1]),
     supabase.from("product_addon_rate_rows")
       .select("addon_id, dimension_values, premium, manual_quote")
       .in("addon_id",
         ((addonRes.data ?? []) as Array<{id:string;pricing_mode:string}>)
           .filter((a) => a.pricing_mode === "rate_table")
-          .map((a) => a.id)
-          .concat(["00000000-0000-0000-0000-000000000000"])
+          .map((a) => a.id as unknown as number)
+          .concat([-1])
       ),
   ])
   if (rateRes2.error)     return { ok: false, error: rateRes2.error.message }

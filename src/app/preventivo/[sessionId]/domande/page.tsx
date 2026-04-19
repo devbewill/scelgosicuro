@@ -14,7 +14,7 @@ export default async function DomandePage({
   const session = await getQuoteSession(sessionId)
   if (!session) notFound()
 
-  const questions = await getSectorQuestions(session.sectorId)
+  const questions = await getSectorQuestions(String(session.sectorId))
 
   if (questions.length === 0) {
     return (
@@ -30,7 +30,7 @@ export default async function DomandePage({
     <main className="mx-auto flex min-h-screen w-full max-w-xl flex-col p-6">
       <h1 className="mb-6 text-2xl font-semibold">Raccontaci di te</h1>
       <DynamicForm
-        sessionId={session.id}
+        sessionId={String(session.id)}
         sectorQuestions={questions}
         savedAnswers={session.answers}
       />

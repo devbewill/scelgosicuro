@@ -37,17 +37,15 @@ export async function createQuoteSession(input: unknown): Promise<PhaseAResult> 
 
   if (!sector) return { ok: false, error: "Settore non valido" }
 
-  const sessionId = crypto.randomUUID()
-  const { error } = await supabase.from("quote_sessions").insert({
-    id: sessionId,
+  const { data: inserted, error } = await supabase.from("quote_sessions").insert({
     sector_id: sectorId,
     contact: { name: contactName, email: contactEmail, phone: contactPhone },
     answers: { q_eta: age },
     status: "draft",
-  })
+  }).select("id").single()
 
   if (error) return { ok: false, error: error.message }
-  return { ok: true, sessionId }
+  return { ok: true, sessionId: String(inserted.id) }
 }
 
 export async function saveAnswers(input: {
@@ -98,16 +96,14 @@ export async function createDebugSession(
     .eq("is_active", true)
     .maybeSingle()
   if (!sector) return { ok: false, error: "Settore non valido" }
-  const sessionId = crypto.randomUUID()
-  const { error } = await supabase.from("quote_sessions").insert({
-    id: sessionId,
+  const { data: inserted, error } = await supabase.from("quote_sessions").insert({
     sector_id: sectorId,
     contact: { name: "Debug", email: "debug@localhost", phone: "" },
     answers: { q_eta: age },
     status: "draft",
-  })
+  }).select("id").single()
   if (error) return { ok: false, error: error.message }
-  return { ok: true, sessionId }
+  return { ok: true, sessionId: String(inserted.id) }
 }
 
 export async function fetchSectorQuestions(sectorId: string): Promise<SectorQuestion[]> {

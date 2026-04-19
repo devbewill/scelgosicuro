@@ -473,7 +473,7 @@ VALUES (
   'Gruppo di rischio dell''attività libero professionale svolta',
   'Seleziona il gruppo di rischio corrispondente all''attività più rischiosa. Il gruppo 1 è il meno rischioso; il gruppo 43 è il più rischioso. Gruppi 1-21 + 29: aree mediche non chirurgiche. Gruppi 22-28 + 30-43: aree mediche chirurgiche.',
   'dropdown',
-  '[{"value":"gruppo_01","label":"1 – Medicina termale / Medico di medicina generale (SSN) / Pediatra SSN / Medicine non convenzionali"},{"value":"gruppo_02","label":"2 – Audiologia e foniatria / Farmacologia / Genetica medica / Microbiologia / Patologia clinica"},{"value":"gruppo_03","label":"3 – Medicina legale"},{"value":"gruppo_04","label":"4 – Neuropsichiatria / Psichiatria / Psicologia clinica"},{"value":"gruppo_05","label":"5 – Allergologia / Angiologia / Diabetologia / Endocrinologia / Malattie infettive"},{"value":"gruppo_06","label":"6 – Oculistica – oftalmologia (non chirurgica)"},{"value":"gruppo_07","label":"7 – Medicina nucleare"},{"value":"gruppo_08","label":"8 – Diagnostica ecografica / Epatologia / Gastroenterologia / Geriatria / Medicina d''emergenza / Medicina interna / Nefrologia / Pneumologia"},{"value":"gruppo_09","label":"9 – Anatomia patologica / Dermatologia / Ematologia / Oncologia"},{"value":"gruppo_10","label":"10 – Pediatria senza neonatologia"},{"value":"gruppo_11","label":"11 – Terapia del dolore e cure palliative"},{"value":"gruppo_12","label":"12 – Medicina fisica e riabilitativa / Neurofisiopatologia / Neurologia"},{"value":"gruppo_13","label":"13 – Igiene e medicina preventiva / Medicina aeronautica / Medicina del lavoro / Statistica sanitaria"},{"value":"gruppo_14","label":"14 – Radioterapia"},{"value":"gruppo_15","label":"15 – Otorinolaringoiatria (non chirurgica)"},{"value":"gruppo_16","label":"16 – Radiodiagnostica (esclusa mammografia)"},{"value":"gruppo_17","label":"17 – Cardiologia"},{"value":"gruppo_18","label":"18 – Ortopedia"},{"value":"gruppo_19","label":"19 – Reumatologia"},{"value":"gruppo_20","label":"20 – Medicina dello sport"},{"value":"gruppo_21","label":"21 – Andrologia / Urologia"},{"value":"gruppo_29","label":"29 – Ginecologia / Ostetricia (senza atti invasivi e parto)"},{"value":"gruppo_22","label":"22 – Oculistica chirurgica (esclusa estetica)"},{"value":"gruppo_23","label":"23 – Anestesia, rianimazione e terapia intensiva"},{"value":"gruppo_24","label":"24 – Otorinolaringoiatria chirurgica (esclusa estetica)"},{"value":"gruppo_25","label":"25 – Cardiologia interventistica"},{"value":"gruppo_26","label":"26 – Oculistica – oftalmologia inclusa chirurgia estetica pertinente"},{"value":"gruppo_27","label":"27 – Otorinolaringoiatria inclusa chirurgia estetica pertinente"},{"value":"gruppo_28","label":"28 – Chirurgia oncologica ortopedica / Chirurgia ricostruttiva / Chirurgia oncologica e senologica"},{"value":"gruppo_30","label":"30 – Ginecologia con atti invasivi / con fecondazione assistita"},{"value":"gruppo_31","label":"31 – Chirurgia maxillo facciale (esclusa estetica)"},{"value":"gruppo_32","label":"32 – Chirurgia andrologica / urologica"},{"value":"gruppo_33","label":"33 – Chirurgia maxillo facciale inclusa chirurgia estetica pertinente"},{"value":"gruppo_34","label":"34 – Chirurgia addominale / bariatrica / generale / pediatrica / proctologica / toracica / endocrinochirurgia / app. digerente / nefrologia chirurgica"},{"value":"gruppo_35","label":"35 – Chirurgia ginecologica (esclusa ostetricia)"},{"value":"gruppo_36","label":"36 – Chirurgia fetale / Pediatria con neonatologia e TIN"},{"value":"gruppo_37","label":"37 – Chirurgia della mano / Ortopedia con traumatologia (esclusi interventi spinali)"},{"value":"gruppo_38","label":"38 – Chirurgia d''urgenza / Chirurgia vascolare"},{"value":"gruppo_39","label":"39 – Cardiochirurgia"},{"value":"gruppo_40","label":"40 – Chirurgia estetica plastica"},{"value":"gruppo_41","label":"41 – Ginecologia e ostetricia con assistenza al parto"},{"value":"gruppo_42","label":"42 – Ortopedia con traumatologia inclusi interventi spinali"},{"value":"gruppo_43","label":"43 – Neurochirurgia"}]'::jsonb,
+  '[{"value":"gruppo_01","label":"1 – Medicina termale / Medico di medicina generale (SSN) / Pediatra di libera scelta / Medicine non convenzionali"},{"value":"gruppo_02","label":"2 – Audiologia e foniatria / Farmacologia / Genetica medica / Microbiologia / Patologia clinica"},{"value":"gruppo_03","label":"3 – Medicina legale"},{"value":"gruppo_04","label":"4 – Neuropsichiatria / Psichiatria / Psicologia clinica"},{"value":"gruppo_05","label":"5 – Allergologia / Angiologia / Diabetologia / Endocrinologia / Malattie infettive"},{"value":"gruppo_06","label":"6 – Oculistica – oftalmologia (non chirurgica)"},{"value":"gruppo_07","label":"7 – Medicina nucleare"},{"value":"gruppo_08","label":"8 – Diagnostica ecografica / Epatologia / Gastroenterologia / Geriatria / Medicina d''emergenza / Medicina interna / Nefrologia / Pneumologia"},{"value":"gruppo_09","label":"9 – Anatomia patologica / Dermatologia / Ematologia / Oncologia"},{"value":"gruppo_10","label":"10 – Pediatria senza neonatologia"},{"value":"gruppo_11","label":"11 – Terapia del dolore e cure palliative"},{"value":"gruppo_12","label":"12 – Medicina fisica e riabilitativa / Neurofisiopatologia / Neurologia"},{"value":"gruppo_13","label":"13 – Igiene e medicina preventiva / Medicina aeronautica / Medicina del lavoro / Statistica sanitaria"},{"value":"gruppo_14","label":"14 – Radioterapia"},{"value":"gruppo_15","label":"15 – Otorinolaringoiatria (non chirurgica)"},{"value":"gruppo_16","label":"16 – Radiodiagnostica (esclusa mammografia)"},{"value":"gruppo_17","label":"17 – Cardiologia"},{"value":"gruppo_18","label":"18 – Ortopedia"},{"value":"gruppo_19","label":"19 – Reumatologia"},{"value":"gruppo_20","label":"20 – Medicina dello sport"},{"value":"gruppo_21","label":"21 – Andrologia / Urologia"},{"value":"gruppo_29","label":"29 – Ginecologia / Ostetricia (senza atti invasivi e parto)"},{"value":"gruppo_22","label":"22 – Oculistica chirurgica (esclusa estetica)"},{"value":"gruppo_23","label":"23 – Anestesia, rianimazione e terapia intensiva"},{"value":"gruppo_24","label":"24 – Otorinolaringoiatria chirurgica (esclusa estetica)"},{"value":"gruppo_25","label":"25 – Cardiologia interventistica"},{"value":"gruppo_26","label":"26 – Oculistica – oftalmologia inclusa chirurgia estetica pertinente"},{"value":"gruppo_27","label":"27 – Otorinolaringoiatria inclusa chirurgia estetica pertinente"},{"value":"gruppo_28","label":"28 – Chirurgia oncologica ortopedica / Chirurgia ricostruttiva / Chirurgia oncologica e senologica"},{"value":"gruppo_30","label":"30 – Ginecologia con atti invasivi / con fecondazione assistita"},{"value":"gruppo_31","label":"31 – Chirurgia maxillo facciale (esclusa estetica)"},{"value":"gruppo_32","label":"32 – Chirurgia andrologica / urologica"},{"value":"gruppo_33","label":"33 – Chirurgia maxillo facciale inclusa chirurgia estetica pertinente"},{"value":"gruppo_34","label":"34 – Chirurgia addominale / bariatrica / generale / pediatrica / proctologica / toracica / endocrinochirurgia / app. digerente / nefrologia chirurgica"},{"value":"gruppo_35","label":"35 – Chirurgia ginecologica (esclusa ostetricia)"},{"value":"gruppo_36","label":"36 – Chirurgia fetale / Pediatria con neonatologia e TIN"},{"value":"gruppo_37","label":"37 – Chirurgia della mano / Ortopedia con traumatologia (esclusi interventi spinali)"},{"value":"gruppo_38","label":"38 – Chirurgia d''urgenza / Chirurgia vascolare"},{"value":"gruppo_39","label":"39 – Cardiochirurgia"},{"value":"gruppo_40","label":"40 – Chirurgia estetica plastica"},{"value":"gruppo_41","label":"41 – Ginecologia e ostetricia con assistenza al parto"},{"value":"gruppo_42","label":"42 – Ortopedia con traumatologia inclusi interventi spinali"},{"value":"gruppo_43","label":"43 – Neurochirurgia"}]'::jsonb,
   NULL
 )
 ON CONFLICT (key) DO UPDATE SET label = EXCLUDED.label, options = EXCLUDED.options, validation = EXCLUDED.validation;
@@ -485,16 +485,6 @@ VALUES (
   'dropdown',
   '[{"value":"no","label":"No"},{"value":"si","label":"Sì (sconto -15%)"}]'::jsonb,
   NULL
-)
-ON CONFLICT (key) DO UPDATE SET label = EXCLUDED.label, options = EXCLUDED.options, validation = EXCLUDED.validation;
-INSERT INTO questions (key, label, help_text, type, options, validation)
-VALUES (
-  'q_eta_medico',
-  'Età',
-  NULL,
-  'number',
-  NULL,
-  '{"min":18,"max":100}'::jsonb
 )
 ON CONFLICT (key) DO UPDATE SET label = EXCLUDED.label, options = EXCLUDED.options, validation = EXCLUDED.validation;
 INSERT INTO questions (key, label, help_text, type, options, validation)
@@ -9417,7 +9407,7 @@ ON CONFLICT (sector_id, question_id) DO NOTHING;
 INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
 SELECT
   (SELECT id FROM sectors  WHERE slug = 'medici'),
-  (SELECT id FROM questions WHERE key  = 'q_eta_medico'),
+  (SELECT id FROM questions WHERE key  = 'q_eta'),
   4,
   NULL,
   TRUE,
@@ -9447,7 +9437,7 @@ SELECT
   (SELECT id FROM questions WHERE key  = 'q_medicina_estetica'),
   7,
   NULL,
-  TRUE,
+  FALSE,
   NULL
 ON CONFLICT (sector_id, question_id) DO NOTHING;
 INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
@@ -9456,7 +9446,7 @@ SELECT
   (SELECT id FROM questions WHERE key  = 'q_attivita_invasive_minori'),
   8,
   NULL,
-  TRUE,
+  FALSE,
   NULL
 ON CONFLICT (sector_id, question_id) DO NOTHING;
 INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
@@ -9465,7 +9455,7 @@ SELECT
   (SELECT id FROM questions WHERE key  = 'q_attivita_invasive_soccorso'),
   9,
   NULL,
-  TRUE,
+  FALSE,
   NULL
 ON CONFLICT (sector_id, question_id) DO NOTHING;
 INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
@@ -9474,7 +9464,7 @@ SELECT
   (SELECT id FROM questions WHERE key  = 'q_ruolo_apicale_medico'),
   10,
   NULL,
-  TRUE,
+  FALSE,
   NULL
 ON CONFLICT (sector_id, question_id) DO NOTHING;
 INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
@@ -9483,7 +9473,7 @@ SELECT
   (SELECT id FROM questions WHERE key  = 'q_altre_perdite_rct_rco'),
   11,
   NULL,
-  TRUE,
+  FALSE,
   NULL
 ON CONFLICT (sector_id, question_id) DO NOTHING;
 INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
@@ -9492,7 +9482,7 @@ SELECT
   (SELECT id FROM questions WHERE key  = 'q_omesso_ecm'),
   12,
   NULL,
-  TRUE,
+  FALSE,
   NULL
 ON CONFLICT (sector_id, question_id) DO NOTHING;
 
@@ -10594,7 +10584,7 @@ VALUES (
   (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-medico-protetto') AND key = 'rc_professionale'),
   'Cliente under 35 (-7%)',
   0.93,
-  '{"q_eta_medico":{"less_than":35}}'::jsonb,
+  '{"q_eta":{"less_than":35}}'::jsonb,
   0
 );
 INSERT INTO product_multipliers (product_id, coverage_id, name, factor, condition, priority)
@@ -10603,7 +10593,7 @@ VALUES (
   (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-medico-protetto') AND key = 'rc_professionale'),
   'Cliente 35-40 anni (-5%)',
   0.95,
-  '{"q_eta_medico":{"between":[35,40]}}'::jsonb,
+  '{"q_eta":{"between":[35,40]}}'::jsonb,
   0
 );
 INSERT INTO product_multipliers (product_id, coverage_id, name, factor, condition, priority)
@@ -10648,7 +10638,7 @@ VALUES (
   (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-medico-protetto') AND key = 'rc_professionale'),
   'Cliente 70 anni o più (+3%)',
   1.03,
-  '{"q_eta_medico":{"greater_than":69}}'::jsonb,
+  '{"q_eta":{"greater_than":69}}'::jsonb,
   0
 );
 
@@ -11997,21 +11987,22 @@ VALUES (
   'RC Professionale – Massimale 2.000.000 – Retro 10 anni',
   TRUE,
   NULL,
-  '["q_fascia_eta"]'::jsonb
+  '["q_eta"]'::jsonb
 );
 
 -- rate rows for coverage: rc_professionale
+-- Uses q_eta directly with numeric operators so no fake "fascia" question is needed.
 INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
 VALUES (
   (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-medico-under-35') AND key = 'rc_professionale'),
-  '{"q_fascia_eta":"under_28"}'::jsonb,
+  '{"q_eta":{"less_than":29}}'::jsonb,
   300,
   FALSE
 );
 INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
 VALUES (
   (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-medico-under-35') AND key = 'rc_professionale'),
-  '{"q_fascia_eta":"29_35"}'::jsonb,
+  '{"q_eta":{"between":[29,35]}}'::jsonb,
   340,
   FALSE
 );
@@ -12024,6 +12015,24 @@ VALUES (
   'exclude',
   'Prodotto riservato a medici fino a 35 anni',
   0
+);
+INSERT INTO product_eligibility_rules (product_id, name, condition, action, reason, priority)
+VALUES (
+  (SELECT id FROM products WHERE slug = 'amtrust-medico-under-35'),
+  'Massimale fisso 2.000.000',
+  '{"q_massimale_rc":{"not_equals":2000000}}'::jsonb,
+  'exclude',
+  'Questo prodotto copre solo con massimale €2.000.000',
+  1
+);
+INSERT INTO product_eligibility_rules (product_id, name, condition, action, reason, priority)
+VALUES (
+  (SELECT id FROM products WHERE slug = 'amtrust-medico-under-35'),
+  'Retroattività fissa 10 anni',
+  '{"q_retroattivita_rc":"illimitata"}'::jsonb,
+  'exclude',
+  'Questo prodotto copre solo con retroattività 10 anni',
+  2
 );
 
 -- ================================================================
