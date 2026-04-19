@@ -489,6 +489,16 @@ VALUES (
 ON CONFLICT (key) DO UPDATE SET label = EXCLUDED.label, options = EXCLUDED.options, validation = EXCLUDED.validation;
 INSERT INTO questions (key, label, help_text, type, options, validation)
 VALUES (
+  'q_tipo_rapporto_lavoro',
+  'Tipo di rapporto di lavoro',
+  NULL,
+  'dropdown',
+  '[{"value":"libero_professionista","label":"Libero professionista"},{"value":"dipendente_pubblico","label":"Dipendente pubblico"},{"value":"dipendente_privato","label":"Dipendente privato"},{"value":"specializzando","label":"Specializzando"}]'::jsonb,
+  NULL
+)
+ON CONFLICT (key) DO UPDATE SET label = EXCLUDED.label, options = EXCLUDED.options, validation = EXCLUDED.validation;
+INSERT INTO questions (key, label, help_text, type, options, validation)
+VALUES (
   'q_franchigia_medico',
   'Inserimento Franchigia',
   'Selezionabile solo in assenza di sinistri pregressi.',
@@ -1999,11 +2009,22 @@ VALUES (
 -- PRODUCT: amtrust-colpa-grave-extra
 -- ================================================================
 
--- sector_questions for sector 'impiegati_pubblici'
+-- Remove stale colpa-grave sector_questions from impiegati_pubblici (wrong sector)
+DELETE FROM sector_questions
+WHERE sector_id = (SELECT id FROM sectors WHERE slug = 'impiegati_pubblici')
+  AND question_id IN (
+    SELECT id FROM questions WHERE key IN (
+      'q_categoria_rischio_cg','q_massimale_rc','q_retroattivita_rc',
+      'q_dipendente_pubblico_plus','q_pregressa_dip_privato','q_ruolo_apicale',
+      'q_altre_perdite_patrimoniali','q_attivita_compatibili_specializzazione','q_attivita_accessorie_rc'
+    )
+  );
+
+-- sector_questions for sector 'medici'
 INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
 SELECT
-  (SELECT id FROM sectors  WHERE slug = 'impiegati_pubblici'),
-  (SELECT id FROM questions WHERE key  = 'q_categoria_rischio_cg'),
+  (SELECT id FROM sectors  WHERE slug = 'medici'),
+  (SELECT id FROM questions WHERE key  = 'q_tipo_rapporto_lavoro'),
   0,
   NULL,
   TRUE,
@@ -2011,75 +2032,57 @@ SELECT
 ON CONFLICT (sector_id, question_id) DO NOTHING;
 INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
 SELECT
-  (SELECT id FROM sectors  WHERE slug = 'impiegati_pubblici'),
-  (SELECT id FROM questions WHERE key  = 'q_massimale_rc'),
-  1,
-  NULL,
-  TRUE,
-  NULL
-ON CONFLICT (sector_id, question_id) DO NOTHING;
-INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
-SELECT
-  (SELECT id FROM sectors  WHERE slug = 'impiegati_pubblici'),
-  (SELECT id FROM questions WHERE key  = 'q_retroattivita_rc'),
-  2,
-  NULL,
-  TRUE,
-  NULL
-ON CONFLICT (sector_id, question_id) DO NOTHING;
-INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
-SELECT
-  (SELECT id FROM sectors  WHERE slug = 'impiegati_pubblici'),
+  (SELECT id FROM sectors  WHERE slug = 'medici'),
   (SELECT id FROM questions WHERE key  = 'q_dipendente_pubblico_plus'),
-  3,
+  13,
   NULL,
-  TRUE,
-  NULL
+  FALSE,
+  '{"q_tipo_rapporto_lavoro":"dipendente_pubblico"}'::jsonb
 ON CONFLICT (sector_id, question_id) DO NOTHING;
 INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
 SELECT
-  (SELECT id FROM sectors  WHERE slug = 'impiegati_pubblici'),
+  (SELECT id FROM sectors  WHERE slug = 'medici'),
   (SELECT id FROM questions WHERE key  = 'q_pregressa_dip_privato'),
-  4,
+  14,
   NULL,
-  TRUE,
-  NULL
+  FALSE,
+  '{"q_tipo_rapporto_lavoro":"dipendente_pubblico"}'::jsonb
 ON CONFLICT (sector_id, question_id) DO NOTHING;
 INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
 SELECT
-  (SELECT id FROM sectors  WHERE slug = 'impiegati_pubblici'),
+  (SELECT id FROM sectors  WHERE slug = 'medici'),
   (SELECT id FROM questions WHERE key  = 'q_ruolo_apicale'),
-  5,
+  15,
   NULL,
-  TRUE,
-  NULL
+  FALSE,
+  '{"q_tipo_rapporto_lavoro":{"in":["dipendente_pubblico","dipendente_privato"]}}'::jsonb
 ON CONFLICT (sector_id, question_id) DO NOTHING;
 INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
 SELECT
-  (SELECT id FROM sectors  WHERE slug = 'impiegati_pubblici'),
+  (SELECT id FROM sectors  WHERE slug = 'medici'),
   (SELECT id FROM questions WHERE key  = 'q_altre_perdite_patrimoniali'),
-  6,
+  16,
   NULL,
-  TRUE,
-  NULL
+  FALSE,
+  '{"q_tipo_rapporto_lavoro":{"in":["dipendente_pubblico","dipendente_privato"]}}'::jsonb
 ON CONFLICT (sector_id, question_id) DO NOTHING;
 INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
 SELECT
-  (SELECT id FROM sectors  WHERE slug = 'impiegati_pubblici'),
+  (SELECT id FROM sectors  WHERE slug = 'medici'),
   (SELECT id FROM questions WHERE key  = 'q_attivita_compatibili_specializzazione'),
-  7,
+  17,
   NULL,
-  TRUE,
-  NULL
+  FALSE,
+  '{"q_tipo_rapporto_lavoro":"specializzando"}'::jsonb
 ON CONFLICT (sector_id, question_id) DO NOTHING;
 INSERT INTO sector_questions (sector_id, question_id, position, section, is_required, visible_if)
 SELECT
-  (SELECT id FROM sectors  WHERE slug = 'impiegati_pubblici'),
+  (SELECT id FROM sectors  WHERE slug = 'medici'),
   (SELECT id FROM questions WHERE key  = 'q_attivita_accessorie_rc'),
-  8,
+  18,
   NULL,
-  TRUE,
-  NULL
+  FALSE,
+  '{"q_tipo_rapporto_lavoro":{"in":["dipendente_pubblico","dipendente_privato"]}}'::jsonb
 ON CONFLICT (sector_id, question_id) DO NOTHING;
 
 -- product row
@@ -2087,7 +2090,7 @@ DELETE FROM products WHERE slug = 'amtrust-colpa-grave-extra' AND insurer_id = (
 INSERT INTO products (insurer_id, sector_id, slug, name, version, source_pdf, is_active)
 VALUES (
   (SELECT id FROM insurers WHERE slug = 'amtrust'),
-  (SELECT id FROM sectors  WHERE slug = 'impiegati_pubblici'),
+  (SELECT id FROM sectors  WHERE slug = 'medici'),
   'amtrust-colpa-grave-extra',
   'AmTrust Colpagrave Extra',
   '2023-02',
@@ -2103,289 +2106,68 @@ VALUES (
   'RC Professionale Medico – Colpa Grave',
   TRUE,
   NULL,
-  '["q_categoria_rischio_cg","q_massimale_rc","q_retroattivita_rc"]'::jsonb
+  '["q_tipo_rapporto_lavoro","q_massimale_rc","q_retroattivita_rc"]'::jsonb
 );
 
 -- rate rows for coverage: rc_colpa_grave
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
+-- Gyne groups: gruppo_29 (ginecologia/ostetricia), gruppo_30 (gine con atti invasivi),
+--              gruppo_35 (chirurgia ginecologica), gruppo_41 (gine+ostetricia con parto)
+-- dipendente_pubblico + ginecologia (cod_01)
+-- dipendente_pubblico + ginecologia (cod_01): 365/395/415/440 (10a), 400/435/460/485 (ill)
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":1000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 365, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":2000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 395, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":3000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 415, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":5000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 440, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":1000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 400, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":2000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 435, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":3000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 460, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":5000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 485, FALSE);
+-- dipendente_pubblico + no ginecologia (cod_02): 320/345/365/385 (10a), 350/380/400/420 (ill)
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":1000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 320, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":2000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 345, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":3000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 365, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":5000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 385, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":1000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 350, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":2000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 380, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":3000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 400, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_pubblico","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":5000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 420, FALSE);
+-- dipendente_privato + ginecologia (cod_03): 440/475/500/530 (10a), 480/520/550/580 (ill)
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":1000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 440, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":2000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 475, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":3000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 500, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":5000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 530, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":1000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 480, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":2000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 520, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":3000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 550, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":5000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 580, FALSE);
+-- dipendente_privato + no ginecologia (cod_04): 380/415/435/460 (10a), 420/455/480/505 (ill)
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":1000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 380, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":2000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 415, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":3000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 435, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":5000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 460, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":1000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 420, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":2000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 455, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":3000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 480, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"dipendente_privato","q_gruppo_rischio_medico":{"not_in":["gruppo_29","gruppo_30","gruppo_35","gruppo_41"]},"q_massimale_rc":5000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 505, FALSE);
+-- specializzando (cod_05): 185/195/205/220 (10a), 200/220/230/240 (ill)
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"specializzando","q_massimale_rc":1000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 185, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"specializzando","q_massimale_rc":2000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 195, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"specializzando","q_massimale_rc":3000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 205, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"specializzando","q_massimale_rc":5000000,"q_retroattivita_rc":"10_anni"}'::jsonb, 220, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"specializzando","q_massimale_rc":1000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 200, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"specializzando","q_massimale_rc":2000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 220, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"specializzando","q_massimale_rc":3000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 230, FALSE);
+INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote) VALUES ((SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'), '{"q_tipo_rapporto_lavoro":"specializzando","q_massimale_rc":5000000,"q_retroattivita_rc":"illimitata"}'::jsonb, 240, FALSE);
+
+-- eligibility: solo dipendenti
+INSERT INTO product_eligibility_rules (product_id, name, condition, action, reason, priority)
 VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_01","q_massimale_rc":1000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  365,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_01","q_massimale_rc":2000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  395,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_01","q_massimale_rc":3000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  415,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_01","q_massimale_rc":5000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  440,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_01","q_massimale_rc":1000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  400,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_01","q_massimale_rc":2000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  435,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_01","q_massimale_rc":3000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  460,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_01","q_massimale_rc":5000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  485,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_02","q_massimale_rc":1000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  320,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_02","q_massimale_rc":2000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  345,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_02","q_massimale_rc":3000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  365,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_02","q_massimale_rc":5000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  385,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_02","q_massimale_rc":1000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  350,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_02","q_massimale_rc":2000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  380,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_02","q_massimale_rc":3000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  400,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_02","q_massimale_rc":5000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  420,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_03","q_massimale_rc":1000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  440,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_03","q_massimale_rc":2000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  475,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_03","q_massimale_rc":3000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  500,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_03","q_massimale_rc":5000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  530,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_03","q_massimale_rc":1000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  480,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_03","q_massimale_rc":2000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  520,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_03","q_massimale_rc":3000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  550,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_03","q_massimale_rc":5000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  580,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_04","q_massimale_rc":1000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  380,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_04","q_massimale_rc":2000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  415,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_04","q_massimale_rc":3000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  435,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_04","q_massimale_rc":5000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  460,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_04","q_massimale_rc":1000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  420,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_04","q_massimale_rc":2000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  455,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_04","q_massimale_rc":3000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  480,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_04","q_massimale_rc":5000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  505,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_05","q_massimale_rc":1000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  185,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_05","q_massimale_rc":2000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  195,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_05","q_massimale_rc":3000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  205,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_05","q_massimale_rc":5000000,"q_retroattivita_rc":"10_anni"}'::jsonb,
-  220,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_05","q_massimale_rc":1000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  200,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_05","q_massimale_rc":2000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  220,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_05","q_massimale_rc":3000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  230,
-  FALSE
-);
-INSERT INTO product_rate_rows (coverage_id, dimension_values, premium, manual_quote)
-VALUES (
-  (SELECT id FROM product_coverages WHERE product_id = (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra') AND key = 'rc_colpa_grave'),
-  '{"q_categoria_rischio_cg":"cod_05","q_massimale_rc":5000000,"q_retroattivita_rc":"illimitata"}'::jsonb,
-  240,
-  FALSE
+  (SELECT id FROM products WHERE slug = 'amtrust-colpa-grave-extra'),
+  'Solo dipendenti',
+  '{"q_tipo_rapporto_lavoro":"libero_professionista"}'::jsonb,
+  'exclude',
+  'Questo prodotto è riservato a medici dipendenti (pubblici o privati) e specializzandi',
+  0
 );
 
 -- addon: dipendente_pubblico_plus
@@ -2397,7 +2179,7 @@ VALUES (
   'rate_table',
   NULL,
   '{"q_dipendente_pubblico_plus":"si"}'::jsonb,
-  '{"q_categoria_rischio_cg":{"in":["cod_01","cod_02"]}}'::jsonb,
+  '{"q_tipo_rapporto_lavoro":"dipendente_pubblico"}'::jsonb,
   '["q_retroattivita_rc"]'::jsonb
 );
 
@@ -2425,7 +2207,7 @@ VALUES (
   'rate_table',
   NULL,
   '{"q_pregressa_dip_privato":"si"}'::jsonb,
-  '{"q_categoria_rischio_cg":{"in":["cod_01","cod_02"]}}'::jsonb,
+  '{"q_tipo_rapporto_lavoro":"dipendente_pubblico"}'::jsonb,
   '["q_retroattivita_rc"]'::jsonb
 );
 
@@ -2453,7 +2235,7 @@ VALUES (
   'rate_table',
   NULL,
   '{"q_ruolo_apicale":"si"}'::jsonb,
-  '{"q_categoria_rischio_cg":{"in":["cod_01","cod_02","cod_03","cod_04"]}}'::jsonb,
+  '{"q_tipo_rapporto_lavoro":{"in":["dipendente_pubblico","dipendente_privato"]}}'::jsonb,
   '["q_retroattivita_rc"]'::jsonb
 );
 
@@ -2481,7 +2263,7 @@ VALUES (
   'rate_table',
   NULL,
   '{"q_altre_perdite_patrimoniali":"si"}'::jsonb,
-  '{"q_categoria_rischio_cg":{"in":["cod_01","cod_02","cod_03","cod_04"]}}'::jsonb,
+  '{"q_tipo_rapporto_lavoro":{"in":["dipendente_pubblico","dipendente_privato"]}}'::jsonb,
   '["q_retroattivita_rc"]'::jsonb
 );
 
@@ -2509,7 +2291,7 @@ VALUES (
   'rate_table',
   NULL,
   '{"q_attivita_compatibili_specializzazione":"si"}'::jsonb,
-  '{"q_categoria_rischio_cg":"cod_05"}'::jsonb,
+  '{"q_tipo_rapporto_lavoro":"specializzando"}'::jsonb,
   '["q_retroattivita_rc"]'::jsonb
 );
 
@@ -2537,7 +2319,7 @@ VALUES (
   'rate_table',
   NULL,
   '{"q_attivita_accessorie_rc":"si"}'::jsonb,
-  '{"q_categoria_rischio_cg":{"in":["cod_01","cod_02","cod_03","cod_04"]}}'::jsonb,
+  '{"q_tipo_rapporto_lavoro":{"in":["dipendente_pubblico","dipendente_privato"]}}'::jsonb,
   '["q_retroattivita_rc"]'::jsonb
 );
 
@@ -11950,6 +11732,15 @@ VALUES (
   'Più di 2 sinistri pregressi — quotazione riservata alla Direzione',
   0
 );
+INSERT INTO product_eligibility_rules (product_id, name, condition, action, reason, priority)
+VALUES (
+  (SELECT id FROM products WHERE slug = 'amtrust-medico-protetto'),
+  'Solo liberi professionisti',
+  '{"q_tipo_rapporto_lavoro":{"in":["dipendente_pubblico","dipendente_privato","specializzando"]}}'::jsonb,
+  'exclude',
+  'Questo prodotto è riservato ai liberi professionisti',
+  1
+);
 
 -- ================================================================
 -- PRODUCT: amtrust-medico-under-35
@@ -12033,6 +11824,15 @@ VALUES (
   'exclude',
   'Questo prodotto copre solo con retroattività 10 anni',
   2
+);
+INSERT INTO product_eligibility_rules (product_id, name, condition, action, reason, priority)
+VALUES (
+  (SELECT id FROM products WHERE slug = 'amtrust-medico-under-35'),
+  'Solo liberi professionisti',
+  '{"q_tipo_rapporto_lavoro":{"in":["dipendente_pubblico","dipendente_privato","specializzando"]}}'::jsonb,
+  'exclude',
+  'Questo prodotto è riservato ai liberi professionisti',
+  3
 );
 
 -- ================================================================
