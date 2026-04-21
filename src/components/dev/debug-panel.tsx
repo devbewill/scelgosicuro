@@ -15,7 +15,7 @@ import { DynamicForm } from "@/components/quote/dynamic-form"
 import { DebugResultCard } from "@/components/dev/debug-result-card"
 import {
   createDebugSession,
-  fetchSectorQuestions,
+  fetchFormTestingQuestions,
   fetchQuoteResults,
   fetchProfessions,
   runEngine,
@@ -84,7 +84,7 @@ export function DebugPanel({ sectors }: { sectors: Sector[] }) {
     try {
       const [res, qs] = await Promise.all([
         createDebugSession(sectorId, professionSlug || undefined),
-        fetchSectorQuestions(sectorId),
+        fetchFormTestingQuestions(sectorId),
       ])
       if (!res.ok) { setErr(res.error); return }
       setSessionId(res.sessionId)
@@ -174,7 +174,6 @@ export function DebugPanel({ sectors }: { sectors: Sector[] }) {
             sectorQuestions={questions}
             savedAnswers={{}}
             onSuccess={handleFormSuccess}
-            splitRequiredOptional
           />
         </section>
       )}

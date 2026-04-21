@@ -3,7 +3,7 @@
 import { createClient } from "@/lib/supabase/server"
 import { phaseASchema } from "@/lib/schemas/quote-session"
 import { generateQuotes } from "@/lib/engine/generate"
-import { getSectorQuestions } from "@/lib/data/questionnaires"
+import { getSectorQuestions, getProductQuestions } from "@/lib/data/questionnaires"
 import { getQuoteResults } from "@/lib/data/results"
 import type { SectorQuestion, QuoteResult, Profession } from "@/lib/types"
 import { getProfessions } from "@/lib/data/questionnaires"
@@ -130,6 +130,49 @@ export async function createDebugSession(
 
 export async function fetchSectorQuestions(sectorId: string): Promise<SectorQuestion[]> {
   return getSectorQuestions(sectorId)
+}
+
+export async function fetchFormTestingQuestions(sectorId: string): Promise<SectorQuestion[]> {
+  const supabase = await createClient()
+
+  const sectorQs = await getSectorQuestions(sectorId)
+
+  const { data: products } = await supabase
+    .from("products")
+    .select("id, name")
+    .eq("sector_id", sectorId)
+    .eq("is_active", true)
+
+  if (!products?.length) return sectorQs
+
+  const productIds = products.map((p) => p.id)
+  const productQs = await getProductQuestions(productIds)
+
+  const nameById = new Map(products.map((p) => [p.id, p.name as string]))
+
+  const seen = new Set(sectorQs.map((q) => q.key))
+  const pricingQs: SectorQuestion[] = []
+  for (const pq of productQs) {
+    if (pq.phase !== "pricing") continue
+    if (seen.has(pq.key)) continue
+    seen.add(pq.key)
+    pricingQs.push({
+      id: pq.id,
+      sectorId: Number(sectorId),
+      key: pq.key,
+      label: pq.label,
+      helpText: pq.helpText,
+      type: pq.type,
+      options: pq.options,
+      validation: pq.validation,
+      position: 100 + pq.position,
+      section: nameById.get(pq.productId) ?? "Parametri prodotto",
+      isRequired: pq.isRequired,
+      visibleIf: pq.visibleIf,
+    })
+  }
+
+  return [...sectorQs, ...pricingQs]
 }
 
 export async function fetchQuoteResults(sessionId: string): Promise<QuoteResult[]> {
