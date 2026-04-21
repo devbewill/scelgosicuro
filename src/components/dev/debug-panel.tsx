@@ -17,14 +17,18 @@ import {
   createDebugSession,
   fetchSectorQuestions,
   fetchQuoteResults,
+  fetchProfessions,
   runEngine,
 } from "@/app/actions"
 import type { Sector } from "@/lib/data/catalog"
-import type { SectorQuestion, QuoteResult } from "@/lib/types"
+import type { SectorQuestion, QuoteResult, Profession } from "@/lib/types"
 
 export function DebugPanel({ sectors }: { sectors: Sector[] }) {
   const [sectorId, setSectorId] = React.useState("")
-  const [age, setAge] = React.useState<number | "">("")
+  const [professionSlug, setProfessionSlug] = React.useState("")
+  const [professionQuery, setProfessionQuery] = React.useState("")
+  const [professions, setProfessions] = React.useState<Profession[]>([])
+  const [showSuggestions, setShowSuggestions] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
   const [err, setErr] = React.useState<string | null>(null)
 
@@ -36,8 +40,41 @@ export function DebugPanel({ sectors }: { sectors: Sector[] }) {
   const [results, setResults] = React.useState<QuoteResult[] | null>(null)
   const [userScore, setUserScore] = React.useState<number | null>(null)
 
+  const autocompleteRef = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    if (!sectorId) { setProfessions([]); setProfessionSlug(""); setProfessionQuery(""); return }
+    fetchProfessions(sectorId).then((ps) => {
+      setProfessions(ps)
+      setProfessionSlug("")
+      setProfessionQuery("")
+    })
+  }, [sectorId])
+
+  React.useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (autocompleteRef.current && !autocompleteRef.current.contains(e.target as Node)) {
+        setShowSuggestions(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  const filtered = professionQuery.trim()
+    ? professions.filter((p) =>
+        p.name.toLowerCase().includes(professionQuery.toLowerCase())
+      )
+    : professions
+
+  function selectProfession(p: Profession) {
+    setProfessionSlug(p.slug)
+    setProfessionQuery(p.name)
+    setShowSuggestions(false)
+  }
+
   async function startSession() {
-    if (!sectorId || age === "") return
+    if (!sectorId) return
     setLoading(true)
     setErr(null)
     setSessionId(null)
@@ -46,7 +83,7 @@ export function DebugPanel({ sectors }: { sectors: Sector[] }) {
     setEngineErr(null)
     try {
       const [res, qs] = await Promise.all([
-        createDebugSession(sectorId, age as number),
+        createDebugSession(sectorId, professionSlug || undefined),
         fetchSectorQuestions(sectorId),
       ])
       if (!res.ok) { setErr(res.error); return }
@@ -76,7 +113,7 @@ export function DebugPanel({ sectors }: { sectors: Sector[] }) {
     <div className="flex flex-col gap-8">
       <section className="flex flex-col gap-3">
         <h2 className="text-base font-medium">1. Seleziona settore</h2>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2 items-start">
           <Select value={sectorId} onValueChange={(v) => { setSectorId(v ?? ""); setSessionId(null); setResults(null) }}>
             <SelectTrigger className="w-56">
               <SelectValue placeholder="Settore…" />
@@ -87,16 +124,37 @@ export function DebugPanel({ sectors }: { sectors: Sector[] }) {
               ))}
             </SelectContent>
           </Select>
-          <Input
-            type="number"
-            placeholder="Età"
-            min={18}
-            max={99}
-            className="w-20"
-            value={age}
-            onChange={(e) => setAge(e.target.value === "" ? "" : Number(e.target.value))}
-          />
-          <Button onClick={startSession} disabled={!sectorId || age === "" || loading}>
+
+          {professions.length > 0 && (
+            <div ref={autocompleteRef} className="relative">
+              <Input
+                placeholder="Cerca professione…"
+                className="w-64"
+                value={professionQuery}
+                onChange={(e) => {
+                  setProfessionQuery(e.target.value)
+                  setProfessionSlug("")
+                  setShowSuggestions(true)
+                }}
+                onFocus={() => setShowSuggestions(true)}
+              />
+              {showSuggestions && filtered.length > 0 && (
+                <ul className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border bg-popover text-sm shadow-md">
+                  {filtered.map((p) => (
+                    <li
+                      key={p.slug}
+                      className="cursor-pointer px-3 py-1.5 hover:bg-accent"
+                      onMouseDown={() => selectProfession(p)}
+                    >
+                      {p.name}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          <Button onClick={startSession} disabled={!sectorId || loading}>
             {loading ? "Caricamento…" : "Avvia"}
           </Button>
         </div>

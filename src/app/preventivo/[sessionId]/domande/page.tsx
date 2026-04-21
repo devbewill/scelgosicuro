@@ -14,7 +14,8 @@ export default async function DomandePage({
   const session = await getQuoteSession(sessionId)
   if (!session) notFound()
 
-  const questions = await getSectorQuestions(String(session.sectorId))
+  const allQuestions = await getSectorQuestions(String(session.sectorId))
+  const questions = allQuestions.filter((q) => q.isRequired)
 
   if (questions.length === 0) {
     return (

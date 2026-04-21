@@ -10,7 +10,7 @@ export async function getQuoteResults(sessionId: string): Promise<QuoteResult[]>
   const { data, error } = await supabase
     .from("quote_results")
     .select(`
-      id, product_id, slot, premium_total, premium_breakdown, manual_quote, exclusion_reason,
+      id, product_id, slot, premium_total, premium_breakdown, manual_quote, exclusion_reason, is_estimate, available_options,
       products!inner(slug, name, insurers!inner(name, logo_url))
     `)
     .eq("session_id", sessionId)
@@ -26,6 +26,8 @@ export async function getQuoteResults(sessionId: string): Promise<QuoteResult[]>
     premium_breakdown: Record<string, unknown> | null
     manual_quote: boolean
     exclusion_reason: string | null
+    is_estimate: boolean
+    available_options: Record<string, unknown[]> | null
     products: {
       slug: string
       name: string
@@ -45,6 +47,8 @@ export async function getQuoteResults(sessionId: string): Promise<QuoteResult[]>
     manualQuote: r.manual_quote,
     exclusionReason: r.exclusion_reason,
     slot: r.slot,
+    isEstimate: r.is_estimate,
+    availableOptions: r.available_options,
   }))
 }
 

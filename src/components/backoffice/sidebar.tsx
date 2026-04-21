@@ -4,9 +4,9 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 const subnav = [
-  { href: "/backoffice/catalogo",   label: "Catalogo" },
-  { href: "/backoffice/domande",    label: "Domande" },
-  { href: "/backoffice/simulatore", label: "Simulatore" },
+  { href: "/backoffice/catalogo",     label: "Catalogo" },
+  { href: "/backoffice/domande",      label: "Domande" },
+  { href: "/backoffice/form-testing", label: "Form Testing" },
 ]
 
 export function Sidebar() {

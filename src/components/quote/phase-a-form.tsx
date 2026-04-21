@@ -14,21 +14,22 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select"
-import { createQuoteSession } from "@/app/actions"
+import { createQuoteSession, fetchProfessions } from "@/app/actions"
 import type { Sector } from "@/lib/data/catalog"
+import type { Profession } from "@/lib/types"
 import { phaseASchema, type PhaseAInput } from "@/lib/schemas/quote-session"
 
-// age omitted from defaults — rendered as empty; coerced to number by zod on submit
 const DEFAULTS: Partial<PhaseAInput> = {
   sectorId: "",
+  professionSlug: "",
   contactName: "",
   contactEmail: "",
   contactPhone: "",
@@ -38,6 +39,10 @@ export function PhaseAForm({ sectors }: { sectors: Sector[] }) {
   const router = useRouter()
   const [submitting, setSubmitting] = React.useState(false)
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null)
+  const [professions, setProfessions] = React.useState<Profession[]>([])
+  const [professionQuery, setProfessionQuery] = React.useState("")
+  const [showSuggestions, setShowSuggestions] = React.useState(false)
+  const autocompleteRef = React.useRef<HTMLDivElement>(null)
 
   const form = useForm<PhaseAInput>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,6 +50,40 @@ export function PhaseAForm({ sectors }: { sectors: Sector[] }) {
     mode: "onTouched",
     defaultValues: DEFAULTS,
   })
+
+  const sectorId = form.watch("sectorId")
+
+  React.useEffect(() => {
+    if (!sectorId) {
+      setProfessions([])
+      form.setValue("professionSlug", "")
+      setProfessionQuery("")
+      return
+    }
+    fetchProfessions(sectorId).then(setProfessions).catch(() => setProfessions([]))
+    form.setValue("professionSlug", "")
+    setProfessionQuery("")
+  }, [sectorId, form])
+
+  React.useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (autocompleteRef.current && !autocompleteRef.current.contains(e.target as Node)) {
+        setShowSuggestions(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  const filteredProfessions = professionQuery.trim()
+    ? professions.filter((p) => p.name.toLowerCase().includes(professionQuery.toLowerCase()))
+    : professions
+
+  function selectProfession(p: Profession) {
+    form.setValue("professionSlug", p.slug, { shouldValidate: true })
+    setProfessionQuery(p.name)
+    setShowSuggestions(false)
+  }
 
   async function onSubmit(values: PhaseAInput) {
     setSubmitting(true)
@@ -82,12 +121,17 @@ export function PhaseAForm({ sectors }: { sectors: Sector[] }) {
               <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Seleziona il tuo settore" />
+                    <span className="truncate">
+                      {field.value
+                        ? (sectors.find((s) => String(s.id) === field.value)?.name ?? field.value)
+                        : <span className="text-muted-foreground">Seleziona il tuo settore</span>
+                      }
+                    </span>
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {sectors.map((s) => (
-                    <SelectItem key={s.id} value={s.id}>
+                    <SelectItem key={s.id} value={String(s.id)}>
                       {s.name}
                     </SelectItem>
                   ))}
@@ -98,26 +142,41 @@ export function PhaseAForm({ sectors }: { sectors: Sector[] }) {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="age"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Età</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  placeholder="35"
-                  min={18}
-                  max={99}
-                  value={field.value ?? ""}
-                  onChange={(e) => field.onChange(e.target.value === "" ? undefined : Number(e.target.value))}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {professions.length > 0 && (
+          <div className="space-y-2">
+            <Label>Specializzazione</Label>
+            <div ref={autocompleteRef} className="relative">
+              <Input
+                placeholder="Cerca la tua specializzazione…"
+                value={professionQuery}
+                onChange={(e) => {
+                  setProfessionQuery(e.target.value)
+                  form.setValue("professionSlug", "", { shouldValidate: false })
+                  setShowSuggestions(true)
+                }}
+                onFocus={() => setShowSuggestions(true)}
+              />
+              {showSuggestions && filteredProfessions.length > 0 && (
+                <ul className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border bg-popover text-sm shadow-md">
+                  {filteredProfessions.map((p) => (
+                    <li
+                      key={p.slug}
+                      className="cursor-pointer px-3 py-1.5 hover:bg-accent"
+                      onMouseDown={() => selectProfession(p)}
+                    >
+                      {p.name}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            {form.formState.errors.professionSlug && (
+              <p className="text-sm text-destructive">
+                {form.formState.errors.professionSlug.message}
+              </p>
+            )}
+          </div>
+        )}
 
         <FormField
           control={form.control}

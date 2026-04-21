@@ -12,7 +12,6 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select"
 import { saveAnswers } from "@/app/actions"
 import { evalCondition } from "@/lib/engine/operators"
@@ -38,8 +37,7 @@ export function DynamicForm({
   const defaultValues = React.useMemo(() => {
     const d: Record<string, unknown> = {}
     for (const sq of sectorQuestions) {
-      const key = sq.question.key
-      d[key] = savedAnswers[key] ?? ""
+      d[sq.key] = savedAnswers[sq.key] ?? ""
     }
     return d
   }, [sectorQuestions, savedAnswers])
@@ -49,11 +47,10 @@ export function DynamicForm({
 
   function isVisible(sq: SectorQuestion): boolean {
     if (!sq.visibleIf) return true
-    const answers = getValues() as Record<string, unknown>
+    const answers = { ...savedAnswers, ...getValues() as Record<string, unknown> }
     return evalCondition(sq.visibleIf, answers)
   }
 
-  // Group by section
   const sections = React.useMemo(() => {
     const map = new Map<string, SectorQuestion[]>()
     for (const sq of sectorQuestions) {
@@ -66,13 +63,12 @@ export function DynamicForm({
   }, [sectorQuestions])
 
   async function onSubmit(values: Record<string, unknown>) {
-    // strip empty strings and hidden fields
     const answers: Record<string, unknown> = {}
     for (const sq of sectorQuestions) {
       if (!isVisible(sq)) continue
-      const v = values[sq.question.key]
+      const v = values[sq.key]
       if (v !== "" && v !== null && v !== undefined) {
-        answers[sq.question.key] = v
+        answers[sq.key] = v
       }
     }
 
@@ -96,7 +92,7 @@ export function DynamicForm({
     }
   }
 
-  void watchedValues // consumed by useWatch to trigger re-renders for visible_if
+  void watchedValues
 
   const required = sectorQuestions.filter((sq) => sq.isRequired)
   const optional = sectorQuestions.filter((sq) => !sq.isRequired)
@@ -104,7 +100,7 @@ export function DynamicForm({
   function renderQuestions(qs: SectorQuestion[]) {
     return qs.map((sq) => {
       if (!isVisible(sq)) return null
-      return <QuestionField key={sq.question.key} sq={sq} control={control} />
+      return <QuestionField key={sq.key} sq={sq} control={control} />
     })
   }
 
@@ -155,55 +151,62 @@ function QuestionField({
   sq: SectorQuestion
   control: ReturnType<typeof useForm>["control"]
 }) {
-  const q = sq.question
-
   return (
     <Controller
       control={control}
-      name={q.key}
+      name={sq.key}
       render={({ field, fieldState }) => (
         <div className="space-y-1.5">
-          <Label htmlFor={q.key}>{q.label}</Label>
-          {q.helpText && (
-            <p className="text-xs text-muted-foreground">{q.helpText}</p>
+          <Label htmlFor={sq.key}>{sq.label}</Label>
+          {sq.helpText && (
+            <p className="text-xs text-muted-foreground">{sq.helpText}</p>
           )}
 
-          {q.type === "dropdown" && q.options ? (
+          {sq.type === "dropdown" && sq.options ? (
             <Select
               onValueChange={field.onChange}
               value={String(field.value ?? "")}
             >
-              <SelectTrigger id={q.key}>
-                <SelectValue placeholder="Seleziona…" />
+              <SelectTrigger id={sq.key}>
+                <span className="truncate">
+                  {(() => {
+                    const val = String(field.value ?? "")
+                    if (!val) return <span className="text-muted-foreground">Seleziona…</span>
+                    const opt = sq.options!.find((o) => String(o.value) === val)
+                    return opt?.label ?? val
+                  })()}
+                </span>
               </SelectTrigger>
               <SelectContent>
-                {q.options.map((opt) => (
+                {sq.options.map((opt) => (
                   <SelectItem key={String(opt.value)} value={String(opt.value)}>
                     {opt.label ?? String(opt.value)}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-          ) : q.type === "number" ? (
+          ) : sq.type === "number" ? (
             <Input
-              id={q.key}
+              id={sq.key}
               type="number"
-              min={q.validation?.min}
-              max={q.validation?.max}
-              step={q.validation?.step ?? 1}
+              min={sq.validation?.min}
+              max={sq.validation?.max}
+              step={sq.validation?.step ?? 1}
               value={String(field.value ?? "")}
               onChange={(e) => {
                 const n = e.target.value === "" ? "" : Number(e.target.value)
                 field.onChange(n)
               }}
             />
-          ) : q.type === "boolean" ? (
+          ) : sq.type === "boolean" ? (
             <Select
               onValueChange={(v) => field.onChange(v === "true")}
               value={field.value === true ? "true" : field.value === false ? "false" : ""}
             >
-              <SelectTrigger id={q.key}>
-                <SelectValue placeholder="Seleziona…" />
+              <SelectTrigger id={sq.key}>
+                <span className="truncate">
+                  {field.value === true ? "Sì" : field.value === false ? "No" : <span className="text-muted-foreground">Seleziona…</span>}
+                </span>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="true">Sì</SelectItem>
@@ -212,7 +215,7 @@ function QuestionField({
             </Select>
           ) : (
             <Input
-              id={q.key}
+              id={sq.key}
               type="text"
               value={String(field.value ?? "")}
               onChange={field.onChange}

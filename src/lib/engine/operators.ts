@@ -1,4 +1,5 @@
 export type Condition = Record<string, unknown>
+export type TriState = 'true' | 'false' | 'unknown'
 
 function toNumber(v: unknown): number | null {
   if (typeof v === "number" && Number.isFinite(v)) return v
@@ -50,6 +51,48 @@ export function evalCondition(
   return keys.every((k) => evalPredicate(k, cond[k], answers))
 }
 
+// ---------------------------------------------------------------------------
+// evalConditionTriState — same logic but returns 'unknown' when the answer
+// key is not present in `answers`. Used by the engine in phase-1 (base quote)
+// to skip eligibility/pricing rules that reference unanswered product questions.
+// ---------------------------------------------------------------------------
+
+export function evalConditionTriState(
+  cond: Condition | null | undefined,
+  answers: Record<string, unknown>
+): TriState {
+  if (cond === null || cond === undefined) return 'false'
+
+  if (Array.isArray(cond.all)) {
+    const results = (cond.all as Condition[]).map((c) => evalConditionTriState(c, answers))
+    if (results.some((r) => r === 'false'))   return 'false'
+    if (results.every((r) => r === 'true'))   return 'true'
+    return 'unknown'
+  }
+  if (Array.isArray(cond.any)) {
+    const results = (cond.any as Condition[]).map((c) => evalConditionTriState(c, answers))
+    if (results.some((r) => r === 'true'))    return 'true'
+    if (results.every((r) => r === 'false'))  return 'false'
+    return 'unknown'
+  }
+
+  if (typeof cond.key === 'string' && typeof cond.op === 'string') {
+    if (!(cond.key in answers)) return 'unknown'
+    return evalDsl(cond.key, cond.op, cond.value, answers) ? 'true' : 'false'
+  }
+
+  // legacy / dimension-values format
+  const keys = Object.keys(cond)
+  if (keys.length === 0) return 'true'
+  const results = keys.map((k) => {
+    if (!(k in answers)) return 'unknown' as TriState
+    return evalPredicate(k, cond[k], answers) ? 'true' as TriState : 'false' as TriState
+  })
+  if (results.some((r) => r === 'false'))  return 'false'
+  if (results.every((r) => r === 'true'))  return 'true'
+  return 'unknown'
+}
+
 function evalDsl(
   key: string,
   op: string,
@@ -66,9 +109,17 @@ function evalDsl(
       const n = toNumber(answer), c = toNumber(value)
       return n !== null && c !== null && n > c
     }
+    case "greater_than_or_equal": {
+      const n = toNumber(answer), c = toNumber(value)
+      return n !== null && c !== null && n >= c
+    }
     case "less_than": {
       const n = toNumber(answer), c = toNumber(value)
       return n !== null && c !== null && n < c
+    }
+    case "less_than_or_equal": {
+      const n = toNumber(answer), c = toNumber(value)
+      return n !== null && c !== null && n <= c
     }
     case "between": {
       if (!Array.isArray(value) || value.length < 2) return false

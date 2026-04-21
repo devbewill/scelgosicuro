@@ -1,11 +1,8 @@
 import { z } from "zod"
 
 export const phaseASchema = z.object({
-  sectorId: z.string().uuid("Settore non valido"),
-  age: z.preprocess(
-    (v) => (v === "" || v == null ? undefined : Number(v)),
-    z.number({ error: "Inserisci la tua età" }).int().min(18, "Età minima 18 anni").max(99, "Età massima 99 anni")
-  ),
+  sectorId: z.string().min(1, "Seleziona il settore professionale"),
+  professionSlug: z.string().min(1, "Seleziona la tua specializzazione"),
   contactName: z
     .string()
     .trim()

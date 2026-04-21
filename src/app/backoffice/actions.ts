@@ -2,14 +2,6 @@
 
 import { revalidatePath } from "next/cache"
 import { createClient } from "@/lib/supabase/server"
-import { simulateQuotes, type SimProductResult } from "@/lib/engine/simulate"
-
-export async function runSimulation(
-  sectorId: number,
-  answers: Record<string, unknown>
-): Promise<SimProductResult[]> {
-  return simulateQuotes(sectorId, answers)
-}
 
 // ── Product ───────────────────────────────────────────────────────────────────
 
@@ -94,54 +86,88 @@ export async function deleteMultiplier(id: number, productId: number) {
   return { ok: true }
 }
 
-// ── Questions ─────────────────────────────────────────────────────────────────
+// ── Sector Questions ──────────────────────────────────────────────────────────
 
-export async function updateQuestion(input: {
-  id: number
+export async function upsertSectorQuestion(input: {
+  id?: number
+  sector_id: number
+  key: string
   label: string
   help_text: string | null
+  type: string
   options: unknown
+  position: number
+  is_required: boolean
+  visible_if?: unknown
 }) {
   const supabase = await createClient()
-  const { error } = await supabase
-    .from("questions")
-    .update({ label: input.label, help_text: input.help_text, options: input.options ?? null })
-    .eq("id", input.id)
+  const payload = {
+    sector_id: input.sector_id,
+    key: input.key,
+    label: input.label,
+    help_text: input.help_text || null,
+    type: input.type,
+    options: input.options ?? null,
+    position: input.position,
+    is_required: input.is_required,
+    visible_if: input.visible_if ?? null,
+  }
+  const { error } = input.id
+    ? await supabase.from("sector_questions").update(payload).eq("id", input.id)
+    : await supabase.from("sector_questions").insert(payload)
   if (error) return { ok: false, error: error.message }
   revalidatePath("/backoffice/domande")
   return { ok: true }
 }
 
-export async function addQuestionToSector(input: {
+export async function deleteSectorQuestion(id: number) {
+  const supabase = await createClient()
+  const { error } = await supabase.from("sector_questions").delete().eq("id", id)
+  if (error) return { ok: false, error: error.message }
+  revalidatePath("/backoffice/domande")
+  return { ok: true }
+}
+
+// ── Product Questions ─────────────────────────────────────────────────────────
+
+export async function upsertProductQuestion(input: {
+  id?: number
+  product_id: number
   key: string
   label: string
+  help_text: string | null
   type: string
   options: unknown
-  sectorId: number
-  isRequired: boolean
   position: number
+  is_required: boolean
+  phase: "eligibility" | "pricing" | "addon"
+  visible_if?: unknown
 }) {
   const supabase = await createClient()
+  const payload = {
+    product_id: input.product_id,
+    key: input.key,
+    label: input.label,
+    help_text: input.help_text || null,
+    type: input.type,
+    options: input.options ?? null,
+    position: input.position,
+    is_required: input.is_required,
+    phase: input.phase,
+    visible_if: input.visible_if ?? null,
+  }
+  const { error } = input.id
+    ? await supabase.from("product_questions").update(payload).eq("id", input.id)
+    : await supabase.from("product_questions").insert(payload)
+  if (error) return { ok: false, error: error.message }
+  revalidatePath(`/backoffice/catalogo/${input.product_id}`)
+  return { ok: true }
+}
 
-  // upsert into questions bank
-  const { data: q, error: qErr } = await supabase
-    .from("questions")
-    .upsert({ key: input.key, label: input.label, type: input.type, options: input.options ?? null })
-    .select("id")
-    .single()
-  if (qErr) return { ok: false, error: qErr.message }
-
-  // link to sector
-  const { error: sqErr } = await supabase
-    .from("sector_questions")
-    .upsert({
-      sector_id: input.sectorId,
-      question_id: q.id,
-      position: input.position,
-      is_required: input.isRequired,
-    }, { onConflict: "sector_id,question_id" })
-  if (sqErr) return { ok: false, error: sqErr.message }
-
-  revalidatePath("/backoffice/domande")
+export async function deleteProductQuestion(id: number, productId: number) {
+  const supabase = await createClient()
+  const { error } = await supabase.from("product_questions").delete().eq("id", id)
+  if (error) return { ok: false, error: error.message }
+  revalidatePath(`/backoffice/catalogo/${productId}`)
   return { ok: true }
 }

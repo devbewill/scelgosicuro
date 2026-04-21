@@ -105,7 +105,7 @@ export async function getAllProfessionOptions(): Promise<ProfessionEntry[]> {
 
   const { data } = await supabase
     .from("sector_questions")
-    .select("position, sectors (id, slug, name), questions (key, label, type, options)")
+    .select("key, label, type, options, sectors (id, slug, name)")
     .order("position", { ascending: true })
 
   if (!data) return []
@@ -115,13 +115,12 @@ export async function getAllProfessionOptions(): Promise<ProfessionEntry[]> {
 
   for (const row of data as any[]) {
     const s = row.sectors
-    const q = row.questions
-    if (!s || !q || q.type !== "dropdown") continue
-    const opts = q.options as Array<{ value: string | number; label?: string }> | null
+    if (!s || row.type !== "dropdown") continue
+    const opts = row.options as Array<{ value: string | number; label?: string }> | null
     if (!opts || opts.length === 0) continue
-    if (EXCLUDED_KEY_FRAGMENTS.some((f) => (q.key as string).includes(f))) continue
+    if (EXCLUDED_KEY_FRAGMENTS.some((f) => (row.key as string).includes(f))) continue
 
-    const dedupeKey = `${s.id}:${q.key}`
+    const dedupeKey = `${s.id}:${row.key}`
     if (seen.has(dedupeKey)) continue
     seen.add(dedupeKey)
 
@@ -129,8 +128,8 @@ export async function getAllProfessionOptions(): Promise<ProfessionEntry[]> {
       sectorId: s.id,
       sectorSlug: s.slug,
       sectorName: s.name,
-      questionKey: q.key,
-      questionLabel: q.label,
+      questionKey: row.key,
+      questionLabel: row.label,
       options: opts.map((o) => ({
         value: String(o.value),
         label: o.label ?? String(o.value),
@@ -186,42 +185,29 @@ export async function getTariffariAnalysis(sectorId: number): Promise<TariffariA
 
   const { data: sq } = await supabase
     .from("sector_questions")
-    .select("question_id, position, questions (id, key, label, type, options)")
+    .select("id, key, label, type, options")
     .eq("sector_id", sectorId)
     .order("position", { ascending: true })
 
-  const qids = (sq ?? []).map((r: any) => r.question_id as number)
-
-  const { data: qs } = qids.length
-    ? await supabase.from("questions").select("key, label, type").in("id", qids)
-    : { data: [] }
-
-  const questions = (qs ?? []) as Array<{ key: string; label: string; type: string }>
+  const questions = (sq ?? []) as Array<{ key: string; label: string; type: string }>
   const labels = new Map(questions.map((q) => [q.key, q.label]))
 
-  // Detect primary question: first dropdown with >3 options, excluding config-type keys
   const EXCLUDED_KEY_FRAGMENTS = [
     "massimale", "franchigia", "periodo", "protezione",
     "opzione", "infortuni", "fascia", "compenso", "fatturato",
   ]
+
   const primaryRaw = (sq ?? []).find((r: any) => {
-    const q = r.questions as any
-    if (!q || q.type !== "dropdown") return false
-    const opts = q.options as unknown[]
+    if (r.type !== "dropdown") return false
+    const opts = r.options as unknown[]
     if (!opts || opts.length <= 3) return false
-    const key: string = q.key
-    return !EXCLUDED_KEY_FRAGMENTS.some((f) => key.includes(f))
+    return !EXCLUDED_KEY_FRAGMENTS.some((f) => (r.key as string).includes(f))
   }) ?? (sq ?? []).find((r: any) => {
-    const q = r.questions as any
-    return q?.type === "dropdown" && (q.options as unknown[])?.length > 3
+    return r.type === "dropdown" && (r.options as unknown[])?.length > 3
   })
 
   const primaryQuestion: PrimaryQuestion | null = primaryRaw
-    ? {
-        key: (primaryRaw.questions as any).key,
-        label: (primaryRaw.questions as any).label,
-        options: (primaryRaw.questions as any).options ?? [],
-      }
+    ? { key: primaryRaw.key, label: primaryRaw.label, options: primaryRaw.options ?? [] }
     : null
 
   const { data: products } = await supabase
@@ -459,7 +445,7 @@ export async function getBackofficeSectors(): Promise<BOSector[]> {
     .select(`
       id, slug, name, is_active,
       products (id),
-      sector_questions (question_id)
+      sector_questions (id)
     `)
     .order("display_order")
 
@@ -479,45 +465,27 @@ export async function getBackofficeSectors(): Promise<BOSector[]> {
 export async function getBackofficeQuestions(sectorSlug?: string): Promise<BOQuestion[]> {
   const supabase = await createClient()
 
-  // sector_questions joined to sectors for name
-  const { data: sq } = await supabase
+  let query = supabase
     .from("sector_questions")
-    .select("question_id, sectors (slug, name)")
-
-  const sectorNamesByQ = new Map<number, string[]>()
-  for (const row of sq ?? []) {
-    const qid = row.question_id as number
-    const s = row.sectors as any
-    if (!sectorNamesByQ.has(qid)) sectorNamesByQ.set(qid, [])
-    sectorNamesByQ.get(qid)!.push(s?.name ?? "")
-  }
-
-  let qQuery = supabase
-    .from("questions")
-    .select("id, key, label, type, options")
-    .order("key")
+    .select("id, key, label, type, options, sectors (slug, name)")
+    .order("position", { ascending: true })
 
   if (sectorSlug) {
     const { data: sector } = await supabase
       .from("sectors").select("id").eq("slug", sectorSlug).maybeSingle()
-    if (sector) {
-      const { data: sqFiltered } = await supabase
-        .from("sector_questions").select("question_id").eq("sector_id", sector.id)
-      const qids = (sqFiltered ?? []).map((r: any) => r.question_id)
-      if (qids.length) qQuery = qQuery.in("id", qids)
-      else return []
-    }
+    if (sector) query = query.eq("sector_id", sector.id)
+    else return []
   }
 
-  const { data: questions } = await qQuery
-  if (!questions) return []
+  const { data } = await query
+  if (!data) return []
 
-  return questions.map((q: any) => ({
+  return data.map((q: any) => ({
     id: q.id,
     key: q.key,
     label: q.label,
     type: q.type,
     options: q.options,
-    sectorNames: sectorNamesByQ.get(q.id) ?? [],
+    sectorNames: q.sectors ? [q.sectors.name] : [],
   }))
 }

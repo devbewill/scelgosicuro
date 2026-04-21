@@ -36,6 +36,11 @@ export function DebugResultCard({ result }: { result: QuoteResult }) {
               {result.slot === "safe" ? "SICURO" : "ECONOMICO"}
             </span>
           )}
+          {result.isEstimate && (
+            <span className="ml-2 rounded px-1.5 py-0.5 text-xs font-bold bg-yellow-100 text-yellow-800">
+              STIMA
+            </span>
+          )}
         </CardTitle>
       </CardHeader>
 
@@ -112,7 +117,9 @@ export function DebugResultCard({ result }: { result: QuoteResult }) {
             <div className="flex items-baseline gap-2 pt-1 border-t">
               <span className="text-xs text-muted-foreground">TOTALE</span>
               <span className="text-xl font-bold">
-                {result.premiumTotal !== null ? EUR.format(result.premiumTotal) : "—"}
+                {result.premiumTotal !== null
+                  ? `${result.isEstimate ? "da " : ""}${EUR.format(result.premiumTotal)}`
+                  : "—"}
               </span>
               <span className="text-xs text-muted-foreground">/ anno</span>
             </div>

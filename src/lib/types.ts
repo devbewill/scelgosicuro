@@ -18,21 +18,44 @@ export type QuestionValidation = {
   regex?: string
 }
 
-export type Question = {
+export type SectorQuestion = {
+  id: number
+  sectorId: number
   key: string
   label: string
   helpText: string | null
   type: QuestionType
   options: QuestionOption[] | null
   validation: QuestionValidation | null
-}
-
-export type SectorQuestion = {
-  question: Question
   position: number
   section: string | null
   isRequired: boolean
   visibleIf: Record<string, unknown> | null
+}
+
+export type ProductQuestion = {
+  id: number
+  productId: number
+  key: string
+  label: string
+  helpText: string | null
+  type: QuestionType
+  options: QuestionOption[] | null
+  validation: QuestionValidation | null
+  position: number
+  section: string | null
+  isRequired: boolean
+  visibleIf: Record<string, unknown> | null
+  phase: "eligibility" | "pricing" | "addon"
+}
+
+export type Profession = {
+  id: number
+  sectorId: number
+  slug: string
+  name: string
+  displayOrder: number
+  isActive: boolean
 }
 
 export type QuoteSession = {
@@ -54,4 +77,6 @@ export type QuoteResult = {
   manualQuote: boolean
   exclusionReason: string | null
   slot: "safe" | "economic" | null
+  isEstimate: boolean
+  availableOptions: Record<string, unknown[]> | null
 }

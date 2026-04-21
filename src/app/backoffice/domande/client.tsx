@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { addQuestionToSector, updateQuestion } from "@/app/backoffice/actions"
+import { upsertSectorQuestion, deleteSectorQuestion } from "@/app/backoffice/actions"
 
 const TYPE_LABELS: Record<string, string> = {
   dropdown:    "Dropdown",
@@ -104,6 +104,31 @@ export function QuestionPageClient({
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+function DeleteButton({ id }: { id: number }) {
+  const router = useRouter()
+  const [loading, setLoading] = React.useState(false)
+
+  async function handleDelete() {
+    if (!confirm("Eliminare questa domanda?")) return
+    setLoading(true)
+    await deleteSectorQuestion(id)
+    setLoading(false)
+    router.refresh()
+  }
+
+  return (
+    <button
+      onClick={handleDelete}
+      disabled={loading}
+      className="rounded px-2 py-1 text-xs font-bold text-destructive hover:bg-destructive/10 disabled:opacity-50"
+    >
+      {loading ? "…" : "Elimina"}
+    </button>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 function QuestionRow({ q, onEdit }: { q: BOQuestion; onEdit: () => void }) {
   const [open, setOpen] = React.useState(false)
   const hasOptions = q.options && q.options.length > 0
@@ -144,6 +169,7 @@ function QuestionRow({ q, onEdit }: { q: BOQuestion; onEdit: () => void }) {
           >
             Modifica
           </button>
+          <DeleteButton id={q.id} />
         </div>
       </div>
 
@@ -211,11 +237,16 @@ function EditQuestionForm({
     }
 
     setSaving(true)
-    const res = await updateQuestion({
+    const res = await upsertSectorQuestion({
       id: question.id,
+      sector_id: 0,
+      key: question.key,
       label,
       help_text: null,
+      type: question.type,
       options,
+      position: 0,
+      is_required: true,
     })
     setSaving(false)
     if (!res.ok) { setError(res.error ?? "Errore"); return }
@@ -301,14 +332,15 @@ function AddQuestionForm({
     }
 
     setSaving(true)
-    const res = await addQuestionToSector({
+    const res = await upsertSectorQuestion({
+      sector_id: sectorIdNum,
       key: key.trim(),
       label: label.trim(),
+      help_text: null,
       type,
       options,
-      sectorId: sectorIdNum,
-      isRequired,
       position: Number(position),
+      is_required: isRequired,
     })
     setSaving(false)
     if (!res.ok) { setError(res.error ?? "Errore"); return }
