@@ -1034,19 +1034,23 @@ const SS_PALETTE = [
   { name: "Giallo", hex: "#facc15" },
 ]
 
-// Near-black — for replacing black in shuffle
-const SS_DARK_POOL = [
-  "#0f172a", "#1e1b4b", "#3b0764", "#450a0a",
-  "#1c1917", "#042f2e", "#14532d", "#1e3a5f",
-  "#2d1b00", "#1a0533", "#0c1a2e", "#2a0a2a",
-]
+function hslToHex(h: number, s: number, l: number): string {
+  s /= 100; l /= 100
+  const a = s * Math.min(l, 1 - l)
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12
+    const c = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)
+    return Math.round(255 * c).toString(16).padStart(2, "0")
+  }
+  return `#${f(0)}${f(8)}${f(4)}`
+}
 
-// Near-white — for replacing white in shuffle
-const SS_LIGHT_POOL = [
-  "#f0f9ff", "#fef9c3", "#f0fdf4", "#fdf4ff",
-  "#fff7ed", "#fef2f2", "#ecfdf5", "#eff6ff",
-  "#fff1f2", "#f5f3ff", "#fafaf9", "#f0fdfa",
-]
+function randomColor(): string {
+  const h = Math.floor(Math.random() * 360)
+  const s = Math.floor(40 + Math.random() * 60)  // 40–100% — evita grigi piatti
+  const l = Math.floor(8 + Math.random() * 84)   // 8–92% — da quasi-nero a quasi-bianco
+  return hslToHex(h, s, l)
+}
 
 function hexToRgb(hex: string): string {
   const r = parseInt(hex.slice(1, 3), 16)
@@ -1141,9 +1145,9 @@ function ThemeDevTool() {
   }
 
   function applyShuffle() {
-    const accent = shuffleArr(SS_PALETTE.map((p) => p.hex))[0]
-    const dark   = shuffleArr(SS_DARK_POOL)[0]
-    const light  = shuffleArr(SS_LIGHT_POOL)[0]
+    const accent = randomColor()
+    const light  = randomColor()
+    const dark   = randomColor()
     setActiveHex(null)
     setShuffleColors({ accent, light, dark })
     getOrCreateStyleEl().textContent = buildFullSchemeCSS(accent, light, dark)
@@ -1203,18 +1207,19 @@ function ThemeDevTool() {
                 ⟳ Shuffle completo
               </button>
               <p className="text-[9px] text-black/30 text-center leading-relaxed">
-                Verde + bianco + nero diventano 3 colori casuali
+                3 colori HSL random: verde → accento, bianco → sfondo, nero → struttura
               </p>
               {shuffleColors && (
                 <div className="flex gap-2 justify-center pt-1">
                   {[
                     { hex: shuffleColors.accent, label: "accento" },
-                    { hex: shuffleColors.light,  label: "chiaro" },
-                    { hex: shuffleColors.dark,   label: "scuro" },
+                    { hex: shuffleColors.light,  label: "sfondo" },
+                    { hex: shuffleColors.dark,   label: "struttura" },
                   ].map((c) => (
                     <div key={c.label} className="flex flex-col items-center gap-1">
-                      <div className="w-7 h-7 border border-black/20" style={{ backgroundColor: c.hex }} />
+                      <div className="w-8 h-8 border-2 border-black/10" style={{ backgroundColor: c.hex }} />
                       <span className="text-[8px] text-black/40 uppercase font-black">{c.label}</span>
+                      <span className="text-[7px] text-black/30 font-mono">{c.hex}</span>
                     </div>
                   ))}
                 </div>
