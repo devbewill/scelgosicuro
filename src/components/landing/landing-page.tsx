@@ -79,13 +79,13 @@ function checkVisible(visibleIf: Record<string, unknown> | null, answers: Record
 
 // ─── SHARED STYLES ────────────────────────────────────────────────────────────
 
-const inputCls = "w-full border-2 border-black bg-white px-4 py-3 text-sm font-medium focus:outline-none focus:border-green-500 transition-colors appearance-none"
+const inputCls = "w-full border-2 border-black bg-white px-4 py-3 text-basefont-medium focus:outline-none focus:border-green-500 transition-colors appearance-none"
 const labelCls = "block text-[10px] font-black uppercase tracking-[0.2em] mb-1.5 text-black"
 
 function Btn({ children, onClick, disabled, type = "button" }: { children: React.ReactNode; onClick?: () => void; disabled?: boolean; type?: "button" | "submit" }) {
   return (
     <button type={type} onClick={onClick} disabled={disabled}
-      className="w-full bg-green-400 text-black border-2 border-black font-black uppercase tracking-wider py-3.5 text-sm hover:bg-black hover:text-green-400 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
+      className="w-full bg-green-400 text-black border-2 border-black font-black uppercase tracking-wider py-3.5 text-basehover:bg-black hover:text-green-400 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
       {children}
     </button>
   )
@@ -94,7 +94,7 @@ function Btn({ children, onClick, disabled, type = "button" }: { children: React
 function BtnOutline({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) {
   return (
     <button type="button" onClick={onClick}
-      className="border-2 border-black font-black uppercase tracking-wider px-5 py-3.5 text-sm hover:bg-black hover:text-white transition-all cursor-pointer flex-shrink-0">
+      className="border-2 border-black font-black uppercase tracking-wider px-5 py-3.5 text-basehover:bg-black hover:text-white transition-all cursor-pointer flex-shrink-0">
       {children}
     </button>
   )
@@ -132,7 +132,7 @@ function SectorField({
         <div className="flex gap-2">
           {[{ v: true, label: "Sì" }, { v: false, label: "No" }].map((opt) => (
             <button key={String(opt.v)} type="button" onClick={() => onChange(opt.v)}
-              className={`flex-1 py-2.5 border-2 text-xs font-black uppercase tracking-wider transition-all ${value === opt.v ? "border-black bg-green-400 text-black" : "border-black bg-white hover:border-green-500"}`}>
+              className={`flex-1 py-2.5 border-2 text-smfont-black uppercase tracking-wider transition-all ${value === opt.v ? "border-black bg-green-400 text-black" : "border-black bg-white hover:border-green-500"}`}>
               {opt.label}
             </button>
           ))}
@@ -319,7 +319,7 @@ function QuoteFormComp({
                   onFocus={() => setShowSuggestions(true)}
                 />
                 {showSuggestions && filteredProfessions.length > 0 && (
-                  <ul className="absolute z-50 mt-0 max-h-56 w-full overflow-auto border-2 border-black bg-white text-sm shadow-lg">
+                  <ul className="absolute z-50 mt-0 max-h-56 w-full overflow-auto border-2 border-black bg-white text-baseshadow-lg">
                     {filteredProfessions.map((p) => (
                       <li
                         key={p.slug}
@@ -338,7 +338,7 @@ function QuoteFormComp({
                 )}
               </div>
             )}
-            {localError && <p className="text-xs text-red-600 font-semibold">{localError}</p>}
+            {localError && <p className="text-smtext-red-600 font-semibold">{localError}</p>}
             <Btn onClick={handleStep1Continue} disabled={loadingQs}>
               {loadingQs ? "Caricamento…" : "Continua →"}
             </Btn>
@@ -351,7 +351,7 @@ function QuoteFormComp({
             {visibleReq.map((q) => (
               <SectorField key={q.key} question={q} value={sectorAnswers[q.key]} answers={currentAnswers} onChange={(v) => setA(q.key, v)} />
             ))}
-            {localError && <p className="text-xs text-red-600 font-semibold">{localError}</p>}
+            {localError && <p className="text-smtext-red-600 font-semibold">{localError}</p>}
             <div className="flex gap-3">
               <BtnOutline onClick={() => { setLocalError(null); setStep(1) }}>← Indietro</BtnOutline>
               <Btn onClick={() => validateStep2() && setStep(3)}>Continua →</Btn>
@@ -374,7 +374,7 @@ function QuoteFormComp({
               <label className={labelCls}>Telefono</label>
               <input type="tel" className={inputCls} placeholder="+39 333 1234567" value={base.telefono} onChange={(e) => setB("telefono", e.target.value)} />
             </div>
-            {(localError || error) && <p className="text-xs text-red-600 font-semibold">{localError ?? error}</p>}
+            {(localError || error) && <p className="text-smtext-red-600 font-semibold">{localError ?? error}</p>}
             <div className="flex gap-3">
               <BtnOutline onClick={() => { setLocalError(null); setStep(step - 1) }}>← Indietro</BtnOutline>
               <Btn onClick={() => validateContacts() && onSubmit({ sectorId: base.sectorId, professionSlug: base.professionSlug, professionName: base.professionName, sectorAnswers, nome: base.nome, email: base.email, telefono: base.telefono })}>
@@ -401,8 +401,8 @@ function LoadingScreen() {
           ))}
         </div>
         <div className="text-center">
-          <p className="font-black text-sm uppercase tracking-[0.2em]">Analizzando il mercato</p>
-          <p className="text-xs text-gray-400 mt-1">Confronto le migliori compagnie per te</p>
+          <p className="font-black text-baseuppercase tracking-[0.2em]">Analizzando il mercato</p>
+          <p className="text-smtext-gray-400 mt-1">Confronto le migliori compagnie per te</p>
         </div>
       </div>
       <style>{`@keyframes bar{0%,100%{transform:scaleY(.4);opacity:.4}50%{transform:scaleY(1.6);opacity:1}}`}</style>
@@ -428,7 +428,7 @@ function RefinementField({
         <div className="flex gap-2">
           {[{ v: true, label: "Sì" }, { v: false, label: "No" }].map((opt) => (
             <button key={String(opt.v)} type="button" onClick={() => onChange(opt.v)}
-              className={`flex-1 py-2.5 border-2 text-xs font-black uppercase tracking-wider transition-all ${value === opt.v ? "border-black bg-green-400 text-black" : "border-black bg-white text-black hover:border-green-500"}`}>
+              className={`flex-1 py-2.5 border-2 text-smfont-black uppercase tracking-wider transition-all ${value === opt.v ? "border-black bg-green-400 text-black" : "border-black bg-white text-black hover:border-green-500"}`}>
               {opt.label}
             </button>
           ))}
@@ -542,7 +542,7 @@ function ResultsPage({
             {firstName ? `Ciao ${firstName}, abbiamo trovato` : "Abbiamo trovato"} la polizza giusta per te.
           </h1>
           {isEstimate && (
-            <p className="text-xs text-amber-600 font-semibold mt-2 border border-amber-300 bg-amber-50 inline-block px-3 py-1">
+            <p className="text-smtext-amber-600 font-semibold mt-2 border border-amber-300 bg-amber-50 inline-block px-3 py-1">
               ⚡ Preventivo stimato — completa le domande per il prezzo definitivo
             </p>
           )}
@@ -564,14 +564,14 @@ function ResultsPage({
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
                     <div>
                       <p className="text-4xl sm:text-5xl font-black tracking-tighter">{featured.insurerName}</p>
-                      <p className="text-sm font-bold text-black/60 mt-1">{featured.productName}</p>
+                      <p className="text-basefont-bold text-black/60 mt-1">{featured.productName}</p>
                     </div>
                     <div className="text-right">
                       {realPrice !== null ? (
                         <>
                           <p className="text-5xl sm:text-6xl font-black font-mono tracking-tighter">{fmt(realPrice)}</p>
-                          <p className="text-xs font-bold text-black/60 mt-1">/ anno · IVA inclusa</p>
-                          <p className="text-xs font-bold text-black/50">{fmt(Math.round(realPrice / 12))} / mese</p>
+                          <p className="text-smfont-bold text-black/60 mt-1">/ anno · IVA inclusa</p>
+                          <p className="text-smfont-bold text-black/50">{fmt(Math.round(realPrice / 12))} / mese</p>
                         </>
                       ) : (
                         <p className="text-2xl font-black text-black/50">Su richiesta</p>
@@ -585,7 +585,7 @@ function ResultsPage({
                           <div key={i} className="w-1.5 h-1.5 bg-black rounded-full" style={{ animation: `dot 0.6s ease-in-out ${i * 0.15}s infinite` }} />
                         ))}
                       </div>
-                      <span className="text-xs font-bold">Ricalcolo in corso…</span>
+                      <span className="text-smfont-bold">Ricalcolo in corso…</span>
                     </div>
                   )}
                 </div>
@@ -596,18 +596,18 @@ function ResultsPage({
                     <div className="flex flex-wrap gap-2">
                       {recapItems.map((item) => (
                         <span key={item.label} className="inline-flex items-center gap-2 border-2 border-black/20 bg-black/[0.03] px-3 py-2">
-                          <span className="text-xs font-bold uppercase tracking-wide text-black/40">{item.label}</span>
-                          <span className="text-xs font-black text-black">{item.value}</span>
+                          <span className="text-smfont-bold uppercase tracking-wide text-black/40">{item.label}</span>
+                          <span className="text-smfont-black text-black">{item.value}</span>
                         </span>
                       ))}
                     </div>
                   </div>
                 )}
                 <div className="p-5 flex flex-col sm:flex-row gap-3 border-t-2 border-black">
-                  <button className="flex-1 bg-black text-white border-2 border-black font-black uppercase tracking-wider py-4 text-sm hover:bg-green-400 hover:text-black transition-all">
+                  <button className="flex-1 bg-black text-white border-2 border-black font-black uppercase tracking-wider py-4 text-basehover:bg-green-400 hover:text-black transition-all">
                     Acquista questa polizza →
                   </button>
-                  <button className="border-2 border-black font-black uppercase tracking-wider px-5 py-4 text-xs hover:bg-black hover:text-white transition-all">
+                  <button className="border-2 border-black font-black uppercase tracking-wider px-5 py-4 text-smhover:bg-black hover:text-white transition-all">
                     Dettagli DIP
                   </button>
                 </div>
@@ -615,7 +615,7 @@ function ResultsPage({
             ) : (
               <div className="p-8 text-center text-gray-400">
                 <p className="font-black text-lg">Preventivo su richiesta</p>
-                <p className="text-sm mt-2">Compila le domande nel pannello a fianco per ottenere il tuo preventivo.</p>
+                <p className="text-basemt-2">Compila le domande nel pannello a fianco per ottenere il tuo preventivo.</p>
               </div>
             )}
           </div>
@@ -626,7 +626,7 @@ function ResultsPage({
               <button onClick={onToggleRefinement} className="w-full flex items-center justify-between px-5 py-4 bg-black text-white hover:bg-gray-900 transition-colors">
                 <div className="text-left">
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-green-400">PERSONALIZZA</p>
-                  <p className="text-sm font-black mt-0.5">Affina il preventivo</p>
+                  <p className="text-basefont-black mt-0.5">Affina il preventivo</p>
                 </div>
                 <span className="text-green-400 text-xl font-black">{refinementOpen ? "−" : "+"}</span>
               </button>
@@ -634,7 +634,7 @@ function ResultsPage({
               {refinementOpen && (
                 <div className="p-5 space-y-4 border-t-2 border-black max-h-[70vh] overflow-y-auto">
                   {visibleQuestions.length === 0 ? (
-                    <p className="text-xs text-gray-400 text-center py-4">
+                    <p className="text-smtext-gray-400 text-center py-4">
                       Nessuna domanda aggiuntiva disponibile per questo profilo.
                     </p>
                   ) : (
@@ -742,29 +742,38 @@ function LandingContent({
     <>
       {/* HERO */}
       <section className="max-w-7xl mx-auto px-5 sm:px-8 pt-14 pb-0">
-        {/* text block */}
-        <div className="max-w-3xl space-y-8 pb-14 border-b-2 border-black">
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500">RC PROFESSIONALE · LIBERI PROFESSIONISTI</p>
-          <h1 className="text-[clamp(3rem,7vw,5.5rem)] font-black leading-[0.92] tracking-tight">
-            Scegliere la RC<br />giusta non<br /><em className="not-italic text-green-500">dovrebbe essere complicato.</em>
-          </h1>
-          <p className="text-base text-gray-500 font-medium leading-relaxed max-w-xl">
-            ScelgoSicuro analizza il tuo profilo professionale, seleziona la soluzione più adatta e ti spiega davvero cosa stai acquistando.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            {["Poche domande, preventivo in 2 minuti", "Analisi reale del tuo profilo di rischio", "Spiegazioni chiare — nessun linguaggio tecnico", "Emissione digitale in meno di 24 ore"].map((item) => (
-              <div key={item} className="flex items-center gap-3">
-                <div className="w-5 h-5 bg-green-400 border-2 border-black flex items-center justify-center flex-shrink-0">
-                  <span className="text-black text-[10px] font-black leading-none">✓</span>
-                </div>
-                <span className="text-sm font-medium">{item}</span>
-              </div>
-            ))}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center border-b-2 border-black pb-14">
+          {/* left: headline + subtitle */}
+          <div className="space-y-6">
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500">RC PROFESSIONALE · LIBERI PROFESSIONISTI</p>
+            <h1 className="text-[clamp(2.8rem,6vw,4.5rem)] font-black leading-[0.92] tracking-tight">
+              Scegliere la RC<br />giusta non<br /><em className="not-italic text-green-500">dovrebbe essere complicato.</em>
+            </h1>
+            <p className="text-base text-gray-500 font-medium leading-relaxed">
+              ScelgoSicuro analizza il tuo profilo professionale, seleziona la soluzione più adatta e ti spiega davvero cosa stai acquistando.
+            </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {["AMTRUST", "AXA", "GENERALI", "UNIPOL", "ALLIANZ"].map((c) => (
-              <span key={c} className="border-2 border-black px-3 py-1 text-[10px] font-black tracking-widest">{c}</span>
-            ))}
+
+          {/* right: bullets + companies */}
+          <div className="space-y-8 lg:pl-8 lg:border-l-2 lg:border-black">
+            <div className="space-y-4">
+              {["Poche domande, preventivo in 2 minuti", "Analisi reale del tuo profilo di rischio", "Spiegazioni chiare — nessun linguaggio tecnico", "Emissione digitale in meno di 24 ore"].map((item) => (
+                <div key={item} className="flex items-center gap-3">
+                  <div className="w-5 h-5 bg-green-400 border-2 border-black flex items-center justify-center flex-shrink-0">
+                    <span className="text-black text-[10px] font-black leading-none">✓</span>
+                  </div>
+                  <span className="text-base font-medium">{item}</span>
+                </div>
+              ))}
+            </div>
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-3">Compagnie convenzionate</p>
+              <div className="flex flex-wrap gap-2">
+                {["AMTRUST", "AXA", "GENERALI", "UNIPOL", "ALLIANZ"].map((c) => (
+                  <span key={c} className="border-2 border-black px-3 py-1 text-[10px] font-black tracking-widest">{c}</span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -775,12 +784,12 @@ function LandingContent({
       </section>
 
       {/* MARQUEE */}
-      <div className="bg-green-400 border-y-4 border-black overflow-hidden py-3">
+      <div data-ss="marquee" className="bg-green-400 border-y-4 border-black overflow-hidden py-3">
         <div className="flex whitespace-nowrap" style={{ animation: "marquee 22s linear infinite" }}>
           {[0, 1, 2].map((rep) => (
             <span key={rep} className="inline-flex items-center mr-0">
               {["AMTRUST", "AXA", "GENERALI", "UNIPOL", "ALLIANZ", "HDI", "GROUPAMA", "ZURICH", "SARA"].map((c) => (
-                <span key={`${rep}-${c}`} className="inline-flex items-center gap-6 mx-8 text-black font-black uppercase tracking-[0.2em] text-sm">
+                <span key={`${rep}-${c}`} className="inline-flex items-center gap-6 mx-8 text-black font-black uppercase tracking-[0.2em] text-base">
                   <span className="text-black/40">▲</span>{c}
                 </span>
               ))}
@@ -790,7 +799,7 @@ function LandingContent({
       </div>
 
       {/* HOW IT WORKS */}
-      <section id="come-funziona" className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
+      <section id="come-funziona" data-ss="how" className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
         <div className="mb-12">
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">COME FUNZIONA</p>
           <h2 className="text-[clamp(2.2rem,5vw,3.5rem)] font-black tracking-tight leading-[1.0]">Un processo semplice.<br />Pensato per chi lavora.</h2>
@@ -804,14 +813,14 @@ function LandingContent({
             <div key={i} className={`p-8 sm:p-10 ${i < 2 ? "md:border-r-2 border-black" : ""} border-b-2 md:border-b-0 border-black`}>
               <p className="text-7xl font-black text-green-400 leading-none mb-6 font-mono">{s.n}</p>
               <h3 className="text-xl font-black mb-3">{s.title}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">{s.desc}</p>
+              <p className="text-basetext-gray-500 leading-relaxed">{s.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* STATS */}
-      <div className="border-y-4 border-black bg-black">
+      <div data-ss="stats" className="border-y-4 border-black bg-black">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16">
           <div className="grid grid-cols-2 md:grid-cols-4 border-2 border-white/10">
             {[
@@ -830,17 +839,17 @@ function LandingContent({
       </div>
 
       {/* NON CONFRONTIAMO SOLO PREZZI */}
-      <section className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
+      <section data-ss="approach" className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">IL NOSTRO APPROCCIO</p>
             <h2 className="text-[clamp(2rem,4vw,3rem)] font-black tracking-tight leading-[1.05] mb-6">
               Non confrontiamo solo i prezzi.<br />Analizziamo il tuo lavoro.
             </h2>
-            <p className="text-sm text-gray-500 leading-relaxed">
+            <p className="text-basetext-gray-500 leading-relaxed">
               Una RC professionale efficace dipende da molti fattori: il tipo di attività che svolgi, il livello di responsabilità, i clienti con cui lavori, i rischi specifici del tuo settore.
             </p>
-            <p className="text-sm text-gray-500 leading-relaxed mt-3">
+            <p className="text-basetext-gray-500 leading-relaxed mt-3">
               Per questo il nostro sistema non ordina semplicemente le polizze dal prezzo più basso. Identifica la soluzione più equilibrata tra protezione, coperture, affidabilità e costo.
             </p>
           </div>
@@ -852,8 +861,8 @@ function LandingContent({
               { label: "Qualità delle coperture", desc: "Non solo il premio annuo, ma cosa copre davvero" },
             ].map((item, i) => (
               <div key={i} className="p-5 bg-white border-b border-black last:border-b-0">
-                <p className="font-black text-sm mb-1">{item.label}</p>
-                <p className="text-xs text-gray-400 font-medium">{item.desc}</p>
+                <p className="font-black text-basemb-1">{item.label}</p>
+                <p className="text-smtext-gray-400 font-medium">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -861,7 +870,7 @@ function LandingContent({
       </section>
 
       {/* CAPIRE UNA POLIZZA */}
-      <div className="bg-black border-y-4 border-black">
+      <div data-ss="transparency" className="bg-black border-y-4 border-black">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
@@ -869,10 +878,10 @@ function LandingContent({
               <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight mb-4">
                 Capire una polizza dovrebbe essere semplice.
               </h2>
-              <p className="text-sm text-gray-400 leading-relaxed">
+              <p className="text-basetext-gray-400 leading-relaxed">
                 Massimali, franchigie, retroattività, colpa grave. Molti professionisti sottoscrivono una polizza senza avere davvero chiaro cosa copre, cosa resta escluso e quali clausole incidono sulla protezione reale.
               </p>
-              <p className="text-sm text-gray-400 leading-relaxed mt-3">
+              <p className="text-basetext-gray-400 leading-relaxed mt-3">
                 ScelgoSicuro ti aiuta a comprendere le opzioni in modo semplice e chiaro, così puoi scegliere con maggiore sicurezza.
               </p>
             </div>
@@ -880,7 +889,7 @@ function LandingContent({
               {["Cosa copre", "Cosa resta escluso", "Quali garanzie contano", "Clausole che incidono"].map((item) => (
                 <div key={item} className="border-2 border-white/10 p-4 flex items-start gap-3">
                   <div className="w-4 h-4 bg-green-400 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm font-bold text-white">{item}</span>
+                  <span className="text-basefont-bold text-white">{item}</span>
                 </div>
               ))}
             </div>
@@ -889,25 +898,25 @@ function LandingContent({
       </div>
 
       {/* PROFESSIONI */}
-      <section className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
+      <section data-ss="professions" className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
         <div className="mb-10">
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">SOLUZIONI DEDICATE</p>
           <h2 className="text-[clamp(2.2rem,5vw,3.5rem)] font-black tracking-tight leading-[1.0]">
             Ogni professione<br />ha esigenze diverse.
           </h2>
-          <p className="text-sm text-gray-400 mt-4 max-w-lg">Anche la polizza dovrebbe esserlo. Copriamo le principali categorie professionali con soluzioni calibrate sul profilo di rischio reale.</p>
+          <p className="text-basetext-gray-400 mt-4 max-w-lg">Anche la polizza dovrebbe esserlo. Copriamo le principali categorie professionali con soluzioni calibrate sul profilo di rischio reale.</p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 border-2 border-black">
           {["Medici", "Avvocati", "Ingegneri", "Geometri", "Architetti", "Commercialisti", "Consulenti", "Liberi professionisti"].map((prof, i) => (
             <div key={prof} className={`p-5 border-b-2 border-black ${i % 4 < 3 ? "sm:border-r-2 border-black" : ""}`}>
-              <p className="font-black text-sm">{prof}</p>
+              <p className="font-black text-base">{prof}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* PERCHÉ SCELGOSICURO */}
-      <div className="border-y-4 border-black bg-white">
+      <div data-ss="why" className="border-y-4 border-black bg-white">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16">
           <div className="mb-10">
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">PERCHÉ NOI</p>
@@ -926,8 +935,8 @@ function LandingContent({
                 <div className="w-6 h-6 bg-green-400 border-2 border-black flex items-center justify-center mb-4">
                   <span className="text-black text-[10px] font-black">✓</span>
                 </div>
-                <h3 className="font-black text-sm mb-2">{item.title}</h3>
-                <p className="text-xs text-gray-400 leading-relaxed">{item.desc}</p>
+                <h3 className="font-black text-basemb-2">{item.title}</h3>
+                <p className="text-smtext-gray-400 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -940,7 +949,7 @@ function LandingContent({
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">FAQ</p>
             <h2 className="text-4xl font-black tracking-tight">Domande frequenti</h2>
-            <p className="text-sm text-gray-400 mt-4">
+            <p className="text-basetext-gray-400 mt-4">
               Non trovi risposta?{" "}
               <span className="text-black font-bold border-b-2 border-green-400 cursor-pointer hover:text-green-600 transition-colors">Scrivici →</span>
             </p>
@@ -949,10 +958,10 @@ function LandingContent({
             {FAQ.map((item, i) => (
               <div key={i} className="border-b-2 border-black">
                 <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between py-5 px-4 text-left hover:bg-gray-50 transition-colors">
-                  <span className="font-bold text-sm pr-4">{item.q}</span>
+                  <span className="font-bold text-basepr-4">{item.q}</span>
                   <span className="text-xl font-black flex-shrink-0">{openFaq === i ? "−" : "+"}</span>
                 </button>
-                {openFaq === i && <div className="px-4 pb-5 text-sm text-gray-500 leading-relaxed border-t border-black/10">{item.a}</div>}
+                {openFaq === i && <div className="px-4 pb-5 text-basetext-gray-500 leading-relaxed border-t border-black/10">{item.a}</div>}
               </div>
             ))}
           </div>
@@ -960,14 +969,14 @@ function LandingContent({
       </section>
 
       {/* CTA BAND */}
-      <div className="bg-green-400 border-y-4 border-black">
+      <div data-ss="cta" className="bg-green-400 border-y-4 border-black">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight">La scelta giusta non è sempre la più economica.</h2>
-            <p className="text-sm font-medium text-black/60 mt-2 max-w-md">È quella più adatta a proteggere il tuo lavoro. Online in pochi minuti — nessun obbligo.</p>
+            <p className="text-basefont-medium text-black/60 mt-2 max-w-md">È quella più adatta a proteggere il tuo lavoro. Online in pochi minuti — nessun obbligo.</p>
           </div>
           <button onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth" })}
-            className="bg-black text-white border-2 border-black font-black uppercase tracking-wider px-8 py-4 text-sm hover:bg-white hover:text-black transition-all flex-shrink-0">
+            className="bg-black text-white border-2 border-black font-black uppercase tracking-wider px-8 py-4 text-basehover:bg-white hover:text-black transition-all flex-shrink-0">
             Ottieni il tuo preventivo →
           </button>
         </div>
@@ -979,7 +988,7 @@ function LandingContent({
           <div className="flex flex-col md:flex-row justify-between gap-10">
             <div>
               <p className="font-black text-2xl tracking-tighter mb-2">SCELGOSICURO<span className="text-green-400">.</span></p>
-              <p className="text-xs text-gray-500 max-w-xs leading-relaxed">Intermediario assicurativo iscritto al R.U.I. presso IVASS.<br />P.IVA 12345678901</p>
+              <p className="text-smtext-gray-500 max-w-xs leading-relaxed">Intermediario assicurativo iscritto al R.U.I. presso IVASS.<br />P.IVA 12345678901</p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-10 text-[10px] font-bold uppercase tracking-widest text-gray-500">
               {[
@@ -1005,6 +1014,172 @@ function LandingContent({
         @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-33.333%)} }
       `}</style>
     </>
+  )
+}
+
+// ─── THEME DEV TOOL ──────────────────────────────────────────────────────────
+
+const SS_PALETTE = [
+  { name: "Verde (default)", hex: "#4ade80" },
+  { name: "Blu", hex: "#60a5fa" },
+  { name: "Viola", hex: "#c084fc" },
+  { name: "Arancione", hex: "#fb923c" },
+  { name: "Rosa", hex: "#f472b6" },
+  { name: "Ambra", hex: "#fbbf24" },
+  { name: "Ciano", hex: "#22d3ee" },
+  { name: "Lime", hex: "#a3e635" },
+  { name: "Rosso", hex: "#f87171" },
+  { name: "Smeraldo", hex: "#34d399" },
+  { name: "Fucsia", hex: "#e879f9" },
+  { name: "Giallo", hex: "#facc15" },
+]
+
+const SS_DARK_POOL = [
+  "#1e3a5f", "#3b0764", "#1a2e05", "#431407",
+  "#4a044e", "#064e3b", "#1e1b4b", "#4c0519",
+]
+
+const SS_LIGHT_POOL = [
+  "#dbeafe", "#fae8ff", "#dcfce7", "#ffedd5",
+  "#fce7f3", "#fef9c3", "#cffafe", "#d1fae5",
+]
+
+function buildAccentCSS(hex: string) {
+  return `
+    .bg-green-400 { background-color: ${hex} !important; }
+    .hover\\:bg-green-400:hover { background-color: ${hex} !important; }
+    .text-green-400 { color: ${hex} !important; }
+    .text-green-500 { color: ${hex} !important; }
+    .text-green-600 { color: ${hex} !important; }
+    .text-green-50 { color: ${hex}18 !important; }
+    .border-green-400 { border-color: ${hex} !important; }
+    .focus\\:border-green-500:focus { border-color: ${hex} !important; }
+    .hover\\:text-green-400:hover { color: ${hex} !important; }
+    .hover\\:text-green-500:hover { color: ${hex} !important; }
+    .hover\\:text-green-600:hover { color: ${hex} !important; }
+  `
+}
+
+function getOrCreateStyleEl() {
+  let el = document.getElementById("ss-theme") as HTMLStyleElement | null
+  if (!el) {
+    el = document.createElement("style")
+    el.id = "ss-theme"
+    document.head.appendChild(el)
+  }
+  return el
+}
+
+function shuffleArr<T>(arr: T[]): T[] {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
+function ThemeDevTool() {
+  const [open, setOpen] = useState(false)
+  const [activeHex, setActiveHex] = useState<string | null>(null)
+  const [shuffleActive, setShuffleActive] = useState(false)
+
+  function applyAccent(hex: string) {
+    setActiveHex(hex)
+    setShuffleActive(false)
+    getOrCreateStyleEl().textContent = buildAccentCSS(hex)
+  }
+
+  function applyShuffle() {
+    const accents = shuffleArr(SS_PALETTE.map((p) => p.hex))
+    const darks = shuffleArr(SS_DARK_POOL)
+    const lights = shuffleArr(SS_LIGHT_POOL)
+    const [accent, marquee, cta, why] = accents
+    const [statsBg, transBg] = darks
+    const [approachBg, profBg] = lights
+    setActiveHex(null)
+    setShuffleActive(true)
+    getOrCreateStyleEl().textContent = `
+      ${buildAccentCSS(accent)}
+      [data-ss="marquee"] { background-color: ${marquee} !important; }
+      [data-ss="cta"] { background-color: ${cta} !important; }
+      [data-ss="stats"] { background-color: ${statsBg} !important; }
+      [data-ss="transparency"] { background-color: ${transBg} !important; }
+      [data-ss="why"] { background-color: ${why}22 !important; }
+      [data-ss="approach"] { background-color: ${approachBg} !important; }
+      [data-ss="professions"] { background-color: ${profBg} !important; }
+    `
+  }
+
+  function reset() {
+    setActiveHex(null)
+    setShuffleActive(false)
+    const el = document.getElementById("ss-theme")
+    if (el) el.textContent = ""
+  }
+
+  return (
+    <div className="fixed bottom-5 right-5 z-[200] flex flex-col items-end gap-2">
+      {open && (
+        <div className="border-2 border-black bg-white w-72">
+          <div className="flex items-center justify-between px-4 py-3 border-b-2 border-black bg-black text-white">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em]">Theme Explorer</p>
+            {(activeHex || shuffleActive) && (
+              <button onClick={reset} className="text-[10px] font-black uppercase text-green-400 hover:underline">
+                Reset
+              </button>
+            )}
+          </div>
+
+          <div className="p-4 space-y-4">
+            <div>
+              <p className="text-[9px] font-black uppercase tracking-widest text-black/40 mb-2">
+                Sostituisci verde con:
+              </p>
+              <div className="grid grid-cols-6 gap-1.5">
+                {SS_PALETTE.map((c) => (
+                  <button
+                    key={c.hex}
+                    title={c.name}
+                    onClick={() => applyAccent(c.hex)}
+                    style={{ backgroundColor: c.hex }}
+                    className={`w-9 h-9 border-2 transition-all hover:scale-110 ${
+                      activeHex === c.hex
+                        ? "border-black ring-2 ring-black ring-offset-1 scale-110"
+                        : "border-transparent hover:border-black"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="border-t-2 border-black pt-4">
+              <button
+                onClick={applyShuffle}
+                className={`w-full border-2 border-black py-3 text-[10px] font-black uppercase tracking-wider transition-colors ${
+                  shuffleActive ? "bg-black text-white" : "hover:bg-black hover:text-white"
+                }`}
+              >
+                ⟳ Shuffle — schema casuale
+              </button>
+              <p className="text-[9px] text-black/30 mt-1.5 text-center leading-relaxed">
+                Colori casuali per tutti i blocchi
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <button
+        onClick={() => setOpen((o) => !o)}
+        style={activeHex ? { backgroundColor: activeHex } : {}}
+        className={`border-2 border-black w-12 h-12 font-black text-lg transition-colors flex items-center justify-center ${
+          open ? "bg-black text-white" : "bg-white text-black hover:bg-black hover:text-white"
+        }`}
+      >
+        {open ? "✕" : "◐"}
+      </button>
+    </div>
   )
 }
 
@@ -1140,6 +1315,7 @@ export function LandingPage({ sectors }: { sectors: Sector[] }) {
     <>
       <Navbar onCta={() => formRef.current?.scrollIntoView({ behavior: "smooth" })} />
       <LandingContent sectors={sectors} onSubmit={handleFormSubmit} formError={formError} formRef={formRef} />
+      <ThemeDevTool />
     </>
   )
 }
