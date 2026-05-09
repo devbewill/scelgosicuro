@@ -22,17 +22,17 @@ export default async function CatalogoPage({
 
   return (
     <div className="flex flex-col">
-      <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b bg-card px-6">
-        <h1 className="text-sm font-bold">Catalogo</h1>
-        <span className="text-xs text-muted-foreground">{products.length} prodotti</span>
+      <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b-2 border-black bg-white px-6">
+        <h1 className="text-sm font-black uppercase tracking-widest">Catalogo</h1>
+        <span className="text-xs font-bold text-black/40">{products.length} prodotti</span>
       </header>
 
-      <main className="flex flex-col gap-6 p-6">
+      <main className="flex flex-col gap-8 p-6">
         <div className="flex flex-wrap gap-2">
           <Link
             href="/backoffice/catalogo"
-            className={`rounded-full px-3 py-1 text-xs font-bold border transition-colors ${
-              !sector ? "bg-primary text-primary-foreground border-primary" : "border-border hover:bg-muted"
+            className={`border-2 px-3 py-1 text-xs font-black uppercase tracking-wide transition-colors ${
+              !sector ? "border-black bg-black text-white" : "border-black text-black hover:bg-black hover:text-white"
             }`}
           >
             Tutti
@@ -41,50 +41,50 @@ export default async function CatalogoPage({
             <Link
               key={s.slug}
               href={`/backoffice/catalogo?sector=${s.slug}`}
-              className={`rounded-full px-3 py-1 text-xs font-bold border transition-colors ${
-                sector === s.slug ? "bg-primary text-primary-foreground border-primary" : "border-border hover:bg-muted"
+              className={`border-2 px-3 py-1 text-xs font-black uppercase tracking-wide transition-colors ${
+                sector === s.slug ? "border-black bg-black text-white" : "border-black text-black hover:bg-black hover:text-white"
               }`}
             >
               {s.name}
-              <span className="ml-1.5 opacity-70">{s.productCount}</span>
+              <span className="ml-1.5 opacity-50">{s.productCount}</span>
             </Link>
           ))}
         </div>
 
         {[...bySector.entries()].map(([sectorName, prods]) => (
           <section key={sectorName}>
-            <h2 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            <h2 className="mb-3 text-[10px] font-black uppercase tracking-[0.25em] text-black/30">
               {sectorName}
             </h2>
-            <div className="overflow-hidden rounded-lg border">
+            <div className="border-2 border-black overflow-hidden">
               <table className="w-full text-sm">
-                <thead className="border-b bg-muted/50">
+                <thead className="border-b-2 border-black bg-black text-white">
                   <tr>
-                    <th className="px-4 py-2.5 text-left font-bold">Prodotto</th>
-                    <th className="px-4 py-2.5 text-left font-bold">Compagnia</th>
-                    <th className="px-3 py-2.5 text-center font-bold">Cop.</th>
-                    <th className="px-3 py-2.5 text-center font-bold">Regole</th>
-                    <th className="px-3 py-2.5 text-center font-bold">Molt.</th>
-                    <th className="px-3 py-2.5 text-center font-bold">Addon</th>
-                    <th className="px-3 py-2.5 text-center font-bold">Stato</th>
+                    <th className="px-4 py-2.5 text-left text-xs font-black uppercase tracking-wide">Prodotto</th>
+                    <th className="px-4 py-2.5 text-left text-xs font-black uppercase tracking-wide">Compagnia</th>
+                    <th className="px-3 py-2.5 text-center text-xs font-black uppercase tracking-wide">Cop.</th>
+                    <th className="px-3 py-2.5 text-center text-xs font-black uppercase tracking-wide">Regole</th>
+                    <th className="px-3 py-2.5 text-center text-xs font-black uppercase tracking-wide">Molt.</th>
+                    <th className="px-3 py-2.5 text-center text-xs font-black uppercase tracking-wide">Addon</th>
+                    <th className="px-3 py-2.5 text-center text-xs font-black uppercase tracking-wide">Stato</th>
                     <th className="px-4 py-2.5" />
                   </tr>
                 </thead>
                 <tbody>
                   {prods.map((p, i) => (
-                    <tr key={p.id} className={i % 2 === 0 ? "bg-card" : "bg-muted/20"}>
+                    <tr key={p.id} className={`border-b border-black/10 ${i % 2 === 0 ? "bg-white" : "bg-black/[0.02]"}`}>
                       <td className="px-4 py-3">
-                        <div className="font-bold">{p.name}</div>
-                        <div className="text-xs text-muted-foreground font-mono">{p.slug}</div>
+                        <div className="font-black">{p.name}</div>
+                        <div className="text-xs text-black/40 font-mono">{p.slug}</div>
                       </td>
-                      <td className="px-4 py-3 text-muted-foreground">{p.insurer.name}</td>
+                      <td className="px-4 py-3 font-medium text-black/60">{p.insurer.name}</td>
                       <td className="px-3 py-3 text-center"><Pill n={p.coverageCount} /></td>
                       <td className="px-3 py-3 text-center"><Pill n={p.ruleCount} warn={p.ruleCount === 0} /></td>
                       <td className="px-3 py-3 text-center"><Pill n={p.multiplierCount} /></td>
                       <td className="px-3 py-3 text-center"><Pill n={p.addonCount} /></td>
                       <td className="px-3 py-3 text-center">
-                        <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${
-                          p.is_active ? "bg-green-100 text-green-800" : "bg-muted text-muted-foreground"
+                        <span className={`border-2 px-2 py-0.5 text-xs font-black uppercase tracking-wide ${
+                          p.is_active ? "border-green-400 bg-green-400 text-black" : "border-black/20 text-black/30"
                         }`}>
                           {p.is_active ? "Attivo" : "Off"}
                         </span>
@@ -92,7 +92,7 @@ export default async function CatalogoPage({
                       <td className="px-4 py-3 text-right">
                         <Link
                           href={`/backoffice/catalogo/${p.id}`}
-                          className="text-xs font-bold text-primary hover:underline"
+                          className="text-xs font-black uppercase tracking-wide hover:text-green-600"
                         >
                           Dettaglio →
                         </Link>
@@ -106,7 +106,7 @@ export default async function CatalogoPage({
         ))}
 
         {products.length === 0 && (
-          <p className="text-sm text-muted-foreground">Nessun prodotto trovato.</p>
+          <p className="text-sm font-bold text-black/40">Nessun prodotto trovato.</p>
         )}
       </main>
     </div>
@@ -115,8 +115,8 @@ export default async function CatalogoPage({
 
 function Pill({ n, warn }: { n: number; warn?: boolean }) {
   return (
-    <span className={`inline-flex h-6 min-w-6 items-center justify-center rounded-full px-1.5 text-xs font-bold ${
-      warn && n === 0 ? "bg-red-100 text-red-700" : "bg-muted text-foreground"
+    <span className={`inline-flex h-6 min-w-6 items-center justify-center border-2 px-1.5 text-xs font-black ${
+      warn && n === 0 ? "border-red-500 bg-red-500 text-white" : "border-black/20 text-black"
     }`}>
       {n}
     </span>

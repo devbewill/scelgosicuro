@@ -5,10 +5,11 @@ export default async function FormTestingPage() {
   const sectors = await getSectors()
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-2xl flex-col gap-6 p-6">
-      <header>
-        <h1 className="text-2xl font-semibold">Form Testing</h1>
-        <p className="text-sm text-muted-foreground mt-1">
+    <main className="flex min-h-screen w-full flex-col gap-8 p-8">
+      <header className="border-b-2 border-black pb-6">
+        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-black/30">BACKOFFICE</p>
+        <h1 className="text-4xl font-black uppercase tracking-tight">Form Testing</h1>
+        <p className="mt-1 text-sm font-medium text-black/50">
           Test rapido senza inserire i contatti. Seleziona settore, compila il form, vedi i risultati del motore.
         </p>
       </header>

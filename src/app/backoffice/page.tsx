@@ -20,20 +20,22 @@ const sections = [
 
 export default function BackofficePage() {
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-2xl flex-col gap-6 p-6">
-      <header>
-        <h1 className="text-2xl font-semibold">Backoffice</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Strumenti di configurazione e test.</p>
+    <main className="flex min-h-screen w-full flex-col gap-8 p-8">
+      <header className="border-b-2 border-black pb-6">
+        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-black/30">BACKOFFICE</p>
+        <h1 className="text-4xl font-black uppercase tracking-tight">Dashboard</h1>
+        <p className="mt-1 text-sm font-medium text-black/50">Strumenti di configurazione e test.</p>
       </header>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {sections.map((s) => (
           <Link
             key={s.href}
             href={s.href}
-            className="flex flex-col gap-1 rounded-lg border p-4 hover:bg-muted/50 transition-colors"
+            className="flex flex-col gap-3 border-2 border-black p-5 transition-colors hover:bg-green-400 group"
           >
-            <span className="font-semibold">{s.title}</span>
-            <span className="text-sm text-muted-foreground">{s.description}</span>
+            <span className="text-lg font-black uppercase tracking-wide">{s.title}</span>
+            <span className="text-sm text-black/60 group-hover:text-black/70">{s.description}</span>
+            <span className="mt-auto text-xs font-black uppercase tracking-widest">Apri →</span>
           </Link>
         ))}
       </div>

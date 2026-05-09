@@ -23,11 +23,12 @@ const FAKE_COMPANIES = [
 ]
 
 const FAQ = [
-  { q: "Chi è obbligato ad avere la RC Professionale?", a: "Alcune categorie sono obbligate per legge: avvocati, medici, ingegneri, architetti, geometri e altri iscritti ad albi professionali. Ma anche per chi non è obbligato è fortemente consigliata, perché tutela il patrimonio personale da errori professionali." },
-  { q: "Cosa copre esattamente la RC Professionale?", a: "Copre i danni patrimoniali causati a terzi (clienti, pazienti, committenti) a seguito di errori, omissioni o negligenze nello svolgimento dell'attività. Non copre danni intenzionali." },
-  { q: "Cos'è la retroattività e perché è importante?", a: "Estende la copertura ai sinistri denunciati oggi ma relativi a prestazioni effettuate prima della stipula della polizza. È cruciale perché i reclami arrivano spesso anni dopo il fatto." },
-  { q: "Quanto tempo ci vuole per avere la polizza attiva?", a: "Con ScelgoSicuro la polizza è attiva in meno di 24 ore dalla firma digitale e dal pagamento. In molti casi l'attivazione è immediata." },
-  { q: "Posso modificare la polizza se cambia il mio fatturato?", a: "Sì. Le polizze si aggiornano a inizio di ogni periodo assicurativo. Con ScelgoSicuro puoi richiedere una revisione in qualsiasi momento." },
+  { q: "Quanto tempo serve per ottenere un preventivo?", a: "In molti casi bastano pochi minuti. Ti chiediamo solo le informazioni che contano davvero: professione, attività, responsabilità e rischi. Niente moduli infiniti." },
+  { q: "Come viene scelta la polizza consigliata?", a: "Il sistema analizza il tuo profilo professionale, i rischi tipici della tua attività e le coperture disponibili per individuare la soluzione più coerente — non solo la più economica." },
+  { q: "Posso vedere anche altre opzioni oltre a quella consigliata?", a: "Sì. La piattaforma ti propone una soluzione consigliata, ma mantiene visibili anche le alternative disponibili. Trasparenza totale." },
+  { q: "Il preventivo è gratuito e senza impegno?", a: "Sempre. Nessun costo nascosto, nessun obbligo di acquisto. Puoi calcolare il preventivo, confrontare le opzioni e decidere con calma." },
+  { q: "Posso parlare con un consulente?", a: "Sì. Se necessario puoi ricevere supporto da un consulente dedicato. Tecnologia e presenza umana lavorano insieme." },
+  { q: "Cosa sono massimali, franchigie e retroattività?", a: "Sono i parametri chiave di una RC professionale. Ti spieghiamo cosa significano in modo chiaro, senza linguaggio tecnico, così sai esattamente cosa stai acquistando." },
 ]
 
 // ─── UTILS ────────────────────────────────────────────────────────────────────
@@ -251,8 +252,8 @@ function QuoteFormComp({
     <div className="border-2 border-black">
       {/* header */}
       <div className="bg-black px-6 py-4 border-b-2 border-black">
-        <p className="text-[10px] font-black uppercase tracking-[0.25em] text-green-400 mb-0.5">PREVENTIVO GRATUITO</p>
-        <p className="text-base font-black text-white">La tua RC in 2 minuti.</p>
+        <p className="text-[10px] font-black uppercase tracking-[0.25em] text-green-400 mb-0.5">PREVENTIVO GRATUITO · SENZA IMPEGNO</p>
+        <p className="text-base font-black text-white">Calcola il tuo preventivo personalizzato.</p>
       </div>
 
       {/* step bar */}
@@ -703,13 +704,13 @@ function LandingContent({
           <div className="space-y-8 pt-4">
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500">RC PROFESSIONALE · LIBERI PROFESSIONISTI</p>
             <h1 className="text-[clamp(3rem,7vw,5.5rem)] font-black leading-[0.92] tracking-tight">
-              La RC<br />professionale<br /><em className="not-italic text-green-500">giusta per te.</em>
+              Scegliere la RC<br />giusta non<br /><em className="not-italic text-green-500">dovrebbe essere complicato.</em>
             </h1>
             <p className="text-base text-gray-500 font-medium leading-relaxed max-w-md">
-              Confrontiamo i tariffari reali di AmTrust, AXA, Generali, Unipol e Allianz e ti proponiamo la polizza su misura in base al tuo profilo di rischio reale.
+              ScelgoSicuro analizza il tuo profilo professionale, seleziona la soluzione più adatta e ti spiega davvero cosa stai acquistando.
             </p>
             <div className="space-y-2.5">
-              {["Preventivo in 2 minuti, senza impegno", "Tariffari reali — nessun prezzo di fantasia", "Prezzo garantito — nessun costo nascosto", "Polizza attiva entro 24 ore"].map((item) => (
+              {["Poche domande, preventivo in 2 minuti", "Analisi reale del tuo profilo di rischio", "Spiegazioni chiare — nessun linguaggio tecnico", "Emissione digitale in meno di 24 ore"].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-5 h-5 bg-green-400 border-2 border-black flex items-center justify-center flex-shrink-0">
                     <span className="text-black text-[10px] font-black leading-none">✓</span>
@@ -756,13 +757,13 @@ function LandingContent({
       <section id="come-funziona" className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
         <div className="mb-12">
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">COME FUNZIONA</p>
-          <h2 className="text-[clamp(2.2rem,5vw,3.5rem)] font-black tracking-tight leading-[1.0]">3 passi.<br />Poi sei protetto.</h2>
+          <h2 className="text-[clamp(2.2rem,5vw,3.5rem)] font-black tracking-tight leading-[1.0]">Un processo semplice.<br />Pensato per chi lavora.</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 border-2 border-black">
           {[
-            { n: "01", title: "Compila il form", desc: "Settore, specializzazione e contatti. Meno di 2 minuti." },
-            { n: "02", title: "Analizziamo il mercato", desc: "Il nostro motore confronta i tariffari reali di 5 compagnie assicurative." },
-            { n: "03", title: "Scegli e attiva", desc: "Ti proponiamo la migliore. Affina le garanzie in real-time e acquista online." },
+            { n: "01", title: "Inserisci poche informazioni", desc: "Ti chiediamo solo ciò che serve: professione, attività, responsabilità, rischi. Niente moduli infiniti o compilazioni inutili." },
+            { n: "02", title: "Il sistema analizza il tuo profilo", desc: "ScelgoSicuro combina le caratteristiche della tua professione, i rischi tipici del settore, la qualità delle coperture e il costo. L'obiettivo non è mostrarti decine di prodotti — è trovare quello più coerente con il tuo lavoro." },
+            { n: "03", title: "Ricevi una proposta già selezionata", desc: "Ti presentiamo la soluzione più adatta al tuo profilo. Se vuoi, puoi confrontarla con le alternative disponibili e affinare il preventivo in tempo reale." },
           ].map((s, i) => (
             <div key={i} className={`p-8 sm:p-10 ${i < 2 ? "md:border-r-2 border-black" : ""} border-b-2 md:border-b-0 border-black`}>
               <p className="text-7xl font-black text-green-400 leading-none mb-6 font-mono">{s.n}</p>
@@ -778,14 +779,119 @@ function LandingContent({
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16">
           <div className="grid grid-cols-2 md:grid-cols-4 border-2 border-white/10">
             {[
-              { n: "12.400+", label: "Professionisti assicurati" },
-              { n: "5", label: "Compagnie confrontate" },
-              { n: "94%", label: "Clienti soddisfatti" },
+              { n: "2 min", label: "Per ottenere un preventivo" },
+              { n: "5+", label: "Compagnie confrontate" },
+              { n: "100%", label: "Online — zero burocrazia" },
               { n: "< 24h", label: "Polizza attiva" },
             ].map((s, i) => (
               <div key={i} className={`p-8 ${i < 3 ? "border-r border-white/10" : ""} border-b md:border-b-0 border-white/10`}>
                 <p className="text-4xl sm:text-5xl font-black font-mono text-green-400">{s.n}</p>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mt-2">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* NON CONFRONTIAMO SOLO PREZZI */}
+      <section className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">IL NOSTRO APPROCCIO</p>
+            <h2 className="text-[clamp(2rem,4vw,3rem)] font-black tracking-tight leading-[1.05] mb-6">
+              Non confrontiamo solo i prezzi.<br />Analizziamo il tuo lavoro.
+            </h2>
+            <p className="text-sm text-gray-500 leading-relaxed">
+              Una RC professionale efficace dipende da molti fattori: il tipo di attività che svolgi, il livello di responsabilità, i clienti con cui lavori, i rischi specifici del tuo settore.
+            </p>
+            <p className="text-sm text-gray-500 leading-relaxed mt-3">
+              Per questo il nostro sistema non ordina semplicemente le polizze dal prezzo più basso. Identifica la soluzione più equilibrata tra protezione, coperture, affidabilità e costo.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-px border-2 border-black">
+            {[
+              { label: "Tipo di attività svolta", desc: "Valutata in base al settore e alla specializzazione" },
+              { label: "Livello di responsabilità", desc: "Struttura, volume d'affari, numero di collaboratori" },
+              { label: "Rischi specifici del settore", desc: "Colpa grave, retroattività, massimali adeguati" },
+              { label: "Qualità delle coperture", desc: "Non solo il premio annuo, ma cosa copre davvero" },
+            ].map((item, i) => (
+              <div key={i} className="p-5 bg-white border-b border-black last:border-b-0">
+                <p className="font-black text-sm mb-1">{item.label}</p>
+                <p className="text-xs text-gray-400 font-medium">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CAPIRE UNA POLIZZA */}
+      <div className="bg-black border-y-4 border-black">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-400 mb-3">TRASPARENZA</p>
+              <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight mb-4">
+                Capire una polizza dovrebbe essere semplice.
+              </h2>
+              <p className="text-sm text-gray-400 leading-relaxed">
+                Massimali, franchigie, retroattività, colpa grave. Molti professionisti sottoscrivono una polizza senza avere davvero chiaro cosa copre, cosa resta escluso e quali clausole incidono sulla protezione reale.
+              </p>
+              <p className="text-sm text-gray-400 leading-relaxed mt-3">
+                ScelgoSicuro ti aiuta a comprendere le opzioni in modo semplice e chiaro, così puoi scegliere con maggiore sicurezza.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {["Cosa copre", "Cosa resta escluso", "Quali garanzie contano", "Clausole che incidono"].map((item) => (
+                <div key={item} className="border-2 border-white/10 p-4 flex items-start gap-3">
+                  <div className="w-4 h-4 bg-green-400 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm font-bold text-white">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* PROFESSIONI */}
+      <section className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
+        <div className="mb-10">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">SOLUZIONI DEDICATE</p>
+          <h2 className="text-[clamp(2.2rem,5vw,3.5rem)] font-black tracking-tight leading-[1.0]">
+            Ogni professione<br />ha esigenze diverse.
+          </h2>
+          <p className="text-sm text-gray-400 mt-4 max-w-lg">Anche la polizza dovrebbe esserlo. Copriamo le principali categorie professionali con soluzioni calibrate sul profilo di rischio reale.</p>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 border-2 border-black">
+          {["Medici", "Avvocati", "Ingegneri", "Geometri", "Architetti", "Commercialisti", "Consulenti", "Liberi professionisti"].map((prof, i) => (
+            <div key={prof} className={`p-5 border-b-2 border-black ${i % 4 < 3 ? "sm:border-r-2 border-black" : ""}`}>
+              <p className="font-black text-sm">{prof}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* PERCHÉ SCELGOSICURO */}
+      <div className="border-y-4 border-black bg-white">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16">
+          <div className="mb-10">
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">PERCHÉ NOI</p>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight">Perché scegliere ScelgoSicuro</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-2 border-black">
+            {[
+              { title: "Proposta realmente personalizzata", desc: "Basata sul tuo profilo professionale, non solo sul prezzo." },
+              { title: "Sistema di selezione intelligente", desc: "Costruito per individuare la soluzione più coerente con il tuo livello di rischio." },
+              { title: "Spiegazioni semplici e chiare", desc: "Per aiutarti a capire davvero cosa stai acquistando, senza termini tecnici." },
+              { title: "Trasparenza totale", desc: "Ti consigliamo una soluzione, ma puoi sempre confrontare tutte le alternative." },
+              { title: "Velocità e semplicità", desc: "Preventivo ed emissione gestiti completamente online, in pochi minuti." },
+              { title: "Supporto umano quando serve", desc: "Tecnologia e consulenza lavorano insieme. Un consulente è sempre disponibile." },
+            ].map((item, i) => (
+              <div key={i} className={`p-6 border-b-2 border-black ${i % 3 < 2 ? "lg:border-r-2" : ""} ${i % 2 === 0 ? "sm:border-r-2 lg:border-r-0" : ""}`}>
+                <div className="w-6 h-6 bg-green-400 border-2 border-black flex items-center justify-center mb-4">
+                  <span className="text-black text-[10px] font-black">✓</span>
+                </div>
+                <h3 className="font-black text-sm mb-2">{item.title}</h3>
+                <p className="text-xs text-gray-400 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -821,12 +927,12 @@ function LandingContent({
       <div className="bg-green-400 border-y-4 border-black">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight">Inizia adesso.</h2>
-            <p className="text-sm font-medium text-black/60 mt-1">Gratuito, senza impegno, in 2 minuti.</p>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight">La scelta giusta non è sempre la più economica.</h2>
+            <p className="text-sm font-medium text-black/60 mt-2 max-w-md">È quella più adatta a proteggere il tuo lavoro. Online in pochi minuti — nessun obbligo.</p>
           </div>
           <button onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth" })}
             className="bg-black text-white border-2 border-black font-black uppercase tracking-wider px-8 py-4 text-sm hover:bg-white hover:text-black transition-all flex-shrink-0">
-            Calcola il tuo preventivo →
+            Ottieni il tuo preventivo →
           </button>
         </div>
       </div>
@@ -841,9 +947,9 @@ function LandingContent({
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-10 text-[10px] font-bold uppercase tracking-widest text-gray-500">
               {[
-                { title: "Prodotti", links: ["RC Professionale", "RC Medici", "RC Ingegneri"] },
-                { title: "Azienda", links: ["Chi siamo", "Come funziona", "Compagnie"] },
-                { title: "Legale", links: ["Privacy Policy", "Cookie Policy", "Termini di servizio"] },
+                { title: "Professioni", links: ["Medici", "Avvocati", "Ingegneri", "Commercialisti"] },
+                { title: "Azienda", links: ["Chi siamo", "Come funziona", "Contatti"] },
+                { title: "Legale", links: ["Privacy Policy", "Termini e condizioni", "Cookie Policy"] },
               ].map((col) => (
                 <div key={col.title} className="space-y-3">
                   <p className="text-white">{col.title}</p>
