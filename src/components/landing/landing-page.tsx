@@ -189,6 +189,9 @@ function QuoteFormComp({
   const [localError, setLocalError] = useState<string | null>(null)
   const [base, setBase] = useState({ sectorId: "", professionSlug: "", professionName: "", nome: "", email: "", telefono: "" })
   const [sectorAnswers, setSectorAnswers] = useState<Record<string, unknown>>({})
+  const [professionQuery, setProfessionQuery] = useState("")
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const autocompleteRef = useRef<HTMLDivElement>(null)
   const setB = (k: keyof typeof base, v: string) => setBase((p) => ({ ...p, [k]: v }))
   const setA = (k: string, v: unknown) => setSectorAnswers((p) => ({ ...p, [k]: v }))
 
@@ -204,17 +207,33 @@ function QuoteFormComp({
     ? ["Professione", "Dettagli", "Contatti"]
     : ["Professione", "Contatti"]
 
+  const filteredProfessions = professionQuery.trim()
+    ? professions.filter((p) => p.name.toLowerCase().includes(professionQuery.toLowerCase()))
+    : professions
+
   useEffect(() => {
-    if (!base.sectorId) { setProfessions([]); setB("professionSlug", ""); return }
+    if (!base.sectorId) { setProfessions([]); setB("professionSlug", ""); setProfessionQuery(""); return }
     setLoadingProfs(true)
     fetchProfessions(base.sectorId)
       .then((p) => { setProfessions(p); setLoadingProfs(false) })
       .catch(() => setLoadingProfs(false))
     setB("professionSlug", "")
+    setB("professionName", "")
+    setProfessionQuery("")
     setRequiredQuestions([])
     setSectorAnswers({})
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [base.sectorId])
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (autocompleteRef.current && !autocompleteRef.current.contains(e.target as Node)) {
+        setShowSuggestions(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   async function handleStep1Continue() {
     if (!base.sectorId) { setLocalError("Seleziona il settore"); return }
@@ -281,19 +300,42 @@ function QuoteFormComp({
               </select>
             </div>
             {base.sectorId && (
-              <div>
-                <label className={labelCls}>Specializzazione</label>
-                <select className={inputCls} value={base.professionSlug}
+              <div ref={autocompleteRef} className="relative">
+                <label className={labelCls}>
+                  Specializzazione{loadingProfs ? <span className="ml-2 text-black/30 normal-case font-medium tracking-normal">Caricamento…</span> : ""}
+                </label>
+                <input
+                  type="text"
+                  className={inputCls}
+                  placeholder="Cerca la tua specializzazione…"
+                  value={professionQuery}
+                  autoComplete="off"
                   onChange={(e) => {
-                    setB("professionSlug", e.target.value)
-                    setB("professionName", professions.find(p => p.slug === e.target.value)?.name ?? "")
+                    setProfessionQuery(e.target.value)
+                    setB("professionSlug", "")
+                    setB("professionName", "")
+                    setShowSuggestions(true)
                   }}
-                  disabled={loadingProfs}>
-                  <option value="">{loadingProfs ? "Caricamento…" : "— Seleziona —"}</option>
-                  {professions.map((p) => (
-                    <option key={p.slug} value={p.slug}>{p.name}</option>
-                  ))}
-                </select>
+                  onFocus={() => setShowSuggestions(true)}
+                />
+                {showSuggestions && filteredProfessions.length > 0 && (
+                  <ul className="absolute z-50 mt-0 max-h-56 w-full overflow-auto border-2 border-black bg-white text-sm shadow-lg">
+                    {filteredProfessions.map((p) => (
+                      <li
+                        key={p.slug}
+                        className="cursor-pointer px-4 py-2.5 font-medium hover:bg-green-400 border-b border-black/10 last:border-b-0"
+                        onMouseDown={() => {
+                          setB("professionSlug", p.slug)
+                          setB("professionName", p.name)
+                          setProfessionQuery(p.name)
+                          setShowSuggestions(false)
+                        }}
+                      >
+                        {p.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             )}
             {localError && <p className="text-xs text-red-600 font-semibold">{localError}</p>}
@@ -699,42 +741,36 @@ function LandingContent({
   return (
     <>
       {/* HERO */}
-      <section className="max-w-7xl mx-auto px-5 sm:px-8 pt-14 pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_480px] gap-10 lg:gap-16 items-start">
-          <div className="space-y-8 pt-4">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500">RC PROFESSIONALE · LIBERI PROFESSIONISTI</p>
-            <h1 className="text-[clamp(3rem,7vw,5.5rem)] font-black leading-[0.92] tracking-tight">
-              Scegliere la RC<br />giusta non<br /><em className="not-italic text-green-500">dovrebbe essere complicato.</em>
-            </h1>
-            <p className="text-base text-gray-500 font-medium leading-relaxed max-w-md">
-              ScelgoSicuro analizza il tuo profilo professionale, seleziona la soluzione più adatta e ti spiega davvero cosa stai acquistando.
-            </p>
-            <div className="space-y-2.5">
-              {["Poche domande, preventivo in 2 minuti", "Analisi reale del tuo profilo di rischio", "Spiegazioni chiare — nessun linguaggio tecnico", "Emissione digitale in meno di 24 ore"].map((item) => (
-                <div key={item} className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-green-400 border-2 border-black flex items-center justify-center flex-shrink-0">
-                    <span className="text-black text-[10px] font-black leading-none">✓</span>
-                  </div>
-                  <span className="text-sm font-medium">{item}</span>
+      <section className="max-w-7xl mx-auto px-5 sm:px-8 pt-14 pb-0">
+        {/* text block */}
+        <div className="max-w-3xl space-y-8 pb-14 border-b-2 border-black">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500">RC PROFESSIONALE · LIBERI PROFESSIONISTI</p>
+          <h1 className="text-[clamp(3rem,7vw,5.5rem)] font-black leading-[0.92] tracking-tight">
+            Scegliere la RC<br />giusta non<br /><em className="not-italic text-green-500">dovrebbe essere complicato.</em>
+          </h1>
+          <p className="text-base text-gray-500 font-medium leading-relaxed max-w-xl">
+            ScelgoSicuro analizza il tuo profilo professionale, seleziona la soluzione più adatta e ti spiega davvero cosa stai acquistando.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {["Poche domande, preventivo in 2 minuti", "Analisi reale del tuo profilo di rischio", "Spiegazioni chiare — nessun linguaggio tecnico", "Emissione digitale in meno di 24 ore"].map((item) => (
+              <div key={item} className="flex items-center gap-3">
+                <div className="w-5 h-5 bg-green-400 border-2 border-black flex items-center justify-center flex-shrink-0">
+                  <span className="text-black text-[10px] font-black leading-none">✓</span>
                 </div>
-              ))}
-            </div>
-            <div className="pt-2 border-t-2 border-black">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-3">Compagnie convenzionate</p>
-              <div className="flex flex-wrap gap-2">
-                {["AMTRUST", "AXA", "GENERALI", "UNIPOL", "ALLIANZ"].map((c) => (
-                  <span key={c} className="border-2 border-black px-3 py-1 text-[10px] font-black tracking-widest">{c}</span>
-                ))}
+                <span className="text-sm font-medium">{item}</span>
               </div>
-            </div>
+            ))}
           </div>
+          <div className="flex flex-wrap gap-2">
+            {["AMTRUST", "AXA", "GENERALI", "UNIPOL", "ALLIANZ"].map((c) => (
+              <span key={c} className="border-2 border-black px-3 py-1 text-[10px] font-black tracking-widest">{c}</span>
+            ))}
+          </div>
+        </div>
 
-          <div ref={formRef} className="relative">
-            <div className="absolute -top-6 -right-4 text-[11rem] font-black leading-none select-none pointer-events-none text-green-50 z-0" aria-hidden>RC</div>
-            <div className="relative z-10">
-              <QuoteFormComp sectors={sectors} onSubmit={onSubmit} error={formError} />
-            </div>
-          </div>
+        {/* form centered below */}
+        <div ref={formRef} className="max-w-xl mx-auto py-14">
+          <QuoteFormComp sectors={sectors} onSubmit={onSubmit} error={formError} />
         </div>
       </section>
 
