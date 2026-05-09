@@ -1034,17 +1034,28 @@ const SS_PALETTE = [
   { name: "Giallo", hex: "#facc15" },
 ]
 
+// Near-black — for replacing black in shuffle
 const SS_DARK_POOL = [
-  "#1e3a5f", "#3b0764", "#1a2e05", "#431407",
-  "#4a044e", "#064e3b", "#1e1b4b", "#4c0519",
+  "#0f172a", "#1e1b4b", "#3b0764", "#450a0a",
+  "#1c1917", "#042f2e", "#14532d", "#1e3a5f",
+  "#2d1b00", "#1a0533", "#0c1a2e", "#2a0a2a",
 ]
 
+// Near-white — for replacing white in shuffle
 const SS_LIGHT_POOL = [
-  "#dbeafe", "#fae8ff", "#dcfce7", "#ffedd5",
-  "#fce7f3", "#fef9c3", "#cffafe", "#d1fae5",
+  "#f0f9ff", "#fef9c3", "#f0fdf4", "#fdf4ff",
+  "#fff7ed", "#fef2f2", "#ecfdf5", "#eff6ff",
+  "#fff1f2", "#f5f3ff", "#fafaf9", "#f0fdfa",
 ]
 
-function buildAccentCSS(hex: string) {
+function hexToRgb(hex: string): string {
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  return `${r} ${g} ${b}`
+}
+
+function buildAccentCSS(hex: string): string {
   return `
     .bg-green-400 { background-color: ${hex} !important; }
     .hover\\:bg-green-400:hover { background-color: ${hex} !important; }
@@ -1053,10 +1064,49 @@ function buildAccentCSS(hex: string) {
     .text-green-600 { color: ${hex} !important; }
     .text-green-50 { color: ${hex}18 !important; }
     .border-green-400 { border-color: ${hex} !important; }
-    .focus\\:border-green-500:focus { border-color: ${hex} !important; }
     .hover\\:text-green-400:hover { color: ${hex} !important; }
     .hover\\:text-green-500:hover { color: ${hex} !important; }
     .hover\\:text-green-600:hover { color: ${hex} !important; }
+    .focus\\:border-green-500:focus { border-color: ${hex} !important; }
+  `
+}
+
+function buildFullSchemeCSS(accent: string, light: string, dark: string): string {
+  const d = hexToRgb(dark)
+  const l = hexToRgb(light)
+  return `
+    ${buildAccentCSS(accent)}
+
+    /* ── dark replaces black ── */
+    .bg-black                       { background-color: ${dark} !important; }
+    .text-black                     { color: ${dark} !important; }
+    .border-black                   { border-color: ${dark} !important; }
+    .hover\\:bg-black:hover         { background-color: ${dark} !important; }
+    .hover\\:text-black:hover       { color: ${dark} !important; }
+    .hover\\:border-black:hover     { border-color: ${dark} !important; }
+    .ring-black                     { --tw-ring-color: ${dark} !important; }
+    .text-black\\/30                { color: rgb(${d} / 0.3) !important; }
+    .text-black\\/40                { color: rgb(${d} / 0.4) !important; }
+    .text-black\\/50                { color: rgb(${d} / 0.5) !important; }
+    .text-black\\/60                { color: rgb(${d} / 0.6) !important; }
+    .border-black\\/10              { border-color: rgb(${d} / 0.1) !important; }
+    .border-black\\/20              { border-color: rgb(${d} / 0.2) !important; }
+    .bg-black\\/\\[0\\.02\\]        { background-color: rgb(${d} / 0.02) !important; }
+    .bg-black\\/\\[0\\.03\\]        { background-color: rgb(${d} / 0.03) !important; }
+    .bg-black\\/60                  { background-color: rgb(${d} / 0.6) !important; }
+
+    /* ── light replaces white ── */
+    .bg-white                       { background-color: ${light} !important; }
+    .text-white                     { color: ${light} !important; }
+    .hover\\:bg-white:hover         { background-color: ${light} !important; }
+    .hover\\:text-white:hover       { color: ${light} !important; }
+    .bg-white\\/10                  { background-color: rgb(${l} / 0.1) !important; }
+    .border-white\\/10              { border-color: rgb(${l} / 0.1) !important; }
+    .text-white\\/60                { color: rgb(${l} / 0.6) !important; }
+    .text-white\\/40                { color: rgb(${l} / 0.4) !important; }
+    .text-white\\/30                { color: rgb(${l} / 0.3) !important; }
+    .hover\\:bg-white\\/10:hover    { background-color: rgb(${l} / 0.1) !important; }
+    body                            { background-color: ${light} !important; }
   `
 }
 
@@ -1082,41 +1132,31 @@ function shuffleArr<T>(arr: T[]): T[] {
 function ThemeDevTool() {
   const [open, setOpen] = useState(false)
   const [activeHex, setActiveHex] = useState<string | null>(null)
-  const [shuffleActive, setShuffleActive] = useState(false)
+  const [shuffleColors, setShuffleColors] = useState<{ accent: string; light: string; dark: string } | null>(null)
 
   function applyAccent(hex: string) {
     setActiveHex(hex)
-    setShuffleActive(false)
+    setShuffleColors(null)
     getOrCreateStyleEl().textContent = buildAccentCSS(hex)
   }
 
   function applyShuffle() {
-    const accents = shuffleArr(SS_PALETTE.map((p) => p.hex))
-    const darks = shuffleArr(SS_DARK_POOL)
-    const lights = shuffleArr(SS_LIGHT_POOL)
-    const [accent, marquee, cta, why] = accents
-    const [statsBg, transBg] = darks
-    const [approachBg, profBg] = lights
+    const accent = shuffleArr(SS_PALETTE.map((p) => p.hex))[0]
+    const dark   = shuffleArr(SS_DARK_POOL)[0]
+    const light  = shuffleArr(SS_LIGHT_POOL)[0]
     setActiveHex(null)
-    setShuffleActive(true)
-    getOrCreateStyleEl().textContent = `
-      ${buildAccentCSS(accent)}
-      [data-ss="marquee"] { background-color: ${marquee} !important; }
-      [data-ss="cta"] { background-color: ${cta} !important; }
-      [data-ss="stats"] { background-color: ${statsBg} !important; }
-      [data-ss="transparency"] { background-color: ${transBg} !important; }
-      [data-ss="why"] { background-color: ${why}22 !important; }
-      [data-ss="approach"] { background-color: ${approachBg} !important; }
-      [data-ss="professions"] { background-color: ${profBg} !important; }
-    `
+    setShuffleColors({ accent, light, dark })
+    getOrCreateStyleEl().textContent = buildFullSchemeCSS(accent, light, dark)
   }
 
   function reset() {
     setActiveHex(null)
-    setShuffleActive(false)
+    setShuffleColors(null)
     const el = document.getElementById("ss-theme")
     if (el) el.textContent = ""
   }
+
+  const isActive = activeHex !== null || shuffleColors !== null
 
   return (
     <div className="fixed bottom-5 right-5 z-[200] flex flex-col items-end gap-2">
@@ -1124,7 +1164,7 @@ function ThemeDevTool() {
         <div className="border-2 border-black bg-white w-72">
           <div className="flex items-center justify-between px-4 py-3 border-b-2 border-black bg-black text-white">
             <p className="text-[10px] font-black uppercase tracking-[0.2em]">Theme Explorer</p>
-            {(activeHex || shuffleActive) && (
+            {isActive && (
               <button onClick={reset} className="text-[10px] font-black uppercase text-green-400 hover:underline">
                 Reset
               </button>
@@ -1134,7 +1174,7 @@ function ThemeDevTool() {
           <div className="p-4 space-y-4">
             <div>
               <p className="text-[9px] font-black uppercase tracking-widest text-black/40 mb-2">
-                Sostituisci verde con:
+                Solo accento (sostituisce verde):
               </p>
               <div className="grid grid-cols-6 gap-1.5">
                 {SS_PALETTE.map((c) => (
@@ -1153,18 +1193,32 @@ function ThemeDevTool() {
               </div>
             </div>
 
-            <div className="border-t-2 border-black pt-4">
+            <div className="border-t-2 border-black pt-4 space-y-2">
               <button
                 onClick={applyShuffle}
                 className={`w-full border-2 border-black py-3 text-[10px] font-black uppercase tracking-wider transition-colors ${
-                  shuffleActive ? "bg-black text-white" : "hover:bg-black hover:text-white"
+                  shuffleColors ? "bg-black text-white" : "hover:bg-black hover:text-white"
                 }`}
               >
-                ⟳ Shuffle — schema casuale
+                ⟳ Shuffle completo
               </button>
-              <p className="text-[9px] text-black/30 mt-1.5 text-center leading-relaxed">
-                Colori casuali per tutti i blocchi
+              <p className="text-[9px] text-black/30 text-center leading-relaxed">
+                Verde + bianco + nero diventano 3 colori casuali
               </p>
+              {shuffleColors && (
+                <div className="flex gap-2 justify-center pt-1">
+                  {[
+                    { hex: shuffleColors.accent, label: "accento" },
+                    { hex: shuffleColors.light,  label: "chiaro" },
+                    { hex: shuffleColors.dark,   label: "scuro" },
+                  ].map((c) => (
+                    <div key={c.label} className="flex flex-col items-center gap-1">
+                      <div className="w-7 h-7 border border-black/20" style={{ backgroundColor: c.hex }} />
+                      <span className="text-[8px] text-black/40 uppercase font-black">{c.label}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -1172,7 +1226,7 @@ function ThemeDevTool() {
 
       <button
         onClick={() => setOpen((o) => !o)}
-        style={activeHex ? { backgroundColor: activeHex } : {}}
+        style={activeHex ? { backgroundColor: activeHex } : shuffleColors ? { backgroundColor: shuffleColors.accent } : {}}
         className={`border-2 border-black w-12 h-12 font-black text-lg transition-colors flex items-center justify-center ${
           open ? "bg-black text-white" : "bg-white text-black hover:bg-black hover:text-white"
         }`}
