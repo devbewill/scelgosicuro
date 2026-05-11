@@ -51,35 +51,35 @@ export function LandingPage() {
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="bg-[#F7F4EE] relative overflow-hidden">
 
-        {/* abstract: large gradient blob top-right, bleeds from outside */}
+        {/* blob: rosa fluo — top-right, entra da fuori */}
         <div
           className="absolute pointer-events-none"
           style={{
-            top: "-15%",
-            right: "-8%",
-            width: "750px",
-            height: "750px",
+            top: "-18%",
+            right: "-10%",
+            width: "680px",
+            height: "680px",
             borderRadius: "50%",
-            background: "radial-gradient(circle at center, rgba(80,70,228,0.22) 0%, rgba(80,70,228,0.08) 45%, transparent 70%)",
-            filter: "blur(72px)",
+            background: "radial-gradient(circle at center, rgba(255,30,140,0.42) 0%, rgba(255,30,140,0.18) 40%, transparent 68%)",
+            filter: "blur(60px)",
           }}
         />
 
-        {/* abstract: smaller warm blob bottom-left */}
+        {/* blob: giallo fluo — bottom-left, entra da fuori */}
         <div
           className="absolute pointer-events-none"
           style={{
-            bottom: "-20%",
-            left: "-6%",
-            width: "480px",
-            height: "480px",
+            bottom: "-22%",
+            left: "-8%",
+            width: "560px",
+            height: "560px",
             borderRadius: "50%",
-            background: "radial-gradient(circle at center, rgba(80,70,228,0.10) 0%, transparent 65%)",
-            filter: "blur(90px)",
+            background: "radial-gradient(circle at center, rgba(255,224,0,0.50) 0%, rgba(255,224,0,0.20) 42%, transparent 68%)",
+            filter: "blur(55px)",
           }}
         />
 
-        {/* abstract: concentric arcs SVG, anchored top-right corner */}
+        {/* archi SVG — angolo top-right */}
         <svg
           aria-hidden="true"
           className="absolute top-0 right-0 pointer-events-none"
@@ -87,56 +87,123 @@ export function LandingPage() {
           height="560"
           viewBox="0 0 560 560"
           fill="none"
-          style={{ opacity: 0.055 }}
+          style={{ opacity: 0.06 }}
         >
-          <circle cx="560" cy="0" r="480" stroke="#5046E4" strokeWidth="1" />
-          <circle cx="560" cy="0" r="360" stroke="#5046E4" strokeWidth="1" />
-          <circle cx="560" cy="0" r="240" stroke="#5046E4" strokeWidth="1" />
-          <circle cx="560" cy="0" r="130" stroke="#5046E4" strokeWidth="1" />
+          <circle cx="560" cy="0" r="480" stroke="#1C1C1A" strokeWidth="1" />
+          <circle cx="560" cy="0" r="360" stroke="#1C1C1A" strokeWidth="1" />
+          <circle cx="560" cy="0" r="240" stroke="#1C1C1A" strokeWidth="1" />
+          <circle cx="560" cy="0" r="130" stroke="#1C1C1A" strokeWidth="1" />
         </svg>
 
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-24 pb-28 relative z-10">
-          <div className="space-y-9">
-            <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5">
-              RC Professionale · Liberi Professionisti
-            </span>
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-24 pb-20 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] items-center gap-12">
 
-            <h1 className="text-[clamp(3rem,6.2vw,5.4rem)] font-bold leading-[0.97] tracking-[-0.03em] text-[#1C1C1A] font-[family-name:var(--font-heading)] max-w-5xl">
-              Scegliere la RC giusta<br />
-              non dovrebbe essere<br />
-              <span className="text-[#5046E4]">complicato.</span>
-            </h1>
+            {/* colonna sinistra: testo */}
+            <div className="space-y-9">
+              <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5">
+                RC Professionale · Liberi Professionisti
+              </span>
 
-            <p className="text-lg sm:text-xl text-[#5F5F5A] leading-relaxed max-w-2xl">
-              ScelgoSicuro analizza il tuo profilo professionale, confronta le migliori compagnie e ti spiega davvero cosa stai acquistando. In 2 minuti.
-            </p>
+              <h1 className="text-[clamp(2.8rem,5.8vw,5rem)] font-bold leading-[0.97] tracking-[-0.03em] text-[#1C1C1A] font-[family-name:var(--font-heading)]">
+                Scegliere la RC giusta<br />
+                non dovrebbe essere<br />
+                <span className="text-[#5046E4]">complicato.</span>
+              </h1>
 
-            <div className="flex flex-col sm:flex-row gap-3 pt-1">
-              <Link
-                href="/app"
-                className="inline-flex items-center justify-center gap-2 bg-[#5046E4] text-white font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:bg-[#4338CA] hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(80,70,228,0.35)]"
-              >
-                Calcola il preventivo
-                <span className="text-white/70">→</span>
-              </Link>
-              <a
-                href="#come-funziona"
-                className="inline-flex items-center justify-center gap-2 border border-[#E8E4DC] bg-white text-[#1C1C1A] font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:border-[#1C1C1A]/30 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
-              >
-                Come funziona
-              </a>
-            </div>
+              <p className="text-lg sm:text-xl text-[#5F5F5A] leading-relaxed max-w-xl">
+                ScelgoSicuro analizza il tuo profilo professionale, confronta le migliori compagnie e ti spiega davvero cosa stai acquistando. In 2 minuti.
+              </p>
 
-            <div className="flex flex-wrap items-center gap-x-7 gap-y-3 pt-1">
-              {["Gratuito e senza impegno", "5+ compagnie confrontate", "Polizza attiva in 24 ore"].map((t) => (
-                <div key={t} className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-[#EEF2FF] flex items-center justify-center flex-shrink-0">
-                    <span className="text-[#5046E4] text-[8px] font-bold">✓</span>
+              <div className="flex flex-col sm:flex-row gap-3 pt-1">
+                <Link
+                  href="/app"
+                  className="inline-flex items-center justify-center gap-2 bg-[#5046E4] text-white font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:bg-[#4338CA] hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(80,70,228,0.35)]"
+                >
+                  Calcola il preventivo
+                  <span className="text-white/70">→</span>
+                </Link>
+                <a
+                  href="#come-funziona"
+                  className="inline-flex items-center justify-center gap-2 border border-[#E8E4DC] bg-white text-[#1C1C1A] font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:border-[#1C1C1A]/30 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+                >
+                  Come funziona
+                </a>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-x-7 gap-y-3 pt-1">
+                {["Gratuito e senza impegno", "5+ compagnie confrontate", "Polizza attiva in 24 ore"].map((t) => (
+                  <div key={t} className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-[#EEF2FF] flex items-center justify-center flex-shrink-0">
+                      <span className="text-[#5046E4] text-[8px] font-bold">✓</span>
+                    </div>
+                    <span className="text-sm text-[#5F5F5A] font-medium">{t}</span>
                   </div>
-                  <span className="text-sm text-[#5F5F5A] font-medium">{t}</span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
+
+            {/* colonna destra: mock card, taglia fuori dal bordo destro */}
+            <div className="hidden lg:block translate-x-[80px]">
+              <div className="w-80 bg-white rounded-3xl shadow-[0_24px_64px_rgba(0,0,0,0.13)] overflow-hidden">
+
+                {/* card header */}
+                <div className="bg-[#F7F4EE] px-5 py-4 border-b border-[#E8E4DC] flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#5046E4]">
+                    <span>⭐</span> Consigliata per te
+                  </span>
+                  <span className="text-[10px] font-semibold text-[#5F5F5A] bg-white border border-[#E8E4DC] px-2.5 py-1 rounded-full">
+                    AmTrust
+                  </span>
+                </div>
+
+                {/* price band */}
+                <div className="bg-[#EEF2FF] px-5 py-5">
+                  <p className="text-xs font-semibold text-[#5F5F5A] mb-2">RC Professionale · Medici</p>
+                  <div className="flex items-end justify-between">
+                    <div>
+                      <p className="text-3xl font-bold text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">€ 420</p>
+                      <p className="text-xs text-[#5F5F5A] mt-0.5">/ anno · IVA inclusa</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-bold text-[#5046E4]">€ 35</p>
+                      <p className="text-[10px] text-[#5F5F5A]">/ mese</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* features */}
+                <div className="px-5 py-4 space-y-2.5">
+                  {["Colpa grave inclusa", "Retroattività 10 anni", "Massimale € 1.000.000"].map((f) => (
+                    <div key={f} className="flex items-center gap-2.5">
+                      <div className="w-4 h-4 rounded-full bg-[#EEF2FF] flex items-center justify-center flex-shrink-0">
+                        <span className="text-[#5046E4] text-[8px] font-bold">✓</span>
+                      </div>
+                      <span className="text-sm text-[#5F5F5A] font-medium">{f}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* other companies */}
+                <div className="px-5 pb-4">
+                  <div className="border border-[#E8E4DC] rounded-2xl p-3 flex items-center justify-between">
+                    <p className="text-[10px] font-semibold text-[#5F5F5A]">Altre opzioni</p>
+                    <div className="flex gap-1.5">
+                      {["AXA", "Generali", "Unipol"].map((c) => (
+                        <span key={c} className="text-[9px] font-semibold text-[#5F5F5A] bg-[#F7F4EE] border border-[#E8E4DC] px-2 py-0.5 rounded-full">{c}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <div className="px-5 pb-5">
+                  <div className="bg-[#5046E4] text-white text-center py-3.5 rounded-full text-sm font-semibold">
+                    Acquista questa polizza →
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
