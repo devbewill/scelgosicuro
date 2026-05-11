@@ -5,6 +5,7 @@ import Link from "next/link"
 
 // ─── COLOR TOKENS ─────────────────────────────────────────────────────────────
 // Primary: deep indigo #5046E4 / hover #4338CA / tint #EEF2FF
+// Accents: sage #dbe1b0 / rose #eeb3b3 / greige #dad2c4 / cream #F7F4EE
 
 const FAQ = [
   { q: "Quanto tempo serve per ottenere un preventivo?", a: "In molti casi bastano pochi minuti. Ti chiediamo solo le informazioni che contano davvero: professione, attività, responsabilità e rischi. Niente moduli infiniti." },
@@ -14,6 +15,51 @@ const FAQ = [
   { q: "Posso parlare con un consulente?", a: "Sì. Se necessario puoi ricevere supporto da un consulente dedicato. Tecnologia e presenza umana lavorano insieme." },
   { q: "Cosa sono massimali, franchigie e retroattività?", a: "Sono i parametri chiave di una RC professionale. Ti spieghiamo cosa significano in modo chiaro, senza linguaggio tecnico, così sai esattamente cosa stai acquistando." },
 ]
+
+// ─── SVG ACCENTS ─────────────────────────────────────────────────────────────
+
+function IconArrowDiagonal() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <path d="M5 17L17 5M17 5H9M17 5V13" stroke="#5046E4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+function IconArrowRight() {
+  return (
+    <svg width="28" height="16" viewBox="0 0 28 16" fill="none" aria-hidden="true">
+      <path d="M0 8H26M20 2L26 8L20 14" stroke="#5046E4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+function IconArrowDown() {
+  return (
+    <svg width="16" height="28" viewBox="0 0 16 28" fill="none" aria-hidden="true">
+      <path d="M8 0V26M2 20L8 26L14 20" stroke="#5046E4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+function IconCircle() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="9" stroke="#5046E4" strokeWidth="2" />
+    </svg>
+  )
+}
+function IconPlus() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <path d="M11 2V20M2 11H20" stroke="#5046E4" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  )
+}
+function IconAsterisk() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <path d="M11 2V20M2 11H20M4 4L18 18M18 4L4 18" stroke="#5046E4" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  )
+}
 
 // ─── NAVBAR ──────────────────────────────────────────────────────────────────
 
@@ -223,13 +269,16 @@ export function LandingPage() {
         </div>
       </div>
 
-      {/* ── HOW IT WORKS ─────────────────────────────────────────────────── */}
-      <section id="come-funziona" className="bg-white">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
-          <div className="mb-14 max-w-2xl">
-            <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
-              Come funziona
-            </span>
+      {/* ── HOW IT WORKS — bg sage ────────────────────────────────────────── */}
+      <section id="come-funziona" className="bg-[#dbe1b0]">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-28 pb-36">
+          <div className="mb-16 max-w-2xl">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="inline-block bg-white/60 text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5">
+                Come funziona
+              </span>
+              <IconArrowDiagonal />
+            </div>
             <h2 className="text-[clamp(2rem,4.5vw,3.2rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.05] font-[family-name:var(--font-heading)]">
               Un processo semplice.<br />Pensato per chi lavora.
             </h2>
@@ -240,7 +289,7 @@ export function LandingPage() {
               { n: "02", title: "Il sistema analizza il tuo profilo", desc: "ScelgoSicuro combina le caratteristiche della tua professione e i rischi tipici del settore. L'obiettivo non è mostrarti decine di prodotti — è trovare quello più coerente con il tuo lavoro." },
               { n: "03", title: "Ricevi una proposta già selezionata", desc: "Ti presentiamo la soluzione più adatta al tuo profilo. Se vuoi, puoi confrontarla con le alternative disponibili e affinare il preventivo in tempo reale." },
             ].map((s, i) => (
-              <div key={i} className="bg-[#F7F4EE] rounded-3xl p-8 flex flex-col gap-5">
+              <div key={i} className="bg-white rounded-3xl p-8 flex flex-col gap-5 shadow-[0_4px_24px_rgba(0,0,0,0.05)]">
                 <span className="text-5xl font-bold text-[#5046E4] leading-none font-[family-name:var(--font-heading)]">{s.n}</span>
                 <h3 className="text-xl font-bold text-[#1C1C1A] font-[family-name:var(--font-heading)]">{s.title}</h3>
                 <p className="text-base text-[#5F5F5A] leading-relaxed">{s.desc}</p>
@@ -250,9 +299,13 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ── STATS ────────────────────────────────────────────────────────── */}
-      <section className="bg-[#1C1C1A]">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
+      {/* ── STATS — bg dark ──────────────────────────────────────────────── */}
+      <section className="bg-[#1C1C1A] relative overflow-hidden">
+        {/* asterisk watermark */}
+        <svg className="absolute top-5 right-8 pointer-events-none" style={{ opacity: 0.18 }} width="52" height="52" viewBox="0 0 52 52" fill="none" aria-hidden="true">
+          <path d="M26 4V48M4 26H48M8 8L44 44M44 8L8 44" stroke="#5046E4" strokeWidth="2.5" strokeLinecap="round" />
+        </svg>
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10">
             {[
               { n: "2 min", label: "Per ottenere un preventivo" },
@@ -269,14 +322,17 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ── APPROACH ─────────────────────────────────────────────────────── */}
-      <section className="bg-white">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
+      {/* ── APPROACH — bg cream ──────────────────────────────────────────── */}
+      <section className="bg-[#F7F4EE]">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-32">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
             <div>
-              <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-6">
-                Il nostro approccio
-              </span>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5">
+                  Il nostro approccio
+                </span>
+                <IconArrowRight />
+              </div>
               <h2 className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.1] mb-6 font-[family-name:var(--font-heading)]">
                 Non confrontiamo solo i prezzi.<br />Analizziamo il tuo lavoro.
               </h2>
@@ -294,7 +350,7 @@ export function LandingPage() {
                 { label: "Rischi specifici del settore", desc: "Colpa grave, retroattività, massimali adeguati" },
                 { label: "Qualità delle coperture", desc: "Non solo il premio annuo, ma cosa copre davvero" },
               ].map((item, i) => (
-                <div key={i} className="bg-[#F7F4EE] border border-[#E8E4DC] rounded-2xl p-5 flex gap-4 items-start">
+                <div key={i} className="bg-white border border-[#E8E4DC] rounded-2xl p-5 flex gap-4 items-start shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
                   <div className="w-8 h-8 rounded-full bg-[#EEF2FF] flex items-center justify-center flex-shrink-0 mt-0.5">
                     <span className="text-[#5046E4] text-xs font-bold">✓</span>
                   </div>
@@ -309,27 +365,30 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ── TRANSPARENCY ─────────────────────────────────────────────────── */}
-      <section className="bg-[#F7F4EE]">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
+      {/* ── TRANSPARENCY — bg rose ───────────────────────────────────────── */}
+      <section className="bg-[#eeb3b3]">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-32">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-6">
-                Trasparenza
-              </span>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="inline-block bg-white/60 text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5">
+                  Trasparenza
+                </span>
+                <IconCircle />
+              </div>
               <h2 className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.1] mb-5 font-[family-name:var(--font-heading)]">
                 Capire una polizza dovrebbe essere semplice.
               </h2>
-              <p className="text-base text-[#5F5F5A] leading-relaxed">
+              <p className="text-base text-[#1C1C1A]/60 leading-relaxed">
                 Massimali, franchigie, retroattività, colpa grave. Molti professionisti sottoscrivono una polizza senza avere davvero chiaro cosa copre, cosa resta escluso e quali clausole incidono sulla protezione reale.
               </p>
-              <p className="text-base text-[#5F5F5A] leading-relaxed mt-4">
+              <p className="text-base text-[#1C1C1A]/60 leading-relaxed mt-4">
                 ScelgoSicuro ti aiuta a comprendere le opzioni in modo semplice e chiaro, così puoi scegliere con maggiore sicurezza.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3">
               {["Cosa copre", "Cosa resta escluso", "Quali garanzie contano", "Clausole che incidono"].map((item) => (
-                <div key={item} className="bg-white border border-[#E8E4DC] rounded-2xl p-5 flex items-start gap-3 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+                <div key={item} className="bg-white rounded-2xl p-5 flex items-start gap-3 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
                   <div className="w-5 h-5 rounded-full bg-[#EEF2FF] flex items-center justify-center flex-shrink-0 mt-0.5">
                     <span className="text-[#5046E4] text-[8px] font-bold">✓</span>
                   </div>
@@ -341,17 +400,22 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ── PROFESSIONI ──────────────────────────────────────────────────── */}
-      <section className="bg-white">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
-          <div className="mb-12">
-            <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
-              Soluzioni dedicate
-            </span>
+      {/* ── PROFESSIONI — bg greige ──────────────────────────────────────── */}
+      <section className="bg-[#dad2c4]">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-32 pb-20">
+          <div className="mb-10">
+            <div className="flex items-center gap-3 mb-5">
+              <span className="inline-block bg-white/60 text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5">
+                Soluzioni dedicate
+              </span>
+            </div>
             <h2 className="text-[clamp(2rem,4.5vw,3.2rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.05] font-[family-name:var(--font-heading)]">
               Ogni professione<br />ha esigenze diverse.
             </h2>
-            <p className="text-base text-[#5F5F5A] mt-4 max-w-lg leading-relaxed">
+            <div className="mt-5 mb-6">
+              <IconArrowDown />
+            </div>
+            <p className="text-base text-[#1C1C1A]/55 max-w-lg leading-relaxed">
               Anche la polizza dovrebbe esserlo. Copriamo le principali categorie professionali con soluzioni calibrate sul profilo di rischio reale.
             </p>
           </div>
@@ -360,7 +424,7 @@ export function LandingPage() {
               <Link
                 key={prof}
                 href="/app"
-                className="bg-[#F7F4EE] border border-[#E8E4DC] rounded-2xl px-5 py-4 flex items-center gap-3 transition-all duration-200 hover:border-[#5046E4]/30 hover:bg-[#EEF2FF]/40"
+                className="bg-white/70 border border-white/60 rounded-2xl px-5 py-4 flex items-center gap-3 transition-all duration-200 hover:bg-white hover:border-[#5046E4]/30 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
               >
                 <div className="w-2 h-2 rounded-full bg-[#5046E4] flex-shrink-0" />
                 <p className="font-semibold text-sm text-[#1C1C1A]">{prof}</p>
@@ -370,13 +434,16 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ── WHY US ───────────────────────────────────────────────────────── */}
+      {/* ── WHY US — bg cream ────────────────────────────────────────────── */}
       <section className="bg-[#F7F4EE]">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-24">
           <div className="mb-12">
-            <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
-              Perché noi
-            </span>
+            <div className="flex items-center gap-3 mb-5">
+              <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5">
+                Perché noi
+              </span>
+              <IconPlus />
+            </div>
             <h2 className="text-[clamp(2rem,4.5vw,3.2rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.05] font-[family-name:var(--font-heading)]">
               Perché scegliere ScelgoSicuro
             </h2>
@@ -402,34 +469,37 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ── FAQ ──────────────────────────────────────────────────────────── */}
-      <section id="faq" className="bg-white">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
+      {/* ── FAQ — bg sage ────────────────────────────────────────────────── */}
+      <section id="faq" className="bg-[#dbe1b0]">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-28">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             <div>
-              <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
-                FAQ
-              </span>
+              <div className="flex items-center gap-3 mb-5">
+                <span className="inline-block bg-white/60 text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5">
+                  FAQ
+                </span>
+                <IconAsterisk />
+              </div>
               <h2 className="text-3xl font-bold tracking-tight text-[#1C1C1A] font-[family-name:var(--font-heading)]">Domande frequenti</h2>
-              <p className="text-base text-[#5F5F5A] mt-4 leading-relaxed">
+              <p className="text-base text-[#1C1C1A]/55 mt-4 leading-relaxed">
                 Non trovi risposta?{" "}
                 <span className="text-[#5046E4] font-semibold cursor-pointer hover:text-[#4338CA] transition-colors">Scrivici →</span>
               </p>
             </div>
             <div className="md:col-span-2 space-y-3">
               {FAQ.map((item, i) => (
-                <div key={i} className="bg-[#F7F4EE] border border-[#E8E4DC] rounded-2xl overflow-hidden">
+                <div key={i} className="bg-white border border-[#c8d49a] rounded-2xl overflow-hidden">
                   <button
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                     className="w-full flex items-center justify-between py-5 px-6 text-left"
                   >
                     <span className="font-semibold text-base text-[#1C1C1A] pr-4">{item.q}</span>
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-base font-bold transition-all duration-200 ${openFaq === i ? "bg-[#5046E4] text-white" : "bg-white text-[#5F5F5A]"}`}>
+                    <span className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-base font-bold transition-all duration-200 ${openFaq === i ? "bg-[#5046E4] text-white" : "bg-[#F7F4EE] text-[#5F5F5A]"}`}>
                       {openFaq === i ? "−" : "+"}
                     </span>
                   </button>
                   {openFaq === i && (
-                    <div className="px-6 pb-5 text-base text-[#5F5F5A] leading-relaxed border-t border-[#E8E4DC] pt-4">
+                    <div className="px-6 pb-5 text-base text-[#5F5F5A] leading-relaxed border-t border-[#c8d49a] pt-4">
                       {item.a}
                     </div>
                   )}
@@ -442,7 +512,6 @@ export function LandingPage() {
 
       {/* ── CTA BAND ─────────────────────────────────────────────────────── */}
       <section className="bg-[#5046E4] relative overflow-hidden">
-        {/* abstract blob inside CTA */}
         <div
           className="absolute pointer-events-none"
           style={{
