@@ -3,7 +3,8 @@
 import { useState } from "react"
 import Link from "next/link"
 
-// ─── FAQ DATA ─────────────────────────────────────────────────────────────────
+// ─── COLOR TOKENS ─────────────────────────────────────────────────────────────
+// Primary: deep indigo #5046E4 / hover #4338CA / tint #EEF2FF
 
 const FAQ = [
   { q: "Quanto tempo serve per ottenere un preventivo?", a: "In molti casi bastano pochi minuti. Ti chiediamo solo le informazioni che contano davvero: professione, attività, responsabilità e rischi. Niente moduli infiniti." },
@@ -14,119 +15,14 @@ const FAQ = [
   { q: "Cosa sono massimali, franchigie e retroattività?", a: "Sono i parametri chiave di una RC professionale. Ti spieghiamo cosa significano in modo chiaro, senza linguaggio tecnico, così sai esattamente cosa stai acquistando." },
 ]
 
-// ─── HERO GRAPHIC ─────────────────────────────────────────────────────────────
-
-function HeroGraphic() {
-  return (
-    <div className="relative flex items-center justify-center min-h-[480px]">
-      {/* background blobs */}
-      <div className="absolute top-8 right-0 w-72 h-72 bg-[#DDF7F2] rounded-full opacity-60 blur-2xl" />
-      <div className="absolute bottom-0 left-8 w-48 h-48 bg-[#00C2A8]/10 rounded-full blur-3xl" />
-
-      {/* floating pill — top left */}
-      <div className="absolute top-6 left-4 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] px-4 py-3 flex items-center gap-2.5 z-20">
-        <div className="w-8 h-8 bg-[#DDF7F2] rounded-xl flex items-center justify-center flex-shrink-0">
-          <span className="text-[#00C2A8] text-sm">⚡</span>
-        </div>
-        <div>
-          <p className="text-xs font-bold text-[#1C1C1A] leading-tight">Preventivo in 2 min</p>
-          <p className="text-[10px] text-[#5F5F5A]">Risultato immediato</p>
-        </div>
-      </div>
-
-      {/* floating pill — bottom right */}
-      <div className="absolute bottom-10 right-2 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] px-4 py-3 flex items-center gap-2.5 z-20">
-        <div className="w-8 h-8 bg-[#DDF7F2] rounded-xl flex items-center justify-center flex-shrink-0">
-          <span className="text-[#00C2A8] text-sm">🏢</span>
-        </div>
-        <div>
-          <p className="text-xs font-bold text-[#1C1C1A] leading-tight">5+ compagnie</p>
-          <p className="text-[10px] text-[#5F5F5A]">confrontate per te</p>
-        </div>
-      </div>
-
-      {/* main mock card */}
-      <div className="relative z-10 w-80 bg-white rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] overflow-hidden">
-        {/* card header */}
-        <div className="bg-[#F7F4EE] px-5 py-4 border-b border-[#E8E4DC] flex items-center justify-between">
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00C2A8]">
-            <span>⭐</span> Consigliata per te
-          </span>
-          <span className="text-[10px] font-semibold text-[#5F5F5A] bg-white border border-[#E8E4DC] px-2 py-0.5 rounded-full">
-            AmTrust
-          </span>
-        </div>
-
-        {/* price band */}
-        <div className="bg-[#DDF7F2] px-5 py-5">
-          <p className="text-xs font-semibold text-[#5F5F5A] mb-1">RC Professionale · Medici</p>
-          <div className="flex items-end justify-between">
-            <div>
-              <p className="text-3xl font-bold text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">€ 420</p>
-              <p className="text-xs text-[#5F5F5A] mt-0.5">/ anno · IVA inclusa</p>
-            </div>
-            <div className="text-right">
-              <p className="text-sm font-bold text-[#00C2A8]">€ 35</p>
-              <p className="text-[10px] text-[#5F5F5A]">/ mese</p>
-            </div>
-          </div>
-        </div>
-
-        {/* features */}
-        <div className="px-5 py-4 space-y-2.5">
-          {["Colpa grave inclusa", "Retroattività 10 anni", "Massimale € 1.000.000"].map((f) => (
-            <div key={f} className="flex items-center gap-2.5">
-              <div className="w-4 h-4 rounded-full bg-[#DDF7F2] flex items-center justify-center flex-shrink-0">
-                <span className="text-[#00C2A8] text-[8px] font-bold">✓</span>
-              </div>
-              <span className="text-sm text-[#5F5F5A] font-medium">{f}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* compare row */}
-        <div className="px-5 pb-4">
-          <div className="border border-[#E8E4DC] rounded-2xl p-3 flex items-center justify-between">
-            <p className="text-[10px] font-semibold text-[#5F5F5A]">Altre opzioni</p>
-            <div className="flex gap-1.5">
-              {["AXA", "Generali", "Unipol"].map((c) => (
-                <span key={c} className="text-[9px] font-semibold text-[#5F5F5A] bg-[#F7F4EE] border border-[#E8E4DC] px-2 py-0.5 rounded-full">{c}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* CTA in card */}
-        <div className="px-5 pb-5">
-          <div className="bg-[#00C2A8] text-white text-center py-3 rounded-full text-sm font-semibold">
-            Acquista questa polizza →
-          </div>
-        </div>
-      </div>
-
-      {/* decorative dots grid */}
-      <div className="absolute top-0 right-0 grid grid-cols-5 gap-2.5 opacity-20 z-0">
-        {Array.from({ length: 25 }).map((_, i) => (
-          <div key={i} className="w-1.5 h-1.5 rounded-full bg-[#00C2A8]" />
-        ))}
-      </div>
-      <div className="absolute bottom-0 left-0 grid grid-cols-4 gap-2.5 opacity-15 z-0">
-        {Array.from({ length: 16 }).map((_, i) => (
-          <div key={i} className="w-1.5 h-1.5 rounded-full bg-[#1C1C1A]" />
-        ))}
-      </div>
-    </div>
-  )
-}
-
 // ─── NAVBAR ──────────────────────────────────────────────────────────────────
 
 function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-[#E8E4DC]">
+    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#E8E4DC]">
       <div className="max-w-6xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
         <span className="font-bold text-xl text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">
-          ScelgoSicuro<span className="text-[#00C2A8]">.</span>
+          ScelgoSicuro<span className="text-[#5046E4]">.</span>
         </span>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#5F5F5A]">
           <a href="#come-funziona" className="hover:text-[#1C1C1A] transition-colors">Come funziona</a>
@@ -134,7 +30,7 @@ function Navbar() {
         </div>
         <Link
           href="/app"
-          className="bg-[#00C2A8] text-white font-semibold px-5 py-2.5 text-sm rounded-full transition-all duration-200 hover:bg-[#009E89] hover:-translate-y-px hover:shadow-[0_4px_12px_rgba(0,194,168,0.3)]"
+          className="bg-[#5046E4] text-white font-semibold px-5 py-2.5 text-sm rounded-full transition-all duration-200 hover:bg-[#4338CA] hover:-translate-y-px hover:shadow-[0_4px_16px_rgba(80,70,228,0.35)]"
         >
           Preventivo gratuito →
         </Link>
@@ -153,65 +49,94 @@ export function LandingPage() {
       <Navbar />
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="bg-[#F7F4EE] overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* left: copy */}
-            <div className="space-y-8">
-              <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5">
-                RC Professionale · Liberi Professionisti
-              </span>
+      <section className="bg-[#F7F4EE] relative overflow-hidden">
 
-              <h1 className="text-[clamp(2.8rem,5.5vw,4.4rem)] font-bold leading-[1.0] tracking-[-0.03em] text-[#1C1C1A] font-[family-name:var(--font-heading)]">
-                Scegliere la RC giusta non dovrebbe essere{" "}
-                <span className="text-[#00C2A8]">complicato.</span>
-              </h1>
+        {/* abstract: large gradient blob top-right, bleeds from outside */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            top: "-15%",
+            right: "-8%",
+            width: "750px",
+            height: "750px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle at center, rgba(80,70,228,0.22) 0%, rgba(80,70,228,0.08) 45%, transparent 70%)",
+            filter: "blur(72px)",
+          }}
+        />
 
-              <p className="text-lg text-[#5F5F5A] leading-relaxed max-w-lg">
-                ScelgoSicuro analizza il tuo profilo professionale, confronta le migliori compagnie e ti spiega davvero cosa stai acquistando. In 2 minuti.
-              </p>
+        {/* abstract: smaller warm blob bottom-left */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            bottom: "-20%",
+            left: "-6%",
+            width: "480px",
+            height: "480px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle at center, rgba(80,70,228,0.10) 0%, transparent 65%)",
+            filter: "blur(90px)",
+          }}
+        />
 
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link
-                  href="/app"
-                  className="inline-flex items-center justify-center gap-2 bg-[#00C2A8] text-white font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:bg-[#009E89] hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(0,194,168,0.35)]"
-                >
-                  Calcola il preventivo
-                  <span className="text-white/80">→</span>
-                </Link>
-                <a
-                  href="#come-funziona"
-                  className="inline-flex items-center justify-center gap-2 border border-[#E8E4DC] text-[#1C1C1A] font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:bg-white hover:border-[#1C1C1A]/20"
-                >
-                  Come funziona
-                </a>
-              </div>
+        {/* abstract: concentric arcs SVG, anchored top-right corner */}
+        <svg
+          aria-hidden="true"
+          className="absolute top-0 right-0 pointer-events-none"
+          width="560"
+          height="560"
+          viewBox="0 0 560 560"
+          fill="none"
+          style={{ opacity: 0.055 }}
+        >
+          <circle cx="560" cy="0" r="480" stroke="#5046E4" strokeWidth="1" />
+          <circle cx="560" cy="0" r="360" stroke="#5046E4" strokeWidth="1" />
+          <circle cx="560" cy="0" r="240" stroke="#5046E4" strokeWidth="1" />
+          <circle cx="560" cy="0" r="130" stroke="#5046E4" strokeWidth="1" />
+        </svg>
 
-              {/* trust row */}
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-[#DDF7F2] flex items-center justify-center">
-                    <span className="text-[#00C2A8] text-[8px] font-bold">✓</span>
-                  </div>
-                  <span className="text-sm text-[#5F5F5A] font-medium">Gratuito e senza impegno</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-[#DDF7F2] flex items-center justify-center">
-                    <span className="text-[#00C2A8] text-[8px] font-bold">✓</span>
-                  </div>
-                  <span className="text-sm text-[#5F5F5A] font-medium">5+ compagnie confrontate</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-[#DDF7F2] flex items-center justify-center">
-                    <span className="text-[#00C2A8] text-[8px] font-bold">✓</span>
-                  </div>
-                  <span className="text-sm text-[#5F5F5A] font-medium">Emissione in 24 ore</span>
-                </div>
-              </div>
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-24 pb-28 relative z-10">
+          <div className="space-y-9">
+            <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5">
+              RC Professionale · Liberi Professionisti
+            </span>
+
+            <h1 className="text-[clamp(3rem,6.2vw,5.4rem)] font-bold leading-[0.97] tracking-[-0.03em] text-[#1C1C1A] font-[family-name:var(--font-heading)] max-w-5xl">
+              Scegliere la RC giusta<br />
+              non dovrebbe essere<br />
+              <span className="text-[#5046E4]">complicato.</span>
+            </h1>
+
+            <p className="text-lg sm:text-xl text-[#5F5F5A] leading-relaxed max-w-2xl">
+              ScelgoSicuro analizza il tuo profilo professionale, confronta le migliori compagnie e ti spiega davvero cosa stai acquistando. In 2 minuti.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3 pt-1">
+              <Link
+                href="/app"
+                className="inline-flex items-center justify-center gap-2 bg-[#5046E4] text-white font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:bg-[#4338CA] hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(80,70,228,0.35)]"
+              >
+                Calcola il preventivo
+                <span className="text-white/70">→</span>
+              </Link>
+              <a
+                href="#come-funziona"
+                className="inline-flex items-center justify-center gap-2 border border-[#E8E4DC] bg-white text-[#1C1C1A] font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:border-[#1C1C1A]/30 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+              >
+                Come funziona
+              </a>
             </div>
 
-            {/* right: graphic */}
-            <HeroGraphic />
+            <div className="flex flex-wrap items-center gap-x-7 gap-y-3 pt-1">
+              {["Gratuito e senza impegno", "5+ compagnie confrontate", "Polizza attiva in 24 ore"].map((t) => (
+                <div key={t} className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-[#EEF2FF] flex items-center justify-center flex-shrink-0">
+                    <span className="text-[#5046E4] text-[8px] font-bold">✓</span>
+                  </div>
+                  <span className="text-sm text-[#5F5F5A] font-medium">{t}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -223,7 +148,7 @@ export function LandingPage() {
             <span key={rep} className="inline-flex items-center">
               {["AMTRUST", "AXA", "GENERALI", "UNIPOL", "ALLIANZ", "HDI", "GROUPAMA", "ZURICH", "SARA"].map((c) => (
                 <span key={`${rep}-${c}`} className="inline-flex items-center gap-5 mx-8 text-[#5F5F5A] font-semibold text-sm tracking-widest">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#00C2A8] inline-block flex-shrink-0" />{c}
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#5046E4] inline-block flex-shrink-0" />{c}
                 </span>
               ))}
             </span>
@@ -235,7 +160,7 @@ export function LandingPage() {
       <section id="come-funziona" className="bg-white">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
           <div className="mb-14 max-w-2xl">
-            <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
+            <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
               Come funziona
             </span>
             <h2 className="text-[clamp(2rem,4.5vw,3.2rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.05] font-[family-name:var(--font-heading)]">
@@ -249,7 +174,7 @@ export function LandingPage() {
               { n: "03", title: "Ricevi una proposta già selezionata", desc: "Ti presentiamo la soluzione più adatta al tuo profilo. Se vuoi, puoi confrontarla con le alternative disponibili e affinare il preventivo in tempo reale." },
             ].map((s, i) => (
               <div key={i} className="bg-[#F7F4EE] rounded-3xl p-8 flex flex-col gap-5">
-                <span className="text-5xl font-bold text-[#00C2A8] leading-none font-[family-name:var(--font-heading)]">{s.n}</span>
+                <span className="text-5xl font-bold text-[#5046E4] leading-none font-[family-name:var(--font-heading)]">{s.n}</span>
                 <h3 className="text-xl font-bold text-[#1C1C1A] font-[family-name:var(--font-heading)]">{s.title}</h3>
                 <p className="text-base text-[#5F5F5A] leading-relaxed">{s.desc}</p>
               </div>
@@ -269,7 +194,7 @@ export function LandingPage() {
               { n: "< 24h", label: "Polizza attiva" },
             ].map((s, i) => (
               <div key={i} className="bg-[#1C1C1A] p-8 sm:p-10">
-                <p className="text-4xl sm:text-5xl font-bold text-[#00C2A8] font-[family-name:var(--font-heading)]">{s.n}</p>
+                <p className="text-4xl sm:text-5xl font-bold text-[#5046E4] font-[family-name:var(--font-heading)]">{s.n}</p>
                 <p className="text-sm font-medium text-white/40 mt-3">{s.label}</p>
               </div>
             ))}
@@ -282,7 +207,7 @@ export function LandingPage() {
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
             <div>
-              <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-6">
+              <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-6">
                 Il nostro approccio
               </span>
               <h2 className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.1] mb-6 font-[family-name:var(--font-heading)]">
@@ -303,8 +228,8 @@ export function LandingPage() {
                 { label: "Qualità delle coperture", desc: "Non solo il premio annuo, ma cosa copre davvero" },
               ].map((item, i) => (
                 <div key={i} className="bg-[#F7F4EE] border border-[#E8E4DC] rounded-2xl p-5 flex gap-4 items-start">
-                  <div className="w-8 h-8 rounded-full bg-[#DDF7F2] flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-[#00C2A8] text-xs font-bold">✓</span>
+                  <div className="w-8 h-8 rounded-full bg-[#EEF2FF] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-[#5046E4] text-xs font-bold">✓</span>
                   </div>
                   <div>
                     <p className="font-semibold text-[#1C1C1A] text-base">{item.label}</p>
@@ -322,7 +247,7 @@ export function LandingPage() {
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-6">
+              <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-6">
                 Trasparenza
               </span>
               <h2 className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.1] mb-5 font-[family-name:var(--font-heading)]">
@@ -338,8 +263,8 @@ export function LandingPage() {
             <div className="grid grid-cols-2 gap-3">
               {["Cosa copre", "Cosa resta escluso", "Quali garanzie contano", "Clausole che incidono"].map((item) => (
                 <div key={item} className="bg-white border border-[#E8E4DC] rounded-2xl p-5 flex items-start gap-3 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
-                  <div className="w-5 h-5 rounded-full bg-[#DDF7F2] flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-[#00C2A8] text-[8px] font-bold">✓</span>
+                  <div className="w-5 h-5 rounded-full bg-[#EEF2FF] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-[#5046E4] text-[8px] font-bold">✓</span>
                   </div>
                   <span className="text-sm font-semibold text-[#1C1C1A] leading-snug">{item}</span>
                 </div>
@@ -353,7 +278,7 @@ export function LandingPage() {
       <section className="bg-white">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
           <div className="mb-12">
-            <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
+            <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
               Soluzioni dedicate
             </span>
             <h2 className="text-[clamp(2rem,4.5vw,3.2rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.05] font-[family-name:var(--font-heading)]">
@@ -368,9 +293,9 @@ export function LandingPage() {
               <Link
                 key={prof}
                 href="/app"
-                className="bg-[#F7F4EE] border border-[#E8E4DC] rounded-2xl px-5 py-4 flex items-center gap-3 transition-all duration-200 hover:border-[#00C2A8]/40 hover:bg-[#DDF7F2]/30"
+                className="bg-[#F7F4EE] border border-[#E8E4DC] rounded-2xl px-5 py-4 flex items-center gap-3 transition-all duration-200 hover:border-[#5046E4]/30 hover:bg-[#EEF2FF]/40"
               >
-                <div className="w-2 h-2 rounded-full bg-[#00C2A8] flex-shrink-0" />
+                <div className="w-2 h-2 rounded-full bg-[#5046E4] flex-shrink-0" />
                 <p className="font-semibold text-sm text-[#1C1C1A]">{prof}</p>
               </Link>
             ))}
@@ -382,7 +307,7 @@ export function LandingPage() {
       <section className="bg-[#F7F4EE]">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
           <div className="mb-12">
-            <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
+            <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
               Perché noi
             </span>
             <h2 className="text-[clamp(2rem,4.5vw,3.2rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.05] font-[family-name:var(--font-heading)]">
@@ -399,8 +324,8 @@ export function LandingPage() {
               { title: "Supporto umano quando serve", desc: "Tecnologia e consulenza lavorano insieme. Un consulente è sempre disponibile." },
             ].map((item, i) => (
               <div key={i} className="bg-white border border-[#E8E4DC] rounded-3xl p-7 shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
-                <div className="w-10 h-10 bg-[#DDF7F2] rounded-2xl flex items-center justify-center mb-5">
-                  <span className="text-[#00C2A8] text-base font-bold">✓</span>
+                <div className="w-10 h-10 bg-[#EEF2FF] rounded-2xl flex items-center justify-center mb-5">
+                  <span className="text-[#5046E4] text-base font-bold">✓</span>
                 </div>
                 <h3 className="font-bold text-[#1C1C1A] text-base mb-2 font-[family-name:var(--font-heading)]">{item.title}</h3>
                 <p className="text-sm text-[#5F5F5A] leading-relaxed">{item.desc}</p>
@@ -415,13 +340,13 @@ export function LandingPage() {
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             <div>
-              <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
+              <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
                 FAQ
               </span>
               <h2 className="text-3xl font-bold tracking-tight text-[#1C1C1A] font-[family-name:var(--font-heading)]">Domande frequenti</h2>
               <p className="text-base text-[#5F5F5A] mt-4 leading-relaxed">
                 Non trovi risposta?{" "}
-                <span className="text-[#00C2A8] font-semibold cursor-pointer hover:text-[#009E89] transition-colors">Scrivici →</span>
+                <span className="text-[#5046E4] font-semibold cursor-pointer hover:text-[#4338CA] transition-colors">Scrivici →</span>
               </p>
             </div>
             <div className="md:col-span-2 space-y-3">
@@ -432,7 +357,7 @@ export function LandingPage() {
                     className="w-full flex items-center justify-between py-5 px-6 text-left"
                   >
                     <span className="font-semibold text-base text-[#1C1C1A] pr-4">{item.q}</span>
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-base font-bold transition-all duration-200 ${openFaq === i ? "bg-[#00C2A8] text-white" : "bg-white text-[#5F5F5A]"}`}>
+                    <span className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-base font-bold transition-all duration-200 ${openFaq === i ? "bg-[#5046E4] text-white" : "bg-white text-[#5F5F5A]"}`}>
                       {openFaq === i ? "−" : "+"}
                     </span>
                   </button>
@@ -449,19 +374,32 @@ export function LandingPage() {
       </section>
 
       {/* ── CTA BAND ─────────────────────────────────────────────────────── */}
-      <section className="bg-[#00C2A8]">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+      <section className="bg-[#5046E4] relative overflow-hidden">
+        {/* abstract blob inside CTA */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            top: "-50%",
+            right: "-5%",
+            width: "500px",
+            height: "500px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 65%)",
+            filter: "blur(60px)",
+          }}
+        />
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8 relative z-10">
           <div className="max-w-lg">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white font-[family-name:var(--font-heading)]">
               La scelta giusta non è sempre la più economica.
             </h2>
-            <p className="text-base text-white/70 mt-3 leading-relaxed">
+            <p className="text-base text-white/60 mt-3 leading-relaxed">
               È quella più adatta a proteggere il tuo lavoro. Online in pochi minuti — nessun obbligo.
             </p>
           </div>
           <Link
             href="/app"
-            className="bg-white text-[#00C2A8] font-semibold px-8 py-4 rounded-full text-base transition-all duration-200 hover:-translate-y-px hover:shadow-[0_8px_30px_rgba(0,0,0,0.15)] flex-shrink-0 whitespace-nowrap"
+            className="bg-white text-[#5046E4] font-semibold px-8 py-4 rounded-full text-base transition-all duration-200 hover:-translate-y-px hover:shadow-[0_8px_30px_rgba(0,0,0,0.20)] flex-shrink-0 whitespace-nowrap"
           >
             Calcola il preventivo →
           </Link>
@@ -474,7 +412,7 @@ export function LandingPage() {
           <div className="flex flex-col md:flex-row justify-between gap-12">
             <div>
               <p className="font-bold text-2xl text-white tracking-tight font-[family-name:var(--font-heading)] mb-3">
-                ScelgoSicuro<span className="text-[#00C2A8]">.</span>
+                ScelgoSicuro<span className="text-[#5046E4]">.</span>
               </p>
               <p className="text-sm text-white/40 max-w-xs leading-relaxed">
                 Intermediario assicurativo iscritto al R.U.I. presso IVASS.<br />P.IVA 12345678901
@@ -489,7 +427,7 @@ export function LandingPage() {
                 <div key={col.title} className="space-y-3">
                   <p className="text-white font-semibold text-xs tracking-widest uppercase">{col.title}</p>
                   {col.links.map((l) => (
-                    <p key={l} className="text-white/40 hover:text-[#00C2A8] cursor-pointer transition-colors text-xs">{l}</p>
+                    <p key={l} className="text-white/40 hover:text-[#5046E4] cursor-pointer transition-colors text-xs">{l}</p>
                   ))}
                 </div>
               ))}
