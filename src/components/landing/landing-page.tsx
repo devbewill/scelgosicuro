@@ -233,9 +233,9 @@ export function LandingPage() {
           <circle cx="560" cy="0" r="130" stroke="#1C1C1A" strokeWidth="1" />
         </svg>
 
-        {/* testo — limitato a sinistra per lasciare spazio ai pannelli */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 pt-24 pb-20 relative z-10">
-          <div className="lg:max-w-[52%] space-y-9">
+        {/* testo — z-20 per stare sopra il pannello */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 pt-24 pb-20 relative z-20">
+          <div className="lg:max-w-[50%] space-y-9">
             <span className="inline-block bg-[#ffe0f2] text-[#1C1C1A] text-xs font-semibold rounded-full px-3.5 py-1.5">
               RC Professionale · Liberi Professionisti
             </span>
@@ -283,69 +283,82 @@ export function LandingPage() {
           </div>
         </div>
 
-        {/* pannelli a scalinata — escono dallo schermo a destra */}
+        {/* blocco grafico destra — parte da metà schermo, esce a destra */}
         <div
-          className="hidden lg:block absolute top-0 bottom-0 pointer-events-none z-20"
-          style={{ right: "-72px", width: "520px" }}
+          className="hidden lg:block absolute top-0 bottom-0 z-10 pointer-events-none"
+          style={{ left: "50%", right: "-80px" }}
         >
-          {[
-            {
-              bg: "#dbe1b0",
-              top: 36,
-              left: 0,
-              label: "01",
-              title: "Analizziamo\nil tuo profilo",
-            },
-            {
-              bg: "#eeb3b3",
-              top: 252,
-              left: 64,
-              label: "02",
-              title: "Confrontiamo\nle offerte",
-            },
-            {
-              bg: "#dad2c4",
-              top: 468,
-              left: 128,
-              label: "03",
-              title: "Selezioniamo\nla migliore",
-            },
-          ].map((panel) => (
-            <div
-              key={panel.label}
-              className="absolute rounded-[2rem] p-8 flex flex-col justify-between overflow-hidden"
-              style={{
-                background: panel.bg,
-                top: `${panel.top}px`,
-                left: `${panel.left}px`,
-                right: 0,
-                height: "196px",
-              }}
-            >
-              {/* archi decorativi */}
-              <svg
-                aria-hidden="true"
-                className="absolute -bottom-5 -right-5"
-                width="130" height="130"
-                viewBox="0 0 130 130"
-                fill="none"
-                style={{ opacity: 0.14 }}
-              >
-                <circle cx="130" cy="130" r="96" stroke="#1C1C1A" strokeWidth="1.5" />
-                <circle cx="130" cy="130" r="56" stroke="#1C1C1A" strokeWidth="1.5" />
-              </svg>
+          {/* sfondo sage */}
+          <div className="absolute inset-0 bg-[#dbe1b0] rounded-l-[3rem]" />
 
-              <span className="text-[10px] font-bold text-[#1C1C1A]/35 tracking-[0.18em] uppercase relative z-10">
-                {panel.label}
-              </span>
-              <p
-                className="text-[1.6rem] font-bold text-[#1C1C1A] font-[family-name:var(--font-heading)] leading-[1.1] relative z-10"
-                style={{ whiteSpace: "pre-line" }}
-              >
-                {panel.title}
+          {/* blob rosa interno */}
+          <div
+            className="absolute pointer-events-none"
+            style={{
+              top: "-10%", right: "5%",
+              width: "420px", height: "420px", borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(255,136,200,0.22) 0%, transparent 60%)",
+              filter: "blur(64px)",
+            }}
+          />
+
+          {/* watermark RC */}
+          <div
+            className="absolute inset-0 flex items-center justify-center select-none"
+            aria-hidden="true"
+          >
+            <span
+              className="font-bold text-[#1C1C1A] font-[family-name:var(--font-heading)]"
+              style={{ fontSize: "340px", lineHeight: 1, opacity: 0.045, letterSpacing: "-0.06em" }}
+            >
+              RC
+            </span>
+          </div>
+
+          {/* archi SVG angolo in basso */}
+          <svg
+            aria-hidden="true"
+            className="absolute bottom-0 right-0"
+            width="360" height="360" viewBox="0 0 360 360" fill="none"
+            style={{ opacity: 0.10 }}
+          >
+            <circle cx="360" cy="360" r="300" stroke="#1C1C1A" strokeWidth="1.5" />
+            <circle cx="360" cy="360" r="210" stroke="#1C1C1A" strokeWidth="1.5" />
+            <circle cx="360" cy="360" r="120" stroke="#1C1C1A" strokeWidth="1.5" />
+          </svg>
+
+          {/* contenuto floating — 3 chip colorati + stat */}
+          <div className="absolute inset-0 flex flex-col justify-center pl-14 pr-20 gap-5">
+
+            {/* chip coverage */}
+            <div className="space-y-3">
+              {[
+                { label: "Colpa grave inclusa", bg: "#eeb3b3" },
+                { label: "Retroattività 10 anni", bg: "#dad2c4" },
+                { label: "Massimale fino a €5.000.000", bg: "#ffe0f2" },
+              ].map((chip) => (
+                <div
+                  key={chip.label}
+                  className="rounded-2xl px-5 py-3.5 inline-flex items-center gap-2.5"
+                  style={{ background: chip.bg }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff88c8] flex-shrink-0" />
+                  <span className="text-sm font-semibold text-[#1C1C1A]">{chip.label}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* stat grande */}
+            <div className="mt-4 pt-6" style={{ borderTop: "1px solid rgba(28,28,26,0.12)" }}>
+              <p className="text-[10px] font-bold text-[#1C1C1A]/40 tracking-[0.16em] uppercase mb-1">
+                Compagnie confrontate
+              </p>
+              <p className="text-[72px] font-bold text-[#1C1C1A] leading-none tracking-tighter font-[family-name:var(--font-heading)]">
+                5+
               </p>
             </div>
-          ))}
+
+          </div>
         </div>
 
       </section>
