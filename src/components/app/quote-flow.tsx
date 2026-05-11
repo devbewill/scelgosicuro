@@ -71,13 +71,13 @@ function checkVisible(visibleIf: Record<string, unknown> | null, answers: Record
 
 // ─── SHARED STYLES ────────────────────────────────────────────────────────────
 
-const inputCls = "w-full border border-[#E8E4DC] bg-white px-4 py-3.5 text-[#1C1C1A] text-base font-medium rounded-2xl focus:outline-none focus:border-[#5046E4] focus:ring-2 focus:ring-[#5046E4]/20 transition-all duration-200 appearance-none placeholder:text-[#5F5F5A]/50"
+const inputCls = "w-full border border-[#E8E4DC] bg-white px-4 py-3.5 text-[#1C1C1A] text-base font-medium rounded-2xl focus:outline-none focus:border-[#ff88c8] focus:ring-2 focus:ring-[#ff88c8]/20 transition-all duration-200 appearance-none placeholder:text-[#5F5F5A]/50"
 const labelCls = "block text-xs font-semibold text-[#5F5F5A] mb-1.5 tracking-wide"
 
 function Btn({ children, onClick, disabled, type = "button" }: { children: React.ReactNode; onClick?: () => void; disabled?: boolean; type?: "button" | "submit" }) {
   return (
     <button type={type} onClick={onClick} disabled={disabled}
-      className="w-full bg-[#5046E4] text-white font-semibold py-3.5 text-base rounded-full transition-all duration-200 hover:bg-[#4338CA] hover:-translate-y-px hover:shadow-[0_8px_20px_rgba(80,70,228,0.25)] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
+      className="w-full bg-[#1C1C1A] text-white font-semibold py-3.5 text-base rounded-full transition-all duration-200 hover:bg-black hover:-translate-y-px hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
       {children}
     </button>
   )
@@ -121,7 +121,7 @@ function SectorField({ question, value, answers, onChange }: {
         <div className="flex gap-2">
           {[{ v: true, label: "Sì" }, { v: false, label: "No" }].map((opt) => (
             <button key={String(opt.v)} type="button" onClick={() => onChange(opt.v)}
-              className={`flex-1 py-3 border text-sm font-semibold rounded-2xl transition-all duration-200 ${value === opt.v ? "border-[#5046E4] bg-[#EEF2FF] text-[#5046E4]" : "border-[#E8E4DC] bg-white text-[#1C1C1A] hover:border-[#5046E4]/40"}`}>
+              className={`flex-1 py-3 border text-sm font-semibold rounded-2xl transition-all duration-200 ${value === opt.v ? "border-[#ff88c8] bg-[#ffe0f2] text-[#ff88c8]" : "border-[#E8E4DC] bg-white text-[#1C1C1A] hover:border-[#ff88c8]/40"}`}>
               {opt.label}
             </button>
           ))}
@@ -249,7 +249,7 @@ function QuoteForm({ sectors, onSubmit, error }: {
   return (
     <div className="bg-white rounded-3xl shadow-[0_8px_40px_rgba(0,0,0,0.08)] overflow-hidden max-w-lg w-full">
       <div className="bg-[#F7F4EE] px-7 py-5 border-b border-[#E8E4DC]">
-        <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3 py-1 mb-2">
+        <span className="inline-block bg-[#ffe0f2] text-[#ff88c8] text-xs font-semibold rounded-full px-3 py-1 mb-2">
           Gratuito · Senza impegno
         </span>
         <p className="text-lg font-bold text-[#1C1C1A] font-[family-name:var(--font-heading)]">Calcola il tuo preventivo</p>
@@ -261,7 +261,7 @@ function QuoteForm({ sectors, onSubmit, error }: {
           const n = i + 1; const done = n < step; const active = n === step
           return (
             <div key={n} className="flex items-center gap-2">
-              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-200 ${done ? "bg-[#5046E4] text-white" : active ? "bg-[#1C1C1A] text-white" : "bg-[#F7F4EE] text-[#5F5F5A]"}`}>
+              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-200 ${done ? "bg-[#ff88c8] text-white" : active ? "bg-[#1C1C1A] text-white" : "bg-[#F7F4EE] text-[#5F5F5A]"}`}>
                 {done ? "✓" : n}
               </div>
               <span className={`text-xs font-medium ${active ? "text-[#1C1C1A]" : "text-[#5F5F5A]"}`}>{label}</span>
@@ -285,7 +285,7 @@ function QuoteForm({ sectors, onSubmit, error }: {
             {base.sectorId && (
               <div ref={autocompleteRef} className="relative">
                 <label className={labelCls}>
-                  Specializzazione{loadingProfs ? <span className="ml-2 text-[#5046E4] font-medium normal-case tracking-normal">Caricamento…</span> : ""}
+                  Specializzazione{loadingProfs ? <span className="ml-2 text-[#ff88c8] font-medium normal-case tracking-normal">Caricamento…</span> : ""}
                 </label>
                 <input
                   type="text"
@@ -300,7 +300,7 @@ function QuoteForm({ sectors, onSubmit, error }: {
                   <ul className="absolute z-50 mt-1.5 max-h-56 w-full overflow-auto bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-[#E8E4DC] text-sm">
                     {filteredProfessions.map((p) => (
                       <li key={p.slug}
-                        className="cursor-pointer px-4 py-3 font-medium text-[#1C1C1A] hover:bg-[#EEF2FF] hover:text-[#5046E4] first:rounded-t-2xl last:rounded-b-2xl transition-colors border-b border-[#E8E4DC] last:border-b-0"
+                        className="cursor-pointer px-4 py-3 font-medium text-[#1C1C1A] hover:bg-[#ffe0f2] hover:text-[#ff88c8] first:rounded-t-2xl last:rounded-b-2xl transition-colors border-b border-[#E8E4DC] last:border-b-0"
                         onMouseDown={() => { setB("professionSlug", p.slug); setB("professionName", p.name); setProfessionQuery(p.name); setShowSuggestions(false) }}>
                         {p.name}
                       </li>
@@ -368,7 +368,7 @@ function LoadingScreen() {
       <div className="bg-white rounded-3xl shadow-[0_8px_40px_rgba(0,0,0,0.08)] p-12 flex flex-col items-center gap-6 max-w-sm w-full mx-6">
         <div className="flex items-end gap-1.5">
           {[0, 1, 2, 3, 4].map((i) => (
-            <div key={i} className="w-2.5 bg-[#5046E4] rounded-full" style={{ height: "24px", animation: `bar 0.9s ease-in-out ${i * 0.12}s infinite` }} />
+            <div key={i} className="w-2.5 bg-[#ff88c8] rounded-full" style={{ height: "24px", animation: `bar 0.9s ease-in-out ${i * 0.12}s infinite` }} />
           ))}
         </div>
         <div className="text-center">
@@ -395,7 +395,7 @@ function RefinementField({ question, value, onChange }: {
         <div className="flex gap-2">
           {[{ v: true, label: "Sì" }, { v: false, label: "No" }].map((opt) => (
             <button key={String(opt.v)} type="button" onClick={() => onChange(opt.v)}
-              className={`flex-1 py-3 border text-sm font-semibold rounded-2xl transition-all duration-200 ${value === opt.v ? "border-[#5046E4] bg-[#EEF2FF] text-[#5046E4]" : "border-[#E8E4DC] bg-white text-[#1C1C1A] hover:border-[#5046E4]/40"}`}>
+              className={`flex-1 py-3 border text-sm font-semibold rounded-2xl transition-all duration-200 ${value === opt.v ? "border-[#ff88c8] bg-[#ffe0f2] text-[#ff88c8]" : "border-[#E8E4DC] bg-white text-[#1C1C1A] hover:border-[#ff88c8]/40"}`}>
               {opt.label}
             </button>
           ))}
@@ -477,7 +477,7 @@ function ResultsPage({
       <div className="bg-white border-b border-[#E8E4DC] sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
           <Link href="/" className="font-bold text-xl text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">
-            ScelgoSicuro<span className="text-[#5046E4]">.</span>
+            scelgosicuro<span className="text-[#ff88c8]">.</span>
           </Link>
           <button onClick={onBack}
             className="text-sm font-semibold text-[#1C1C1A] border border-[#E8E4DC] px-4 py-2 rounded-full hover:bg-[#F7F4EE] transition-all duration-200">
@@ -487,7 +487,7 @@ function ResultsPage({
       </div>
 
       <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-10 pb-4">
-        <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3 py-1 mb-4">
+        <span className="inline-block bg-[#ffe0f2] text-[#ff88c8] text-xs font-semibold rounded-full px-3 py-1 mb-4">
           Preventivo personalizzato
         </span>
         <h1 className="text-3xl sm:text-4xl font-bold text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">
@@ -505,11 +505,11 @@ function ResultsPage({
           {/* FEATURED CARD */}
           <div className="lg:col-span-2 bg-white rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] overflow-hidden">
             <div className="bg-[#F7F4EE] px-6 py-4 flex items-center justify-between border-b border-[#E8E4DC]">
-              <span className="inline-flex items-center gap-2 text-xs font-semibold text-[#5046E4]">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold text-[#ff88c8]">
                 <span>⭐</span> La nostra scelta per te
               </span>
               {priceUpdated && (
-                <span className="bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold px-3 py-1 rounded-full animate-pulse">
+                <span className="bg-[#ffe0f2] text-[#ff88c8] text-xs font-semibold px-3 py-1 rounded-full animate-pulse">
                   ↑ Aggiornato
                 </span>
               )}
@@ -517,7 +517,7 @@ function ResultsPage({
 
             {featured ? (
               <>
-                <div className={`bg-[#EEF2FF] p-6 sm:p-8 transition-opacity duration-300 ${isRefining ? "opacity-60" : ""}`}>
+                <div className={`bg-[#ffe0f2] p-6 sm:p-8 transition-opacity duration-300 ${isRefining ? "opacity-60" : ""}`}>
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
                     <div>
                       <p className="text-3xl sm:text-4xl font-bold text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">{featured.insurerName}</p>
@@ -539,7 +539,7 @@ function ResultsPage({
                     <div className="mt-4 flex items-center gap-2">
                       <div className="flex gap-1">
                         {[0, 1, 2].map((i) => (
-                          <div key={i} className="w-1.5 h-1.5 bg-[#5046E4] rounded-full" style={{ animation: `dot 0.6s ease-in-out ${i * 0.15}s infinite` }} />
+                          <div key={i} className="w-1.5 h-1.5 bg-[#ff88c8] rounded-full" style={{ animation: `dot 0.6s ease-in-out ${i * 0.15}s infinite` }} />
                         ))}
                       </div>
                       <span className="text-sm font-medium text-[#5F5F5A]">Ricalcolo in corso…</span>
@@ -561,7 +561,7 @@ function ResultsPage({
                   </div>
                 )}
                 <div className="p-5 flex flex-col sm:flex-row gap-3 border-t border-[#E8E4DC]">
-                  <button className="flex-1 bg-[#5046E4] text-white font-semibold py-4 text-base rounded-full transition-all duration-200 hover:bg-[#4338CA] hover:-translate-y-px hover:shadow-[0_8px_20px_rgba(80,70,228,0.25)]">
+                  <button className="flex-1 bg-[#1C1C1A] text-white font-semibold py-4 text-base rounded-full transition-all duration-200 hover:bg-black hover:-translate-y-px hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)]">
                     Acquista questa polizza →
                   </button>
                   <button className="border border-[#E8E4DC] text-[#1C1C1A] font-semibold px-6 py-4 text-sm rounded-full transition-all duration-200 hover:bg-[#F7F4EE]">
@@ -582,7 +582,7 @@ function ResultsPage({
             <div className="bg-white rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] overflow-hidden lg:sticky lg:top-24">
               <button onClick={onToggleRefinement} className="w-full flex items-center justify-between px-5 py-5 hover:bg-[#F7F4EE] transition-colors">
                 <div className="text-left">
-                  <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-2.5 py-0.5 mb-1">Personalizza</span>
+                  <span className="inline-block bg-[#ffe0f2] text-[#ff88c8] text-xs font-semibold rounded-full px-2.5 py-0.5 mb-1">Personalizza</span>
                   <p className="text-base font-semibold text-[#1C1C1A]">Affina il preventivo</p>
                 </div>
                 <span className="w-8 h-8 rounded-full bg-[#F7F4EE] flex items-center justify-center text-[#1C1C1A] font-bold text-lg flex-shrink-0">
@@ -603,7 +603,7 @@ function ResultsPage({
                   {realPrice !== null && (
                     <div className="border-t border-[#E8E4DC] pt-4 flex items-center justify-between">
                       <span className="text-xs font-semibold text-[#5F5F5A] tracking-wide">TOTALE AGGIORNATO</span>
-                      <span className="font-bold text-lg text-[#5046E4]">{fmt(realPrice)}/anno</span>
+                      <span className="font-bold text-lg text-[#ff88c8]">{fmt(realPrice)}/anno</span>
                     </div>
                   )}
                 </div>
@@ -627,7 +627,7 @@ function ResultsPage({
                   <div key={company.id} className="bg-white rounded-2xl border border-[#E8E4DC] p-5 flex flex-col transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
                     <div className="flex-1">
                       {company.tag
-                        ? <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-[10px] font-semibold rounded-full px-2.5 py-0.5 mb-3">{company.tag}</span>
+                        ? <span className="inline-block bg-[#ffe0f2] text-[#ff88c8] text-[10px] font-semibold rounded-full px-2.5 py-0.5 mb-3">{company.tag}</span>
                         : <div className="h-[22px] mb-3" />
                       }
                       <div className="flex items-start justify-between mb-3">
@@ -637,7 +637,7 @@ function ResultsPage({
                         </div>
                         <div className="text-right">
                           <p className="text-lg font-bold text-[#1C1C1A]">{fmt(price)}</p>
-                          <p className={`text-xs font-semibold mt-0.5 ${diffPct > 0 ? "text-red-500" : "text-[#5046E4]"}`}>
+                          <p className={`text-xs font-semibold mt-0.5 ${diffPct > 0 ? "text-red-500" : "text-[#ff88c8]"}`}>
                             {diffPct > 0 ? `+${diffPct}%` : `${diffPct}%`}
                           </p>
                         </div>
@@ -645,8 +645,8 @@ function ResultsPage({
                       <div className="space-y-1.5 mb-4">
                         {company.features.map((f, fi) => (
                           <div key={fi} className="flex items-center gap-2">
-                            <div className="w-4 h-4 rounded-full bg-[#EEF2FF] flex items-center justify-center flex-shrink-0">
-                              <span className="text-[#5046E4] text-[8px] font-bold">✓</span>
+                            <div className="w-4 h-4 rounded-full bg-[#ffe0f2] flex items-center justify-center flex-shrink-0">
+                              <span className="text-[#ff88c8] text-[8px] font-bold">✓</span>
                             </div>
                             <span className="text-xs text-[#5F5F5A] font-medium">{f}</span>
                           </div>
@@ -667,7 +667,7 @@ function ResultsPage({
           <p className="text-xs text-[#5F5F5A] leading-relaxed">
             <strong>Nota:</strong> I prezzi di AXA, Generali, Unipol e Allianz sono stime illustrative.
             Il prezzo {featured?.insurerName} è calcolato dal nostro motore sui tariffari reali.
-            ScelgoSicuro è un intermediario assicurativo iscritto al R.U.I. presso IVASS.
+            scelgosicuro è un intermediario assicurativo iscritto al R.U.I. presso IVASS.
           </p>
         </div>
       </div>
@@ -778,7 +778,7 @@ export function QuoteFlow({ sectors }: { sectors: Sector[] }) {
       <nav className="bg-white border-b border-[#E8E4DC]">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
           <Link href="/" className="font-bold text-xl text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">
-            ScelgoSicuro<span className="text-[#5046E4]">.</span>
+            scelgosicuro<span className="text-[#ff88c8]">.</span>
           </Link>
           <Link href="/" className="text-sm font-semibold text-[#5F5F5A] hover:text-[#1C1C1A] transition-colors">
             ← Torna alla home
@@ -789,7 +789,7 @@ export function QuoteFlow({ sectors }: { sectors: Sector[] }) {
       <div className="max-w-6xl mx-auto px-6 sm:px-8 py-16">
         <div className="max-w-lg mx-auto">
           <div className="mb-8">
-            <span className="inline-block bg-[#EEF2FF] text-[#5046E4] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-4">
+            <span className="inline-block bg-[#ffe0f2] text-[#ff88c8] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-4">
               Preventivo gratuito · Senza impegno
             </span>
             <h1 className="text-3xl sm:text-4xl font-bold text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">

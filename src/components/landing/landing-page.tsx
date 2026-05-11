@@ -154,7 +154,7 @@ function Navbar() {
     <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#e2dbd0]">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
         <span className="font-bold text-xl text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">
-          ScelgoSicuro<span className="text-[#ff88c8]">.</span>
+          scelgosicuro<span className="text-[#ff88c8]">.</span>
         </span>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#1C1C1A]/50">
           <a
@@ -169,7 +169,7 @@ function Navbar() {
         </div>
         <Link
           href="/app"
-          className="bg-[#ff88c8] text-[#1C1C1A] font-semibold px-5 py-2.5 text-sm rounded-full transition-all duration-200 hover:bg-[#f070b8] hover:text-white hover:-translate-y-px hover:shadow-[0_4px_16px_rgba(255,136,200,0.45)]"
+          className="bg-[#1C1C1A] text-white font-semibold px-5 py-2.5 text-sm rounded-full transition-all duration-200 hover:bg-black hover:-translate-y-px hover:shadow-[0_4px_16px_rgba(0,0,0,0.25)]"
         >
           Preventivo gratuito →
         </Link>
@@ -187,180 +187,79 @@ export function LandingPage() {
     <>
       <Navbar />
 
-      {/* ── HERO — bg warm ───────────────────────────────────────────────── */}
-      <section className="bg-[#f8f2ea] relative overflow-hidden min-h-[680px] lg:min-h-[720px]">
-        {/* blob rosa */}
+      {/* ── HERO — aurora gradient ───────────────────────────────────────── */}
+      <section className="bg-[#f8f2ea] relative overflow-hidden min-h-205 lg:min-h-[75vh]">
+        {/* aurora blobs — concentrati in alto a destra */}
+        {/* blob 1: rosa principale */}
         <div
           className="absolute pointer-events-none"
           style={{
-            top: "-15%",
-            right: "-8%",
-            width: "750px",
-            height: "750px",
+            top: "-18%",
+            right: "-12%",
+            width: "820px",
+            height: "820px",
             borderRadius: "50%",
             background:
-              "radial-gradient(circle at center, rgba(255,30,140,0.20) 0%, rgba(255,30,140,0.07) 45%, transparent 70%)",
-            filter: "blur(78px)",
+              "radial-gradient(circle at center, rgba(255,136,200,0.72) 0%, rgba(255,136,200,0.28) 40%, transparent 68%)",
+            filter: "blur(70px)",
           }}
         />
-        {/* blob giallo */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            bottom: "-20%",
-            left: "-6%",
-            width: "580px",
-            height: "580px",
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle at center, rgba(255,224,0,0.18) 0%, transparent 65%)",
-            filter: "blur(88px)",
-          }}
-        />
-        {/* archi SVG */}
-        <svg
-          aria-hidden="true"
-          className="absolute top-0 right-0 pointer-events-none"
-          width="560"
-          height="560"
-          viewBox="0 0 560 560"
-          fill="none"
-          style={{ opacity: 0.055 }}
-        >
-          <circle cx="560" cy="0" r="480" stroke="#1C1C1A" strokeWidth="1" />
-          <circle cx="560" cy="0" r="360" stroke="#1C1C1A" strokeWidth="1" />
-          <circle cx="560" cy="0" r="240" stroke="#1C1C1A" strokeWidth="1" />
-          <circle cx="560" cy="0" r="130" stroke="#1C1C1A" strokeWidth="1" />
-        </svg>
-
-        {/* testo — z-20 per stare sopra il pannello */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 pt-24 pb-20 relative z-20">
-          <div className="lg:max-w-[50%] space-y-9">
-            <span className="inline-block bg-[#ffe0f2] text-[#1C1C1A] text-xs font-semibold rounded-full px-3.5 py-1.5">
-              RC Professionale · Liberi Professionisti
-            </span>
-            <h1 className="text-[clamp(2.8rem,4.8vw,4.6rem)] font-bold leading-[1.0] tracking-[-0.03em] text-[#1C1C1A] font-[family-name:var(--font-heading)]">
-              Scegliere la RC giusta
-              <br />
-              non dovrebbe essere
-              <br />
-              complicato.
+        {/* contenitore — flex colonna, badge in alto, contenuto in basso */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 relative z-10 flex flex-col py-40">
+          {/* fondo hero: h1 + riga info */}
+          <div className="space-y-8">
+            <h1 className="text-[clamp(3rem,5.6vw,5.8rem)] font-bold leading-[0.95] tracking-[-0.04em] text-[#1C1C1A] font-(family-name:--font-heading) pb-10 ">
+              Scegliere la RC giusta non dovrebbe essere complicato.
             </h1>
-            <div className="space-y-7">
-              <p className="text-lg text-[#1C1C1A]/55 leading-relaxed max-w-md">
-                ScelgoSicuro analizza il tuo profilo, confronta le migliori
-                compagnie e ti spiega davvero cosa stai acquistando. In 2 minuti.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link
-                  href="/app"
-                  className="inline-flex items-center justify-center gap-2 bg-[#ff88c8] text-[#1C1C1A] font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:bg-[#f070b8] hover:text-white hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(255,136,200,0.45)]"
-                >
-                  Calcola il preventivo →
-                </Link>
-                <a
-                  href="#come-funziona"
-                  className="inline-flex items-center justify-center gap-2 border border-[#e2dbd0] bg-white text-[#1C1C1A] font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:border-[#1C1C1A]/30 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
-                >
-                  Come funziona
-                </a>
-              </div>
-              <div className="flex flex-wrap items-center gap-x-7 gap-y-3">
-                {[
-                  "Gratuito e senza impegno",
-                  "5+ compagnie confrontate",
-                  "Polizza attiva in 24 ore",
-                ].map((t) => (
-                  <div key={t} className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-[#ffe0f2] flex items-center justify-center flex-shrink-0">
-                      <span className="text-[#1C1C1A] text-[8px] font-bold">✓</span>
-                    </div>
-                    <span className="text-sm text-[#1C1C1A]/55 font-medium">{t}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* blocco grafico destra — parte da metà schermo, esce a destra */}
-        <div
-          className="hidden lg:block absolute top-0 bottom-0 z-10 pointer-events-none"
-          style={{ left: "50%", right: "-80px" }}
-        >
-          {/* sfondo sage */}
-          <div className="absolute inset-0 bg-[#dbe1b0] rounded-l-[3rem]" />
-
-          {/* blob rosa interno */}
-          <div
-            className="absolute pointer-events-none"
-            style={{
-              top: "-10%", right: "5%",
-              width: "420px", height: "420px", borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(255,136,200,0.22) 0%, transparent 60%)",
-              filter: "blur(64px)",
-            }}
-          />
-
-          {/* watermark RC */}
-          <div
-            className="absolute inset-0 flex items-center justify-center select-none"
-            aria-hidden="true"
-          >
-            <span
-              className="font-bold text-[#1C1C1A] font-[family-name:var(--font-heading)]"
-              style={{ fontSize: "340px", lineHeight: 1, opacity: 0.045, letterSpacing: "-0.06em" }}
-            >
-              RC
-            </span>
-          </div>
-
-          {/* archi SVG angolo in basso */}
-          <svg
-            aria-hidden="true"
-            className="absolute bottom-0 right-0"
-            width="360" height="360" viewBox="0 0 360 360" fill="none"
-            style={{ opacity: 0.10 }}
-          >
-            <circle cx="360" cy="360" r="300" stroke="#1C1C1A" strokeWidth="1.5" />
-            <circle cx="360" cy="360" r="210" stroke="#1C1C1A" strokeWidth="1.5" />
-            <circle cx="360" cy="360" r="120" stroke="#1C1C1A" strokeWidth="1.5" />
-          </svg>
-
-          {/* contenuto floating — 3 chip colorati + stat */}
-          <div className="absolute inset-0 flex flex-col justify-center pl-14 pr-20 gap-5">
-
-            {/* chip coverage */}
-            <div className="space-y-3">
-              {[
-                { label: "Colpa grave inclusa", bg: "#eeb3b3" },
-                { label: "Retroattività 10 anni", bg: "#dad2c4" },
-                { label: "Massimale fino a €5.000.000", bg: "#ffe0f2" },
-              ].map((chip) => (
-                <div
-                  key={chip.label}
-                  className="rounded-2xl px-5 py-3.5 inline-flex items-center gap-2.5"
-                  style={{ background: chip.bg }}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff88c8] flex-shrink-0" />
-                  <span className="text-sm font-semibold text-[#1C1C1A]">{chip.label}</span>
+            {/* riga inferiore: CTA a sinistra, paragrafo a destra */}
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+              {/* CTA + trust */}
+              <div className="space-y-5">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Link
+                    href="/app"
+                    className="inline-flex items-center justify-center gap-2 bg-[#1C1C1A] text-white font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:bg-black hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(0,0,0,0.25)]"
+                  >
+                    Calcola il preventivo →
+                  </Link>
+                  <a
+                    href="#come-funziona"
+                    className="inline-flex items-center justify-center gap-2 border border-[#e2dbd0] bg-white/80 text-[#1C1C1A] font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:border-[#1C1C1A]/30 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+                  >
+                    Come funziona
+                  </a>
                 </div>
-              ))}
-            </div>
+                <div className="flex flex-wrap items-center gap-x-7 gap-y-3 pt-4">
+                  {[
+                    "Gratuito e senza impegno",
+                    "5+ compagnie confrontate",
+                    "Polizza attiva in 24 ore",
+                  ].map((t) => (
+                    <div key={t} className="flex items-center gap-4">
+                      <div className="w-4 h-4 rounded-full bg-white/80 flex items-center justify-center flex-shrink-0">
+                        <span className="text-[#1C1C1A] text-[8px] font-bold">
+                          ✓
+                        </span>
+                      </div>
+                      <span className="text-sm text-[#1C1C1A]/60 font-medium">
+                        {t}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-            {/* stat grande */}
-            <div className="mt-4 pt-6" style={{ borderTop: "1px solid rgba(28,28,26,0.12)" }}>
-              <p className="text-[10px] font-bold text-[#1C1C1A]/40 tracking-[0.16em] uppercase mb-1">
-                Compagnie confrontate
-              </p>
-              <p className="text-[72px] font-bold text-[#1C1C1A] leading-none tracking-tighter font-[family-name:var(--font-heading)]">
-                5+
+              {/* paragrafo a destra */}
+              <p className="text-base text-[#1C1C1A]/60 leading-relaxed lg:text-right lg:max-w-85">
+                scelgosicuro analizza il tuo profilo, confronta le migliori
+                compagnie e ti spiega davvero cosa stai acquistando.
+                <br />
+                <span className="text-[#1C1C1A]/40 text-sm">In 2 minuti.</span>
               </p>
             </div>
-
           </div>
         </div>
-
       </section>
 
       {/* ── MARQUEE ──────────────────────────────────────────────────────── */}
@@ -423,7 +322,7 @@ export function LandingPage() {
                 {
                   n: "02",
                   title: "Il sistema analizza il tuo profilo",
-                  desc: "ScelgoSicuro combina le caratteristiche della tua professione e i rischi tipici del settore. L'obiettivo non è mostrarti decine di prodotti — è trovare quello più coerente con il tuo lavoro.",
+                  desc: "scelgosicuro combina le caratteristiche della tua professione e i rischi tipici del settore. L'obiettivo non è mostrarti decine di prodotti, è trovare quello più coerente con il tuo lavoro.",
                 },
                 {
                   n: "03",
@@ -572,7 +471,7 @@ export function LandingPage() {
                   incidono sulla protezione reale.
                 </p>
                 <p className="text-base text-[#1C1C1A]/60 leading-relaxed mt-4">
-                  ScelgoSicuro ti aiuta a comprendere le opzioni in modo
+                  scelgosicuro ti aiuta a comprendere le opzioni in modo
                   semplice e chiaro, così puoi scegliere con maggiore sicurezza.
                 </p>
               </div>
@@ -664,7 +563,7 @@ export function LandingPage() {
               <IconPlus />
             </div>
             <h2 className="text-[clamp(2rem,4.5vw,3.2rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.05] font-[family-name:var(--font-heading)]">
-              Perché scegliere ScelgoSicuro
+              Perché scegliere scelgosicuro
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -805,7 +704,7 @@ export function LandingPage() {
           <div className="flex flex-col md:flex-row justify-between gap-12">
             <div>
               <p className="font-bold text-2xl text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)] mb-3">
-                ScelgoSicuro<span className="text-[#ff88c8]">.</span>
+                scelgosicuro<span className="text-[#ff88c8]">.</span>
               </p>
               <p className="text-sm text-[#1C1C1A]/40 max-w-xs leading-relaxed">
                 Intermediario assicurativo iscritto al R.U.I. presso IVASS.
@@ -849,7 +748,7 @@ export function LandingPage() {
             </div>
           </div>
           <div className="border-t border-[#e2dbd0] mt-12 pt-6 flex flex-col md:flex-row justify-between gap-2 text-xs text-[#1C1C1A]/30">
-            <p>© 2025 ScelgoSicuro Srl. Tutti i diritti riservati.</p>
+            <p>© 2025 scelgosicuro. Tutti i diritti riservati.</p>
             <p>Regolato da IVASS — D.Lgs. 209/2005</p>
           </div>
         </div>
