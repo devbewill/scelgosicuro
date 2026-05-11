@@ -13,13 +13,13 @@ import {
   tuneQuote,
 } from "@/app/actions"
 
-// ─── FAKE COMPANIES (other options, prices relative to real AmTrust) ──────────
+// ─── FAKE COMPANIES ───────────────────────────────────────────────────────────
 
 const FAKE_COMPANIES = [
   { id: "axa", name: "AXA", product: "RC Pro Smart", mult: 1.08, tag: null, features: ["Liquidazione in 72h", "Assistenza legale inclusa", "App mobile"] },
   { id: "generali", name: "Generali", product: "Libero Professionista", mult: 1.14, tag: null, features: ["Rete 400 agenzie", "Consulente dedicato", "App sinistri"] },
-  { id: "unipol", name: "Unipol", product: "RC Pro Base", mult: 0.95, tag: "PIÙ ECONOMICO", features: ["Prezzo contenuto", "Copertura essenziale", "Gestione online"] },
-  { id: "allianz", name: "Allianz", product: "Professionale Plus", mult: 1.21, tag: "COPERTURA COMPLETA", features: ["Premium 360°", "Cyber risk incluso", "Supporto internazionale"] },
+  { id: "unipol", name: "Unipol", product: "RC Pro Base", mult: 0.95, tag: "Più economico", features: ["Prezzo contenuto", "Copertura essenziale", "Gestione online"] },
+  { id: "allianz", name: "Allianz", product: "Professionale Plus", mult: 1.21, tag: "Copertura completa", features: ["Premium 360°", "Cyber risk incluso", "Supporto internazionale"] },
 ]
 
 const FAQ = [
@@ -77,15 +77,26 @@ function checkVisible(visibleIf: Record<string, unknown> | null, answers: Record
   return true
 }
 
-// ─── SHARED STYLES ────────────────────────────────────────────────────────────
+// ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
 
-const inputCls = "w-full border-2 border-black bg-white px-4 py-3 text-basefont-medium focus:outline-none focus:border-green-500 transition-colors appearance-none"
-const labelCls = "block text-[10px] font-black uppercase tracking-[0.2em] mb-1.5 text-black"
+const MM = {
+  bg:          "#F7F4EE",
+  bgWhite:     "#FFFFFF",
+  fg:          "#1C1C1A",
+  muted:       "#5F5F5A",
+  primary:     "#00C2A8",
+  primaryHover:"#009E89",
+  mintLight:   "#DDF7F2",
+  border:      "#E8E4DC",
+} as const
+
+const inputCls = "w-full border border-[#E8E4DC] bg-white px-4 py-3.5 text-[#1C1C1A] text-base font-medium rounded-2xl focus:outline-none focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 transition-all duration-200 appearance-none placeholder:text-[#5F5F5A]/50"
+const labelCls = "block text-xs font-semibold text-[#5F5F5A] mb-1.5 tracking-wide"
 
 function Btn({ children, onClick, disabled, type = "button" }: { children: React.ReactNode; onClick?: () => void; disabled?: boolean; type?: "button" | "submit" }) {
   return (
     <button type={type} onClick={onClick} disabled={disabled}
-      className="w-full bg-green-400 text-black border-2 border-black font-black uppercase tracking-wider py-3.5 text-basehover:bg-black hover:text-green-400 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
+      className="w-full bg-[#00C2A8] text-white font-semibold py-3.5 text-base rounded-full transition-all duration-200 hover:bg-[#009E89] hover:-translate-y-px hover:shadow-[0_8px_20px_rgba(0,194,168,0.25)] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
       {children}
     </button>
   )
@@ -94,13 +105,13 @@ function Btn({ children, onClick, disabled, type = "button" }: { children: React
 function BtnOutline({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) {
   return (
     <button type="button" onClick={onClick}
-      className="border-2 border-black font-black uppercase tracking-wider px-5 py-3.5 text-basehover:bg-black hover:text-white transition-all cursor-pointer flex-shrink-0">
+      className="border border-[#E8E4DC] text-[#1C1C1A] font-semibold px-6 py-3.5 text-base rounded-full transition-all duration-200 hover:bg-black/[0.03] flex-shrink-0 cursor-pointer">
       {children}
     </button>
   )
 }
 
-// ─── QUOTE FORM ───────────────────────────────────────────────────────────────
+// ─── FORM TYPES ───────────────────────────────────────────────────────────────
 
 type FormFields = {
   sectorId: string
@@ -112,11 +123,10 @@ type FormFields = {
   telefono: string
 }
 
+// ─── SECTOR FIELD ─────────────────────────────────────────────────────────────
+
 function SectorField({
-  question,
-  value,
-  answers,
-  onChange,
+  question, value, answers, onChange,
 }: {
   question: SectorQuestion
   value: unknown
@@ -132,7 +142,7 @@ function SectorField({
         <div className="flex gap-2">
           {[{ v: true, label: "Sì" }, { v: false, label: "No" }].map((opt) => (
             <button key={String(opt.v)} type="button" onClick={() => onChange(opt.v)}
-              className={`flex-1 py-2.5 border-2 text-smfont-black uppercase tracking-wider transition-all ${value === opt.v ? "border-black bg-green-400 text-black" : "border-black bg-white hover:border-green-500"}`}>
+              className={`flex-1 py-3 border text-sm font-semibold rounded-2xl transition-all duration-200 ${value === opt.v ? "border-[#00C2A8] bg-[#DDF7F2] text-[#00C2A8]" : "border-[#E8E4DC] bg-white text-[#1C1C1A] hover:border-[#00C2A8]/40"}`}>
               {opt.label}
             </button>
           ))}
@@ -172,10 +182,10 @@ function SectorField({
   )
 }
 
+// ─── QUOTE FORM ───────────────────────────────────────────────────────────────
+
 function QuoteFormComp({
-  sectors,
-  onSubmit,
-  error,
+  sectors, onSubmit, error,
 }: {
   sectors: Sector[]
   onSubmit: (d: FormFields) => void
@@ -195,17 +205,10 @@ function QuoteFormComp({
   const setB = (k: keyof typeof base, v: string) => setBase((p) => ({ ...p, [k]: v }))
   const setA = (k: string, v: unknown) => setSectorAnswers((p) => ({ ...p, [k]: v }))
 
-  // Current answers for visible_if evaluation
   const currentAnswers = { q_professione: base.professionSlug, ...sectorAnswers }
-
-  // Visible required questions considering current answers
   const visibleReq = requiredQuestions.filter((q) => checkVisible(q.visibleIf, currentAnswers))
-
-  // Max steps: 1 = profession, 2 = sector questions (if any), 3 = contacts
   const totalSteps = requiredQuestions.length > 0 ? 3 : 2
-  const stepLabels = totalSteps === 3
-    ? ["Professione", "Dettagli", "Contatti"]
-    : ["Professione", "Contatti"]
+  const stepLabels = totalSteps === 3 ? ["Professione", "Dettagli", "Contatti"] : ["Professione", "Contatti"]
 
   const filteredProfessions = professionQuery.trim()
     ? professions.filter((p) => p.name.toLowerCase().includes(professionQuery.toLowerCase()))
@@ -251,8 +254,7 @@ function QuoteFormComp({
     for (const q of visibleReq) {
       const v = sectorAnswers[q.key]
       if (v === undefined || v === "" || v === null) {
-        setLocalError(`Rispondi a: "${q.label}"`)
-        return false
+        setLocalError(`Rispondi a: "${q.label}"`); return false
       }
     }
     setLocalError(null); return true
@@ -268,41 +270,46 @@ function QuoteFormComp({
   const contactStep = totalSteps
 
   return (
-    <div className="border-2 border-black">
+    <div className="bg-white rounded-3xl shadow-[0_8px_40px_rgba(0,0,0,0.08)] overflow-hidden">
       {/* header */}
-      <div className="bg-black px-6 py-4 border-b-2 border-black">
-        <p className="text-[10px] font-black uppercase tracking-[0.25em] text-green-400 mb-0.5">PREVENTIVO GRATUITO · SENZA IMPEGNO</p>
-        <p className="text-base font-black text-white">Calcola il tuo preventivo personalizzato.</p>
+      <div className="bg-[#F7F4EE] px-7 py-5 border-b border-[#E8E4DC]">
+        <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3 py-1 mb-2">
+          Gratuito · Senza impegno
+        </span>
+        <p className="text-lg font-bold text-[#1C1C1A] font-[family-name:var(--font-heading)]">Calcola il tuo preventivo</p>
       </div>
 
-      {/* step bar */}
-      <div className="flex border-b-2 border-black">
+      {/* step dots */}
+      <div className="flex gap-2 px-7 pt-5">
         {stepLabels.map((label, i) => {
           const n = i + 1; const done = n < step; const active = n === step
           return (
-            <div key={n} className={`flex-1 py-2.5 flex flex-col items-center justify-center border-r-2 last:border-r-0 border-black text-[10px] font-black uppercase tracking-wider select-none transition-colors ${done ? "bg-green-400 text-black" : active ? "bg-black text-white" : "bg-white text-black/30"}`}>
-              <span>{done ? "✓" : `0${n}`}</span>
-              <span className="text-[9px] mt-0.5">{label}</span>
+            <div key={n} className="flex items-center gap-2">
+              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-200 ${done ? "bg-[#00C2A8] text-white" : active ? "bg-[#1C1C1A] text-white" : "bg-[#F7F4EE] text-[#5F5F5A]"}`}>
+                {done ? "✓" : n}
+              </div>
+              <span className={`text-xs font-medium ${active ? "text-[#1C1C1A]" : "text-[#5F5F5A]"}`}>{label}</span>
+              {i < stepLabels.length - 1 && <div className="w-8 h-px bg-[#E8E4DC] mx-1" />}
             </div>
           )
         })}
       </div>
 
-      <div className="p-6 space-y-4">
-        {/* STEP 1 — settore + professione */}
+      <div className="p-7 space-y-4">
+        {/* STEP 1 */}
         {step === 1 && (
           <>
             <div>
               <label className={labelCls}>Settore professionale</label>
               <select className={inputCls} value={base.sectorId} onChange={(e) => setB("sectorId", e.target.value)}>
-                <option value="">— Seleziona —</option>
+                <option value="">Seleziona il tuo settore…</option>
                 {sectors.map((s) => <option key={s.id} value={String(s.id)}>{s.name}</option>)}
               </select>
             </div>
             {base.sectorId && (
               <div ref={autocompleteRef} className="relative">
                 <label className={labelCls}>
-                  Specializzazione{loadingProfs ? <span className="ml-2 text-black/30 normal-case font-medium tracking-normal">Caricamento…</span> : ""}
+                  Specializzazione{loadingProfs ? <span className="ml-2 text-[#00C2A8] font-medium normal-case tracking-normal">Caricamento…</span> : ""}
                 </label>
                 <input
                   type="text"
@@ -319,11 +326,11 @@ function QuoteFormComp({
                   onFocus={() => setShowSuggestions(true)}
                 />
                 {showSuggestions && filteredProfessions.length > 0 && (
-                  <ul className="absolute z-50 mt-0 max-h-56 w-full overflow-auto border-2 border-black bg-white text-baseshadow-lg">
+                  <ul className="absolute z-50 mt-1.5 max-h-56 w-full overflow-auto bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-[#E8E4DC] text-sm">
                     {filteredProfessions.map((p) => (
                       <li
                         key={p.slug}
-                        className="cursor-pointer px-4 py-2.5 font-medium hover:bg-green-400 border-b border-black/10 last:border-b-0"
+                        className="cursor-pointer px-4 py-3 font-medium text-[#1C1C1A] hover:bg-[#DDF7F2] hover:text-[#00C2A8] first:rounded-t-2xl last:rounded-b-2xl transition-colors border-b border-[#E8E4DC] last:border-b-0"
                         onMouseDown={() => {
                           setB("professionSlug", p.slug)
                           setB("professionName", p.name)
@@ -338,20 +345,20 @@ function QuoteFormComp({
                 )}
               </div>
             )}
-            {localError && <p className="text-smtext-red-600 font-semibold">{localError}</p>}
+            {localError && <p className="text-sm text-red-500 font-medium">{localError}</p>}
             <Btn onClick={handleStep1Continue} disabled={loadingQs}>
               {loadingQs ? "Caricamento…" : "Continua →"}
             </Btn>
           </>
         )}
 
-        {/* STEP 2 — required sector questions */}
+        {/* STEP 2 */}
         {step === 2 && totalSteps === 3 && (
           <>
             {visibleReq.map((q) => (
               <SectorField key={q.key} question={q} value={sectorAnswers[q.key]} answers={currentAnswers} onChange={(v) => setA(q.key, v)} />
             ))}
-            {localError && <p className="text-smtext-red-600 font-semibold">{localError}</p>}
+            {localError && <p className="text-sm text-red-500 font-medium">{localError}</p>}
             <div className="flex gap-3">
               <BtnOutline onClick={() => { setLocalError(null); setStep(1) }}>← Indietro</BtnOutline>
               <Btn onClick={() => validateStep2() && setStep(3)}>Continua →</Btn>
@@ -359,7 +366,7 @@ function QuoteFormComp({
           </>
         )}
 
-        {/* CONTACTS step */}
+        {/* CONTACTS */}
         {step === contactStep && (
           <>
             <div>
@@ -374,14 +381,14 @@ function QuoteFormComp({
               <label className={labelCls}>Telefono</label>
               <input type="tel" className={inputCls} placeholder="+39 333 1234567" value={base.telefono} onChange={(e) => setB("telefono", e.target.value)} />
             </div>
-            {(localError || error) && <p className="text-smtext-red-600 font-semibold">{localError ?? error}</p>}
+            {(localError || error) && <p className="text-sm text-red-500 font-medium">{localError ?? error}</p>}
             <div className="flex gap-3">
               <BtnOutline onClick={() => { setLocalError(null); setStep(step - 1) }}>← Indietro</BtnOutline>
               <Btn onClick={() => validateContacts() && onSubmit({ sectorId: base.sectorId, professionSlug: base.professionSlug, professionName: base.professionName, sectorAnswers, nome: base.nome, email: base.email, telefono: base.telefono })}>
                 Calcola preventivo →
               </Btn>
             </div>
-            <p className="text-[10px] text-gray-400 text-center pt-1">🔒 Dati al sicuro. Nessuno spam.</p>
+            <p className="text-xs text-[#5F5F5A]/70 text-center pt-1">🔒 I tuoi dati sono al sicuro. Nessuno spam.</p>
           </>
         )}
       </div>
@@ -393,16 +400,16 @@ function QuoteFormComp({
 
 function LoadingScreen() {
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-8">
-      <div className="border-2 border-black p-10 flex flex-col items-center gap-6">
+    <div className="min-h-screen bg-[#F7F4EE] flex flex-col items-center justify-center gap-8">
+      <div className="bg-white rounded-3xl shadow-[0_8px_40px_rgba(0,0,0,0.08)] p-12 flex flex-col items-center gap-6 max-w-sm w-full mx-6">
         <div className="flex items-end gap-1.5">
           {[0, 1, 2, 3, 4].map((i) => (
-            <div key={i} className="w-2.5 bg-green-400 border border-black" style={{ height: "24px", animation: `bar 0.9s ease-in-out ${i * 0.12}s infinite` }} />
+            <div key={i} className="w-2.5 bg-[#00C2A8] rounded-full" style={{ height: "24px", animation: `bar 0.9s ease-in-out ${i * 0.12}s infinite` }} />
           ))}
         </div>
         <div className="text-center">
-          <p className="font-black text-baseuppercase tracking-[0.2em]">Analizzando il mercato</p>
-          <p className="text-smtext-gray-400 mt-1">Confronto le migliori compagnie per te</p>
+          <p className="font-bold text-lg text-[#1C1C1A] font-[family-name:var(--font-heading)]">Analizzando il mercato</p>
+          <p className="text-sm text-[#5F5F5A] mt-1">Confronto le migliori compagnie per te</p>
         </div>
       </div>
       <style>{`@keyframes bar{0%,100%{transform:scaleY(.4);opacity:.4}50%{transform:scaleY(1.6);opacity:1}}`}</style>
@@ -413,9 +420,7 @@ function LoadingScreen() {
 // ─── REFINEMENT FIELD ─────────────────────────────────────────────────────────
 
 function RefinementField({
-  question,
-  value,
-  onChange,
+  question, value, onChange,
 }: {
   question: SectorQuestion
   value: unknown
@@ -428,7 +433,7 @@ function RefinementField({
         <div className="flex gap-2">
           {[{ v: true, label: "Sì" }, { v: false, label: "No" }].map((opt) => (
             <button key={String(opt.v)} type="button" onClick={() => onChange(opt.v)}
-              className={`flex-1 py-2.5 border-2 text-smfont-black uppercase tracking-wider transition-all ${value === opt.v ? "border-black bg-green-400 text-black" : "border-black bg-white text-black hover:border-green-500"}`}>
+              className={`flex-1 py-3 border text-sm font-semibold rounded-2xl transition-all duration-200 ${value === opt.v ? "border-[#00C2A8] bg-[#DDF7F2] text-[#00C2A8]" : "border-[#E8E4DC] bg-white text-[#1C1C1A] hover:border-[#00C2A8]/40"}`}>
               {opt.label}
             </button>
           ))}
@@ -436,7 +441,6 @@ function RefinementField({
       </div>
     )
   }
-
   if (question.type === "dropdown" && question.options?.length) {
     return (
       <div>
@@ -450,7 +454,6 @@ function RefinementField({
       </div>
     )
   }
-
   if (question.type === "number") {
     const v = question.validation
     return (
@@ -462,7 +465,6 @@ function RefinementField({
       </div>
     )
   }
-
   return (
     <div>
       <label className={labelCls}>{question.label}</label>
@@ -474,20 +476,9 @@ function RefinementField({
 // ─── RESULTS PAGE ─────────────────────────────────────────────────────────────
 
 function ResultsPage({
-  nome,
-  sectorName,
-  professionName,
-  featured,
-  allResults,
-  sectorQuestions,
-  answers,
-  sessionId,
-  refinementOpen,
-  priceUpdated,
-  isRefining,
-  onToggleRefinement,
-  onRefinementChange,
-  onBack,
+  nome, sectorName, professionName, featured, allResults,
+  sectorQuestions, answers, sessionId, refinementOpen,
+  priceUpdated, isRefining, onToggleRefinement, onRefinementChange, onBack,
 }: {
   nome: string
   sectorName: string
@@ -512,7 +503,6 @@ function ResultsPage({
     (q) => !q.isRequired && checkVisible(q.visibleIf, answers)
   )
 
-  // Build recap: sector/profession + required question answers
   const recapItems: { label: string; value: string }[] = [
     ...(sectorName ? [{ label: "Settore", value: sectorName }] : []),
     ...(professionName ? [{ label: "Specializzazione", value: professionName }] : []),
@@ -523,58 +513,67 @@ function ResultsPage({
   ]
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* header */}
-      <div className="bg-black text-white border-b-4 border-green-400 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between">
-          <span className="font-black text-lg tracking-tighter">SCELGOSICURO<span className="text-green-400">.</span></span>
-          <button onClick={onBack} className="text-[10px] font-black uppercase tracking-widest text-green-400 border border-green-400 px-4 py-2 hover:bg-green-400 hover:text-black transition-all">
+    <div className="min-h-screen bg-[#F7F4EE]">
+      {/* sticky header */}
+      <div className="bg-white border-b border-[#E8E4DC] sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
+          <span className="font-bold text-xl text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">
+            ScelgoSicuro<span className="text-[#00C2A8]">.</span>
+          </span>
+          <button onClick={onBack}
+            className="text-sm font-semibold text-[#1C1C1A] border border-[#E8E4DC] px-4 py-2 rounded-full hover:bg-[#F7F4EE] transition-all duration-200">
             ← Nuovo preventivo
           </button>
         </div>
       </div>
 
-      {/* result heading */}
-      <div className="border-b-2 border-black">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-8">
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-2">PREVENTIVO PERSONALIZZATO</p>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight">
-            {firstName ? `Ciao ${firstName}, abbiamo trovato` : "Abbiamo trovato"} la polizza giusta per te.
-          </h1>
-          {isEstimate && (
-            <p className="text-smtext-amber-600 font-semibold mt-2 border border-amber-300 bg-amber-50 inline-block px-3 py-1">
-              ⚡ Preventivo stimato — completa le domande per il prezzo definitivo
-            </p>
-          )}
-        </div>
+      {/* heading */}
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-10 pb-4">
+        <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3 py-1 mb-4">
+          Preventivo personalizzato
+        </span>
+        <h1 className="text-3xl sm:text-4xl font-bold text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">
+          {firstName ? `Ciao ${firstName}, abbiamo trovato` : "Abbiamo trovato"} la polizza giusta per te.
+        </h1>
+        {isEstimate && (
+          <p className="text-sm text-amber-700 font-medium mt-3 bg-amber-50 border border-amber-200 rounded-xl inline-block px-4 py-2">
+            ⚡ Preventivo stimato — completa le domande per il prezzo definitivo
+          </p>
+        )}
       </div>
 
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-8">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* ── FEATURED CARD ── */}
-          <div className="lg:col-span-2 border-2 border-black">
-            <div className="bg-black px-6 py-3 flex items-center justify-between border-b-2 border-black">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-green-400">⭐ LA NOSTRA SCELTA PER TE</p>
-              {priceUpdated && <span className="bg-green-400 text-black text-[10px] font-black px-2 py-0.5 uppercase tracking-wide animate-pulse">↑ Aggiornato</span>}
+          {/* FEATURED CARD */}
+          <div className="lg:col-span-2 bg-white rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] overflow-hidden">
+            <div className="bg-[#F7F4EE] px-6 py-4 flex items-center justify-between border-b border-[#E8E4DC]">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold text-[#00C2A8]">
+                <span>⭐</span> La nostra scelta per te
+              </span>
+              {priceUpdated && (
+                <span className="bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold px-3 py-1 rounded-full animate-pulse">
+                  ↑ Aggiornato
+                </span>
+              )}
             </div>
 
             {featured ? (
               <>
-                <div className={`bg-green-400 p-6 sm:p-8 transition-opacity duration-300 ${isRefining ? "opacity-60" : ""}`}>
+                <div className={`bg-[#DDF7F2] p-6 sm:p-8 transition-opacity duration-300 ${isRefining ? "opacity-60" : ""}`}>
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
                     <div>
-                      <p className="text-4xl sm:text-5xl font-black tracking-tighter">{featured.insurerName}</p>
-                      <p className="text-basefont-bold text-black/60 mt-1">{featured.productName}</p>
+                      <p className="text-3xl sm:text-4xl font-bold text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">{featured.insurerName}</p>
+                      <p className="text-base text-[#5F5F5A] font-medium mt-1">{featured.productName}</p>
                     </div>
                     <div className="text-right">
                       {realPrice !== null ? (
                         <>
-                          <p className="text-5xl sm:text-6xl font-black font-mono tracking-tighter">{fmt(realPrice)}</p>
-                          <p className="text-smfont-bold text-black/60 mt-1">/ anno · IVA inclusa</p>
-                          <p className="text-smfont-bold text-black/50">{fmt(Math.round(realPrice / 12))} / mese</p>
+                          <p className="text-4xl sm:text-5xl font-bold text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">{fmt(realPrice)}</p>
+                          <p className="text-sm text-[#5F5F5A] font-medium mt-1">/ anno · IVA inclusa</p>
+                          <p className="text-sm text-[#5F5F5A]/70">{fmt(Math.round(realPrice / 12))} / mese</p>
                         </>
                       ) : (
-                        <p className="text-2xl font-black text-black/50">Su richiesta</p>
+                        <p className="text-2xl font-bold text-[#5F5F5A]">Su richiesta</p>
                       )}
                     </div>
                   </div>
@@ -582,75 +581,70 @@ function ResultsPage({
                     <div className="mt-4 flex items-center gap-2">
                       <div className="flex gap-1">
                         {[0, 1, 2].map((i) => (
-                          <div key={i} className="w-1.5 h-1.5 bg-black rounded-full" style={{ animation: `dot 0.6s ease-in-out ${i * 0.15}s infinite` }} />
+                          <div key={i} className="w-1.5 h-1.5 bg-[#00C2A8] rounded-full" style={{ animation: `dot 0.6s ease-in-out ${i * 0.15}s infinite` }} />
                         ))}
                       </div>
-                      <span className="text-smfont-bold">Ricalcolo in corso…</span>
+                      <span className="text-sm font-medium text-[#5F5F5A]">Ricalcolo in corso…</span>
                     </div>
                   )}
                 </div>
-                {/* RECAP SCELTE */}
+
                 {recapItems.length > 0 && (
-                  <div className="border-t-2 border-black bg-white px-6 py-5">
-                    <p className="text-[10px] font-black uppercase tracking-[0.25em] text-black/30 mb-3">RIEPILOGO SCELTE</p>
+                  <div className="px-6 py-5 border-t border-[#E8E4DC]">
+                    <p className="text-xs font-semibold text-[#5F5F5A] mb-3 tracking-wide">RIEPILOGO SCELTE</p>
                     <div className="flex flex-wrap gap-2">
                       {recapItems.map((item) => (
-                        <span key={item.label} className="inline-flex items-center gap-2 border-2 border-black/20 bg-black/[0.03] px-3 py-2">
-                          <span className="text-smfont-bold uppercase tracking-wide text-black/40">{item.label}</span>
-                          <span className="text-smfont-black text-black">{item.value}</span>
+                        <span key={item.label} className="inline-flex items-center gap-2 bg-[#F7F4EE] border border-[#E8E4DC] px-3 py-2 rounded-xl text-sm">
+                          <span className="font-medium text-[#5F5F5A]">{item.label}</span>
+                          <span className="font-semibold text-[#1C1C1A]">{item.value}</span>
                         </span>
                       ))}
                     </div>
                   </div>
                 )}
-                <div className="p-5 flex flex-col sm:flex-row gap-3 border-t-2 border-black">
-                  <button className="flex-1 bg-black text-white border-2 border-black font-black uppercase tracking-wider py-4 text-basehover:bg-green-400 hover:text-black transition-all">
+                <div className="p-5 flex flex-col sm:flex-row gap-3 border-t border-[#E8E4DC]">
+                  <button className="flex-1 bg-[#00C2A8] text-white font-semibold py-4 text-base rounded-full transition-all duration-200 hover:bg-[#009E89] hover:-translate-y-px hover:shadow-[0_8px_20px_rgba(0,194,168,0.25)]">
                     Acquista questa polizza →
                   </button>
-                  <button className="border-2 border-black font-black uppercase tracking-wider px-5 py-4 text-smhover:bg-black hover:text-white transition-all">
+                  <button className="border border-[#E8E4DC] text-[#1C1C1A] font-semibold px-6 py-4 text-sm rounded-full transition-all duration-200 hover:bg-[#F7F4EE]">
                     Dettagli DIP
                   </button>
                 </div>
               </>
             ) : (
-              <div className="p-8 text-center text-gray-400">
-                <p className="font-black text-lg">Preventivo su richiesta</p>
-                <p className="text-basemt-2">Compila le domande nel pannello a fianco per ottenere il tuo preventivo.</p>
+              <div className="p-8 text-center text-[#5F5F5A]">
+                <p className="font-bold text-lg text-[#1C1C1A]">Preventivo su richiesta</p>
+                <p className="text-base mt-2">Compila le domande nel pannello a fianco per ottenere il tuo preventivo.</p>
               </div>
             )}
           </div>
 
-          {/* ── REFINEMENT PANEL ── */}
+          {/* REFINEMENT PANEL */}
           <div>
-            <div className="border-2 border-black lg:sticky lg:top-20">
-              <button onClick={onToggleRefinement} className="w-full flex items-center justify-between px-5 py-4 bg-black text-white hover:bg-gray-900 transition-colors">
+            <div className="bg-white rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] overflow-hidden lg:sticky lg:top-24">
+              <button onClick={onToggleRefinement} className="w-full flex items-center justify-between px-5 py-5 hover:bg-[#F7F4EE] transition-colors">
                 <div className="text-left">
-                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-green-400">PERSONALIZZA</p>
-                  <p className="text-basefont-black mt-0.5">Affina il preventivo</p>
+                  <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-2.5 py-0.5 mb-1">Personalizza</span>
+                  <p className="text-base font-semibold text-[#1C1C1A]">Affina il preventivo</p>
                 </div>
-                <span className="text-green-400 text-xl font-black">{refinementOpen ? "−" : "+"}</span>
+                <span className="w-8 h-8 rounded-full bg-[#F7F4EE] flex items-center justify-center text-[#1C1C1A] font-bold text-lg flex-shrink-0">{refinementOpen ? "−" : "+"}</span>
               </button>
 
               {refinementOpen && (
-                <div className="p-5 space-y-4 border-t-2 border-black max-h-[70vh] overflow-y-auto">
+                <div className="p-5 space-y-4 border-t border-[#E8E4DC] max-h-[70vh] overflow-y-auto">
                   {visibleQuestions.length === 0 ? (
-                    <p className="text-smtext-gray-400 text-center py-4">
+                    <p className="text-sm text-[#5F5F5A] text-center py-4">
                       Nessuna domanda aggiuntiva disponibile per questo profilo.
                     </p>
                   ) : (
                     visibleQuestions.map((q) => (
-                      <RefinementField
-                        key={q.key}
-                        question={q}
-                        value={answers[q.key]}
-                        onChange={(v) => onRefinementChange(q.key, v)}
-                      />
+                      <RefinementField key={q.key} question={q} value={answers[q.key]} onChange={(v) => onRefinementChange(q.key, v)} />
                     ))
                   )}
                   {realPrice !== null && (
-                    <div className="border-t-2 border-black pt-4 flex items-center justify-between">
-                      <span className="text-[10px] font-black uppercase tracking-widest">Totale aggiornato</span>
-                      <span className="font-black font-mono text-lg text-green-600">{fmt(realPrice)}/anno</span>
+                    <div className="border-t border-[#E8E4DC] pt-4 flex items-center justify-between">
+                      <span className="text-xs font-semibold text-[#5F5F5A] tracking-wide">TOTALE AGGIORNATO</span>
+                      <span className="font-bold text-lg text-[#00C2A8]">{fmt(realPrice)}/anno</span>
                     </div>
                   )}
                 </div>
@@ -659,32 +653,32 @@ function ResultsPage({
           </div>
         </div>
 
-        {/* ── OTHER OPTIONS ── */}
+        {/* OTHER OPTIONS */}
         {realPrice !== null && (
-          <div className="mt-10 border-t-4 border-black pt-8">
+          <div className="mt-10">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-black tracking-tight">Altre opzioni disponibili</h2>
-              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">{FAKE_COMPANIES.length} compagnie</p>
+              <h2 className="text-2xl font-bold text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">Altre opzioni disponibili</h2>
+              <span className="text-xs font-semibold text-[#5F5F5A] bg-[#F7F4EE] border border-[#E8E4DC] px-3 py-1.5 rounded-full">{FAKE_COMPANIES.length} compagnie</span>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 border-2 border-black">
-              {FAKE_COMPANIES.map((company, i) => {
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              {FAKE_COMPANIES.map((company) => {
                 const price = Math.round(realPrice * company.mult)
                 const diffPct = Math.round((company.mult - 1) * 100)
                 return (
-                  <div key={company.id} className={`p-5 flex flex-col ${i < FAKE_COMPANIES.length - 1 ? "md:border-r-2 border-black" : ""} border-b-2 md:border-b-0 border-black`}>
+                  <div key={company.id} className="bg-white rounded-2xl border border-[#E8E4DC] p-5 flex flex-col transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
                     <div className="flex-1">
                       {company.tag && (
-                        <div className="inline-block border-2 border-black px-2 py-0.5 text-[9px] font-black uppercase tracking-widest mb-3">{company.tag}</div>
+                        <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-[10px] font-semibold rounded-full px-2.5 py-0.5 mb-3">{company.tag}</span>
                       )}
                       {!company.tag && <div className="h-[22px] mb-3" />}
                       <div className="flex items-start justify-between mb-3">
                         <div>
-                          <p className="text-xl font-black">{company.name}</p>
-                          <p className="text-[10px] text-gray-400 font-medium mt-0.5">{company.product}</p>
+                          <p className="text-lg font-bold text-[#1C1C1A]">{company.name}</p>
+                          <p className="text-xs text-[#5F5F5A] font-medium mt-0.5">{company.product}</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-xl font-black font-mono">{fmt(price)}</p>
-                          <p className={`text-[10px] font-black mt-0.5 ${diffPct > 0 ? "text-red-500" : "text-green-600"}`}>
+                          <p className="text-lg font-bold text-[#1C1C1A]">{fmt(price)}</p>
+                          <p className={`text-xs font-semibold mt-0.5 ${diffPct > 0 ? "text-red-500" : "text-[#00C2A8]"}`}>
                             {diffPct > 0 ? `+${diffPct}%` : `${diffPct}%`}
                           </p>
                         </div>
@@ -692,15 +686,15 @@ function ResultsPage({
                       <div className="space-y-1.5 mb-4">
                         {company.features.map((f, fi) => (
                           <div key={fi} className="flex items-center gap-2">
-                            <div className="w-3 h-3 border border-black flex items-center justify-center flex-shrink-0">
-                              <span className="text-[7px] font-black">✓</span>
+                            <div className="w-4 h-4 rounded-full bg-[#DDF7F2] flex items-center justify-center flex-shrink-0">
+                              <span className="text-[#00C2A8] text-[8px] font-bold">✓</span>
                             </div>
-                            <span className="text-[10px] font-medium text-gray-500">{f}</span>
+                            <span className="text-xs text-[#5F5F5A] font-medium">{f}</span>
                           </div>
                         ))}
                       </div>
                     </div>
-                    <button className="w-full border-2 border-black font-black uppercase tracking-wider py-2 text-[10px] hover:bg-black hover:text-white transition-all mt-auto">
+                    <button className="w-full border border-[#E8E4DC] text-[#1C1C1A] font-semibold text-xs py-2.5 rounded-full hover:bg-[#F7F4EE] transition-colors mt-auto">
                       Seleziona →
                     </button>
                   </div>
@@ -710,8 +704,8 @@ function ResultsPage({
           </div>
         )}
 
-        <div className="mt-8 border-2 border-black/20 p-4">
-          <p className="text-[10px] text-gray-400 leading-relaxed">
+        <div className="mt-8 bg-white border border-[#E8E4DC] rounded-2xl p-4">
+          <p className="text-xs text-[#5F5F5A] leading-relaxed">
             <strong>Nota:</strong> I prezzi di AXA, Generali, Unipol e Allianz sono stime illustrative.
             Il prezzo {featured?.insurerName} è calcolato dal nostro motore sui tariffari reali.
             ScelgoSicuro è un intermediario assicurativo iscritto al R.U.I. presso IVASS.
@@ -726,10 +720,7 @@ function ResultsPage({
 // ─── LANDING CONTENT ─────────────────────────────────────────────────────────
 
 function LandingContent({
-  sectors,
-  onSubmit,
-  formError,
-  formRef,
+  sectors, onSubmit, formError, formRef,
 }: {
   sectors: Sector[]
   onSubmit: (d: FormFields) => Promise<void>
@@ -741,56 +732,62 @@ function LandingContent({
   return (
     <>
       {/* HERO */}
-      <section className="max-w-7xl mx-auto px-5 sm:px-8 pt-14 pb-0">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center border-b-2 border-black pb-14">
-          {/* left: headline + subtitle */}
-          <div className="space-y-6">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500">RC PROFESSIONALE · LIBERI PROFESSIONISTI</p>
-            <h1 className="text-[clamp(2.8rem,6vw,4.5rem)] font-black leading-[0.92] tracking-tight">
-              Scegliere la RC<br />giusta non<br /><em className="not-italic text-green-500">dovrebbe essere complicato.</em>
-            </h1>
-            <p className="text-base text-gray-500 font-medium leading-relaxed">
-              ScelgoSicuro analizza il tuo profilo professionale, seleziona la soluzione più adatta e ti spiega davvero cosa stai acquistando.
-            </p>
-          </div>
-
-          {/* right: bullets + companies */}
-          <div className="space-y-8 lg:pl-8 lg:border-l-2 lg:border-black">
-            <div className="space-y-4">
-              {["Poche domande, preventivo in 2 minuti", "Analisi reale del tuo profilo di rischio", "Spiegazioni chiare — nessun linguaggio tecnico", "Emissione digitale in meno di 24 ore"].map((item) => (
-                <div key={item} className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-green-400 border-2 border-black flex items-center justify-center flex-shrink-0">
-                    <span className="text-black text-[10px] font-black leading-none">✓</span>
+      <section className="bg-[#F7F4EE]">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            {/* left */}
+            <div className="space-y-7">
+              <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5">
+                RC Professionale · Liberi Professionisti
+              </span>
+              <h1 className="text-[clamp(2.6rem,5.5vw,4.2rem)] font-bold leading-[1.0] tracking-[-0.03em] text-[#1C1C1A] font-[family-name:var(--font-heading)]">
+                Scegliere la RC giusta non dovrebbe essere{" "}
+                <span className="text-[#00C2A8]">complicato.</span>
+              </h1>
+              <p className="text-lg text-[#5F5F5A] leading-relaxed max-w-lg">
+                ScelgoSicuro analizza il tuo profilo professionale, seleziona la soluzione più adatta e ti spiega davvero cosa stai acquistando.
+              </p>
+              <div className="space-y-3.5">
+                {[
+                  "Poche domande, preventivo in 2 minuti",
+                  "Analisi reale del tuo profilo di rischio",
+                  "Spiegazioni chiare — nessun linguaggio tecnico",
+                  "Emissione digitale in meno di 24 ore",
+                ].map((item) => (
+                  <div key={item} className="flex items-center gap-3">
+                    <div className="w-5 h-5 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-[9px] font-bold leading-none">✓</span>
+                    </div>
+                    <span className="text-base text-[#1C1C1A] font-medium">{item}</span>
                   </div>
-                  <span className="text-base font-medium">{item}</span>
-                </div>
-              ))}
-            </div>
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-3">Compagnie convenzionate</p>
-              <div className="flex flex-wrap gap-2">
-                {["AMTRUST", "AXA", "GENERALI", "UNIPOL", "ALLIANZ"].map((c) => (
-                  <span key={c} className="border-2 border-black px-3 py-1 text-[10px] font-black tracking-widest">{c}</span>
                 ))}
               </div>
+              <div>
+                <p className="text-xs font-semibold text-[#5F5F5A] mb-3 tracking-wide">COMPAGNIE CONVENZIONATE</p>
+                <div className="flex flex-wrap gap-2">
+                  {["AMTRUST", "AXA", "GENERALI", "UNIPOL", "ALLIANZ"].map((c) => (
+                    <span key={c} className="bg-white border border-[#E8E4DC] px-3.5 py-1.5 text-xs font-semibold text-[#5F5F5A] rounded-full">{c}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* right: form */}
+            <div ref={formRef}>
+              <QuoteFormComp sectors={sectors} onSubmit={onSubmit} error={formError} />
             </div>
           </div>
-        </div>
-
-        {/* form centered below */}
-        <div ref={formRef} className="max-w-xl mx-auto py-14">
-          <QuoteFormComp sectors={sectors} onSubmit={onSubmit} error={formError} />
         </div>
       </section>
 
       {/* MARQUEE */}
-      <div data-ss="marquee" className="bg-green-400 border-y-4 border-black overflow-hidden py-3">
-        <div className="flex whitespace-nowrap" style={{ animation: "marquee 22s linear infinite" }}>
+      <div className="bg-white border-y border-[#E8E4DC] overflow-hidden py-4">
+        <div className="flex whitespace-nowrap" style={{ animation: "marquee 28s linear infinite" }}>
           {[0, 1, 2].map((rep) => (
-            <span key={rep} className="inline-flex items-center mr-0">
+            <span key={rep} className="inline-flex items-center">
               {["AMTRUST", "AXA", "GENERALI", "UNIPOL", "ALLIANZ", "HDI", "GROUPAMA", "ZURICH", "SARA"].map((c) => (
-                <span key={`${rep}-${c}`} className="inline-flex items-center gap-6 mx-8 text-black font-black uppercase tracking-[0.2em] text-base">
-                  <span className="text-black/40">▲</span>{c}
+                <span key={`${rep}-${c}`} className="inline-flex items-center gap-5 mx-8 text-[#5F5F5A] font-semibold text-sm tracking-widest">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00C2A8] inline-block" />{c}
                 </span>
               ))}
             </span>
@@ -799,130 +796,160 @@ function LandingContent({
       </div>
 
       {/* HOW IT WORKS */}
-      <section id="come-funziona" data-ss="how" className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
-        <div className="mb-12">
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">COME FUNZIONA</p>
-          <h2 className="text-[clamp(2.2rem,5vw,3.5rem)] font-black tracking-tight leading-[1.0]">Un processo semplice.<br />Pensato per chi lavora.</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 border-2 border-black">
-          {[
-            { n: "01", title: "Inserisci poche informazioni", desc: "Ti chiediamo solo ciò che serve: professione, attività, responsabilità, rischi. Niente moduli infiniti o compilazioni inutili." },
-            { n: "02", title: "Il sistema analizza il tuo profilo", desc: "ScelgoSicuro combina le caratteristiche della tua professione, i rischi tipici del settore, la qualità delle coperture e il costo. L'obiettivo non è mostrarti decine di prodotti — è trovare quello più coerente con il tuo lavoro." },
-            { n: "03", title: "Ricevi una proposta già selezionata", desc: "Ti presentiamo la soluzione più adatta al tuo profilo. Se vuoi, puoi confrontarla con le alternative disponibili e affinare il preventivo in tempo reale." },
-          ].map((s, i) => (
-            <div key={i} className={`p-8 sm:p-10 ${i < 2 ? "md:border-r-2 border-black" : ""} border-b-2 md:border-b-0 border-black`}>
-              <p className="text-7xl font-black text-green-400 leading-none mb-6 font-mono">{s.n}</p>
-              <h3 className="text-xl font-black mb-3">{s.title}</h3>
-              <p className="text-basetext-gray-500 leading-relaxed">{s.desc}</p>
-            </div>
-          ))}
+      <section id="come-funziona" className="bg-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
+          <div className="mb-14 max-w-2xl">
+            <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
+              Come funziona
+            </span>
+            <h2 className="text-[clamp(2rem,4.5vw,3.2rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.05] font-[family-name:var(--font-heading)]">
+              Un processo semplice.<br />Pensato per chi lavora.
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { n: "01", title: "Inserisci poche informazioni", desc: "Ti chiediamo solo ciò che serve: professione, attività, responsabilità, rischi. Niente moduli infiniti o compilazioni inutili." },
+              { n: "02", title: "Il sistema analizza il tuo profilo", desc: "ScelgoSicuro combina le caratteristiche della tua professione, i rischi tipici del settore e la qualità delle coperture. L'obiettivo non è mostrarti decine di prodotti — è trovare quello più coerente con il tuo lavoro." },
+              { n: "03", title: "Ricevi una proposta già selezionata", desc: "Ti presentiamo la soluzione più adatta al tuo profilo. Se vuoi, puoi confrontarla con le alternative disponibili e affinare il preventivo in tempo reale." },
+            ].map((s, i) => (
+              <div key={i} className="bg-[#F7F4EE] rounded-3xl p-8 flex flex-col gap-5">
+                <span className="text-5xl font-bold text-[#00C2A8] leading-none font-[family-name:var(--font-heading)]">{s.n}</span>
+                <h3 className="text-xl font-bold text-[#1C1C1A] font-[family-name:var(--font-heading)]">{s.title}</h3>
+                <p className="text-base text-[#5F5F5A] leading-relaxed">{s.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* STATS */}
-      <div data-ss="stats" className="border-y-4 border-black bg-black">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 border-2 border-white/10">
+      <section className="bg-[#1C1C1A]">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10">
             {[
               { n: "2 min", label: "Per ottenere un preventivo" },
               { n: "5+", label: "Compagnie confrontate" },
               { n: "100%", label: "Online — zero burocrazia" },
               { n: "< 24h", label: "Polizza attiva" },
             ].map((s, i) => (
-              <div key={i} className={`p-8 ${i < 3 ? "border-r border-white/10" : ""} border-b md:border-b-0 border-white/10`}>
-                <p className="text-4xl sm:text-5xl font-black font-mono text-green-400">{s.n}</p>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mt-2">{s.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* NON CONFRONTIAMO SOLO PREZZI */}
-      <section data-ss="approach" className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">IL NOSTRO APPROCCIO</p>
-            <h2 className="text-[clamp(2rem,4vw,3rem)] font-black tracking-tight leading-[1.05] mb-6">
-              Non confrontiamo solo i prezzi.<br />Analizziamo il tuo lavoro.
-            </h2>
-            <p className="text-basetext-gray-500 leading-relaxed">
-              Una RC professionale efficace dipende da molti fattori: il tipo di attività che svolgi, il livello di responsabilità, i clienti con cui lavori, i rischi specifici del tuo settore.
-            </p>
-            <p className="text-basetext-gray-500 leading-relaxed mt-3">
-              Per questo il nostro sistema non ordina semplicemente le polizze dal prezzo più basso. Identifica la soluzione più equilibrata tra protezione, coperture, affidabilità e costo.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-px border-2 border-black">
-            {[
-              { label: "Tipo di attività svolta", desc: "Valutata in base al settore e alla specializzazione" },
-              { label: "Livello di responsabilità", desc: "Struttura, volume d'affari, numero di collaboratori" },
-              { label: "Rischi specifici del settore", desc: "Colpa grave, retroattività, massimali adeguati" },
-              { label: "Qualità delle coperture", desc: "Non solo il premio annuo, ma cosa copre davvero" },
-            ].map((item, i) => (
-              <div key={i} className="p-5 bg-white border-b border-black last:border-b-0">
-                <p className="font-black text-basemb-1">{item.label}</p>
-                <p className="text-smtext-gray-400 font-medium">{item.desc}</p>
+              <div key={i} className="bg-[#1C1C1A] p-8 sm:p-10">
+                <p className="text-4xl sm:text-5xl font-bold text-[#00C2A8] font-[family-name:var(--font-heading)]">{s.n}</p>
+                <p className="text-sm font-medium text-white/40 mt-3">{s.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CAPIRE UNA POLIZZA */}
-      <div data-ss="transparency" className="bg-black border-y-4 border-black">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      {/* APPROACH */}
+      <section className="bg-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-400 mb-3">TRASPARENZA</p>
-              <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight mb-4">
-                Capire una polizza dovrebbe essere semplice.
+              <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-6">
+                Il nostro approccio
+              </span>
+              <h2 className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.1] mb-6 font-[family-name:var(--font-heading)]">
+                Non confrontiamo solo i prezzi.<br />Analizziamo il tuo lavoro.
               </h2>
-              <p className="text-basetext-gray-400 leading-relaxed">
-                Massimali, franchigie, retroattività, colpa grave. Molti professionisti sottoscrivono una polizza senza avere davvero chiaro cosa copre, cosa resta escluso e quali clausole incidono sulla protezione reale.
+              <p className="text-base text-[#5F5F5A] leading-relaxed">
+                Una RC professionale efficace dipende da molti fattori: il tipo di attività che svolgi, il livello di responsabilità, i clienti con cui lavori, i rischi specifici del tuo settore.
               </p>
-              <p className="text-basetext-gray-400 leading-relaxed mt-3">
-                ScelgoSicuro ti aiuta a comprendere le opzioni in modo semplice e chiaro, così puoi scegliere con maggiore sicurezza.
+              <p className="text-base text-[#5F5F5A] leading-relaxed mt-4">
+                Per questo il nostro sistema non ordina semplicemente le polizze dal prezzo più basso. Identifica la soluzione più equilibrata tra protezione, coperture, affidabilità e costo.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              {["Cosa copre", "Cosa resta escluso", "Quali garanzie contano", "Clausole che incidono"].map((item) => (
-                <div key={item} className="border-2 border-white/10 p-4 flex items-start gap-3">
-                  <div className="w-4 h-4 bg-green-400 flex-shrink-0 mt-0.5" />
-                  <span className="text-basefont-bold text-white">{item}</span>
+            <div className="space-y-3">
+              {[
+                { label: "Tipo di attività svolta", desc: "Valutata in base al settore e alla specializzazione" },
+                { label: "Livello di responsabilità", desc: "Struttura, volume d'affari, numero di collaboratori" },
+                { label: "Rischi specifici del settore", desc: "Colpa grave, retroattività, massimali adeguati" },
+                { label: "Qualità delle coperture", desc: "Non solo il premio annuo, ma cosa copre davvero" },
+              ].map((item, i) => (
+                <div key={i} className="bg-[#F7F4EE] border border-[#E8E4DC] rounded-2xl p-5 flex gap-4 items-start">
+                  <div className="w-8 h-8 rounded-full bg-[#DDF7F2] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-[#00C2A8] text-xs font-bold">✓</span>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#1C1C1A] text-base">{item.label}</p>
+                    <p className="text-sm text-[#5F5F5A] mt-0.5">{item.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* PROFESSIONI */}
-      <section data-ss="professions" className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
-        <div className="mb-10">
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">SOLUZIONI DEDICATE</p>
-          <h2 className="text-[clamp(2.2rem,5vw,3.5rem)] font-black tracking-tight leading-[1.0]">
-            Ogni professione<br />ha esigenze diverse.
-          </h2>
-          <p className="text-basetext-gray-400 mt-4 max-w-lg">Anche la polizza dovrebbe esserlo. Copriamo le principali categorie professionali con soluzioni calibrate sul profilo di rischio reale.</p>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 border-2 border-black">
-          {["Medici", "Avvocati", "Ingegneri", "Geometri", "Architetti", "Commercialisti", "Consulenti", "Liberi professionisti"].map((prof, i) => (
-            <div key={prof} className={`p-5 border-b-2 border-black ${i % 4 < 3 ? "sm:border-r-2 border-black" : ""}`}>
-              <p className="font-black text-base">{prof}</p>
+      {/* TRANSPARENCY */}
+      <section className="bg-[#F7F4EE]">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div>
+              <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-6">
+                Trasparenza
+              </span>
+              <h2 className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.1] mb-5 font-[family-name:var(--font-heading)]">
+                Capire una polizza dovrebbe essere semplice.
+              </h2>
+              <p className="text-base text-[#5F5F5A] leading-relaxed">
+                Massimali, franchigie, retroattività, colpa grave. Molti professionisti sottoscrivono una polizza senza avere davvero chiaro cosa copre, cosa resta escluso e quali clausole incidono sulla protezione reale.
+              </p>
+              <p className="text-base text-[#5F5F5A] leading-relaxed mt-4">
+                ScelgoSicuro ti aiuta a comprendere le opzioni in modo semplice e chiaro, così puoi scegliere con maggiore sicurezza.
+              </p>
             </div>
-          ))}
+            <div className="grid grid-cols-2 gap-3">
+              {["Cosa copre", "Cosa resta escluso", "Quali garanzie contano", "Clausole che incidono"].map((item) => (
+                <div key={item} className="bg-white border border-[#E8E4DC] rounded-2xl p-5 flex items-start gap-3 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+                  <div className="w-5 h-5 rounded-full bg-[#DDF7F2] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-[#00C2A8] text-[8px] font-bold">✓</span>
+                  </div>
+                  <span className="text-sm font-semibold text-[#1C1C1A] leading-snug">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* PERCHÉ SCELGOSICURO */}
-      <div data-ss="why" className="border-y-4 border-black bg-white">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16">
-          <div className="mb-10">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">PERCHÉ NOI</p>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight">Perché scegliere ScelgoSicuro</h2>
+      {/* PROFESSIONI */}
+      <section className="bg-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
+          <div className="mb-12">
+            <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
+              Soluzioni dedicate
+            </span>
+            <h2 className="text-[clamp(2rem,4.5vw,3.2rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.05] font-[family-name:var(--font-heading)]">
+              Ogni professione<br />ha esigenze diverse.
+            </h2>
+            <p className="text-base text-[#5F5F5A] mt-4 max-w-lg leading-relaxed">
+              Anche la polizza dovrebbe esserlo. Copriamo le principali categorie professionali con soluzioni calibrate sul profilo di rischio reale.
+            </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-2 border-black">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {["Medici", "Avvocati", "Ingegneri", "Geometri", "Architetti", "Commercialisti", "Consulenti", "Liberi professionisti"].map((prof) => (
+              <div key={prof} className="bg-[#F7F4EE] border border-[#E8E4DC] rounded-2xl px-5 py-4 flex items-center gap-3 transition-all duration-200 hover:border-[#00C2A8]/40 hover:bg-[#DDF7F2]/30 cursor-pointer">
+                <div className="w-2 h-2 rounded-full bg-[#00C2A8] flex-shrink-0" />
+                <p className="font-semibold text-sm text-[#1C1C1A]">{prof}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* WHY US */}
+      <section className="bg-[#F7F4EE]">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
+          <div className="mb-12">
+            <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
+              Perché noi
+            </span>
+            <h2 className="text-[clamp(2rem,4.5vw,3.2rem)] font-bold tracking-tight text-[#1C1C1A] leading-[1.05] font-[family-name:var(--font-heading)]">
+              Perché scegliere ScelgoSicuro
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               { title: "Proposta realmente personalizzata", desc: "Basata sul tuo profilo professionale, non solo sul prezzo." },
               { title: "Sistema di selezione intelligente", desc: "Costruito per individuare la soluzione più coerente con il tuo livello di rischio." },
@@ -931,79 +958,104 @@ function LandingContent({
               { title: "Velocità e semplicità", desc: "Preventivo ed emissione gestiti completamente online, in pochi minuti." },
               { title: "Supporto umano quando serve", desc: "Tecnologia e consulenza lavorano insieme. Un consulente è sempre disponibile." },
             ].map((item, i) => (
-              <div key={i} className={`p-6 border-b-2 border-black ${i % 3 < 2 ? "lg:border-r-2" : ""} ${i % 2 === 0 ? "sm:border-r-2 lg:border-r-0" : ""}`}>
-                <div className="w-6 h-6 bg-green-400 border-2 border-black flex items-center justify-center mb-4">
-                  <span className="text-black text-[10px] font-black">✓</span>
+              <div key={i} className="bg-white border border-[#E8E4DC] rounded-3xl p-7 shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
+                <div className="w-10 h-10 bg-[#DDF7F2] rounded-2xl flex items-center justify-center mb-5">
+                  <span className="text-[#00C2A8] text-base font-bold">✓</span>
                 </div>
-                <h3 className="font-black text-basemb-2">{item.title}</h3>
-                <p className="text-smtext-gray-400 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* FAQ */}
-      <section id="faq" className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-500 mb-3">FAQ</p>
-            <h2 className="text-4xl font-black tracking-tight">Domande frequenti</h2>
-            <p className="text-basetext-gray-400 mt-4">
-              Non trovi risposta?{" "}
-              <span className="text-black font-bold border-b-2 border-green-400 cursor-pointer hover:text-green-600 transition-colors">Scrivici →</span>
-            </p>
-          </div>
-          <div className="md:col-span-2 border-t-2 border-black">
-            {FAQ.map((item, i) => (
-              <div key={i} className="border-b-2 border-black">
-                <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between py-5 px-4 text-left hover:bg-gray-50 transition-colors">
-                  <span className="font-bold text-basepr-4">{item.q}</span>
-                  <span className="text-xl font-black flex-shrink-0">{openFaq === i ? "−" : "+"}</span>
-                </button>
-                {openFaq === i && <div className="px-4 pb-5 text-basetext-gray-500 leading-relaxed border-t border-black/10">{item.a}</div>}
+                <h3 className="font-bold text-[#1C1C1A] text-base mb-2 font-[family-name:var(--font-heading)]">{item.title}</h3>
+                <p className="text-sm text-[#5F5F5A] leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA BAND */}
-      <div data-ss="cta" className="bg-green-400 border-y-4 border-black">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight">La scelta giusta non è sempre la più economica.</h2>
-            <p className="text-basefont-medium text-black/60 mt-2 max-w-md">È quella più adatta a proteggere il tuo lavoro. Online in pochi minuti — nessun obbligo.</p>
+      {/* FAQ */}
+      <section id="faq" className="bg-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-24">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            <div>
+              <span className="inline-block bg-[#DDF7F2] text-[#00C2A8] text-xs font-semibold rounded-full px-3.5 py-1.5 mb-5">
+                FAQ
+              </span>
+              <h2 className="text-3xl font-bold tracking-tight text-[#1C1C1A] font-[family-name:var(--font-heading)]">Domande frequenti</h2>
+              <p className="text-base text-[#5F5F5A] mt-4 leading-relaxed">
+                Non trovi risposta?{" "}
+                <span className="text-[#00C2A8] font-semibold cursor-pointer hover:text-[#009E89] transition-colors">Scrivici →</span>
+              </p>
+            </div>
+            <div className="md:col-span-2 space-y-3">
+              {FAQ.map((item, i) => (
+                <div key={i} className="bg-[#F7F4EE] border border-[#E8E4DC] rounded-2xl overflow-hidden transition-all duration-200">
+                  <button
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    className="w-full flex items-center justify-between py-5 px-6 text-left"
+                  >
+                    <span className="font-semibold text-base text-[#1C1C1A] pr-4">{item.q}</span>
+                    <span className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-base font-bold transition-all duration-200 ${openFaq === i ? "bg-[#00C2A8] text-white" : "bg-white text-[#5F5F5A]"}`}>
+                      {openFaq === i ? "−" : "+"}
+                    </span>
+                  </button>
+                  {openFaq === i && (
+                    <div className="px-6 pb-5 text-base text-[#5F5F5A] leading-relaxed border-t border-[#E8E4DC] pt-4">
+                      {item.a}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
-          <button onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth" })}
-            className="bg-black text-white border-2 border-black font-black uppercase tracking-wider px-8 py-4 text-basehover:bg-white hover:text-black transition-all flex-shrink-0">
+        </div>
+      </section>
+
+      {/* CTA BAND */}
+      <section className="bg-[#00C2A8]">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+          <div className="max-w-lg">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white font-[family-name:var(--font-heading)]">
+              La scelta giusta non è sempre la più economica.
+            </h2>
+            <p className="text-base text-white/70 mt-3 leading-relaxed">
+              È quella più adatta a proteggere il tuo lavoro. Online in pochi minuti — nessun obbligo.
+            </p>
+          </div>
+          <button
+            onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth" })}
+            className="bg-white text-[#00C2A8] font-semibold px-8 py-4 rounded-full text-base transition-all duration-200 hover:-translate-y-px hover:shadow-[0_8px_30px_rgba(0,0,0,0.15)] flex-shrink-0"
+          >
             Ottieni il tuo preventivo →
           </button>
         </div>
-      </div>
+      </section>
 
       {/* FOOTER */}
-      <footer className="bg-black text-white">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-14">
-          <div className="flex flex-col md:flex-row justify-between gap-10">
+      <footer className="bg-[#1C1C1A]">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-16">
+          <div className="flex flex-col md:flex-row justify-between gap-12">
             <div>
-              <p className="font-black text-2xl tracking-tighter mb-2">SCELGOSICURO<span className="text-green-400">.</span></p>
-              <p className="text-smtext-gray-500 max-w-xs leading-relaxed">Intermediario assicurativo iscritto al R.U.I. presso IVASS.<br />P.IVA 12345678901</p>
+              <p className="font-bold text-2xl text-white tracking-tight font-[family-name:var(--font-heading)] mb-3">
+                ScelgoSicuro<span className="text-[#00C2A8]">.</span>
+              </p>
+              <p className="text-sm text-white/40 max-w-xs leading-relaxed">
+                Intermediario assicurativo iscritto al R.U.I. presso IVASS.<br />P.IVA 12345678901
+              </p>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-10 text-[10px] font-bold uppercase tracking-widest text-gray-500">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-10 text-sm text-white/40">
               {[
                 { title: "Professioni", links: ["Medici", "Avvocati", "Ingegneri", "Commercialisti"] },
                 { title: "Azienda", links: ["Chi siamo", "Come funziona", "Contatti"] },
                 { title: "Legale", links: ["Privacy Policy", "Termini e condizioni", "Cookie Policy"] },
               ].map((col) => (
                 <div key={col.title} className="space-y-3">
-                  <p className="text-white">{col.title}</p>
-                  {col.links.map((l) => <p key={l} className="hover:text-green-400 cursor-pointer transition-colors">{l}</p>)}
+                  <p className="text-white font-semibold text-xs tracking-widest uppercase">{col.title}</p>
+                  {col.links.map((l) => (
+                    <p key={l} className="hover:text-[#00C2A8] cursor-pointer transition-colors text-xs">{l}</p>
+                  ))}
                 </div>
               ))}
             </div>
           </div>
-          <div className="border-t border-white/10 mt-10 pt-6 flex flex-col md:flex-row justify-between gap-2 text-[10px] text-gray-600">
+          <div className="border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row justify-between gap-2 text-xs text-white/30">
             <p>© 2025 ScelgoSicuro Srl. Tutti i diritti riservati.</p>
             <p>Regolato da IVASS — D.Lgs. 209/2005</p>
           </div>
@@ -1020,7 +1072,7 @@ function LandingContent({
 // ─── THEME DEV TOOL ──────────────────────────────────────────────────────────
 
 const SS_PALETTE = [
-  { name: "Verde (default)", hex: "#4ade80" },
+  { name: "Teal (default)", hex: "#00C2A8" },
   { name: "Blu", hex: "#60a5fa" },
   { name: "Viola", hex: "#c084fc" },
   { name: "Arancione", hex: "#fb923c" },
@@ -1047,71 +1099,9 @@ function hslToHex(h: number, s: number, l: number): string {
 
 function randomColor(): string {
   const h = Math.floor(Math.random() * 360)
-  const s = Math.floor(40 + Math.random() * 60)  // 40–100% — evita grigi piatti
-  const l = Math.floor(8 + Math.random() * 84)   // 8–92% — da quasi-nero a quasi-bianco
+  const s = Math.floor(40 + Math.random() * 60)
+  const l = Math.floor(8 + Math.random() * 84)
   return hslToHex(h, s, l)
-}
-
-function hexToRgb(hex: string): string {
-  const r = parseInt(hex.slice(1, 3), 16)
-  const g = parseInt(hex.slice(3, 5), 16)
-  const b = parseInt(hex.slice(5, 7), 16)
-  return `${r} ${g} ${b}`
-}
-
-function buildAccentCSS(hex: string): string {
-  return `
-    .bg-green-400 { background-color: ${hex} !important; }
-    .hover\\:bg-green-400:hover { background-color: ${hex} !important; }
-    .text-green-400 { color: ${hex} !important; }
-    .text-green-500 { color: ${hex} !important; }
-    .text-green-600 { color: ${hex} !important; }
-    .text-green-50 { color: ${hex}18 !important; }
-    .border-green-400 { border-color: ${hex} !important; }
-    .hover\\:text-green-400:hover { color: ${hex} !important; }
-    .hover\\:text-green-500:hover { color: ${hex} !important; }
-    .hover\\:text-green-600:hover { color: ${hex} !important; }
-    .focus\\:border-green-500:focus { border-color: ${hex} !important; }
-  `
-}
-
-function buildFullSchemeCSS(accent: string, light: string, dark: string): string {
-  const d = hexToRgb(dark)
-  const l = hexToRgb(light)
-  return `
-    ${buildAccentCSS(accent)}
-
-    /* ── dark replaces black ── */
-    .bg-black                       { background-color: ${dark} !important; }
-    .text-black                     { color: ${dark} !important; }
-    .border-black                   { border-color: ${dark} !important; }
-    .hover\\:bg-black:hover         { background-color: ${dark} !important; }
-    .hover\\:text-black:hover       { color: ${dark} !important; }
-    .hover\\:border-black:hover     { border-color: ${dark} !important; }
-    .ring-black                     { --tw-ring-color: ${dark} !important; }
-    .text-black\\/30                { color: rgb(${d} / 0.3) !important; }
-    .text-black\\/40                { color: rgb(${d} / 0.4) !important; }
-    .text-black\\/50                { color: rgb(${d} / 0.5) !important; }
-    .text-black\\/60                { color: rgb(${d} / 0.6) !important; }
-    .border-black\\/10              { border-color: rgb(${d} / 0.1) !important; }
-    .border-black\\/20              { border-color: rgb(${d} / 0.2) !important; }
-    .bg-black\\/\\[0\\.02\\]        { background-color: rgb(${d} / 0.02) !important; }
-    .bg-black\\/\\[0\\.03\\]        { background-color: rgb(${d} / 0.03) !important; }
-    .bg-black\\/60                  { background-color: rgb(${d} / 0.6) !important; }
-
-    /* ── light replaces white ── */
-    .bg-white                       { background-color: ${light} !important; }
-    .text-white                     { color: ${light} !important; }
-    .hover\\:bg-white:hover         { background-color: ${light} !important; }
-    .hover\\:text-white:hover       { color: ${light} !important; }
-    .bg-white\\/10                  { background-color: rgb(${l} / 0.1) !important; }
-    .border-white\\/10              { border-color: rgb(${l} / 0.1) !important; }
-    .text-white\\/60                { color: rgb(${l} / 0.6) !important; }
-    .text-white\\/40                { color: rgb(${l} / 0.4) !important; }
-    .text-white\\/30                { color: rgb(${l} / 0.3) !important; }
-    .hover\\:bg-white\\/10:hover    { background-color: rgb(${l} / 0.1) !important; }
-    body                            { background-color: ${light} !important; }
-  `
 }
 
 function getOrCreateStyleEl() {
@@ -1124,15 +1114,6 @@ function getOrCreateStyleEl() {
   return el
 }
 
-function shuffleArr<T>(arr: T[]): T[] {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
-
 function ThemeDevTool() {
   const [open, setOpen] = useState(false)
   const [activeHex, setActiveHex] = useState<string | null>(null)
@@ -1141,7 +1122,9 @@ function ThemeDevTool() {
   function applyAccent(hex: string) {
     setActiveHex(hex)
     setShuffleColors(null)
-    getOrCreateStyleEl().textContent = buildAccentCSS(hex)
+    getOrCreateStyleEl().textContent = `
+      [style*="--mm-accent"], .mm-accent { --mm-accent: ${hex}; }
+    `
   }
 
   function applyShuffle() {
@@ -1150,7 +1133,10 @@ function ThemeDevTool() {
     const dark   = randomColor()
     setActiveHex(null)
     setShuffleColors({ accent, light, dark })
-    getOrCreateStyleEl().textContent = buildFullSchemeCSS(accent, light, dark)
+    getOrCreateStyleEl().textContent = `
+      body { background-color: ${light} !important; }
+      section, footer, nav { background-color: ${light} !important; }
+    `
   }
 
   function reset() {
@@ -1165,21 +1151,17 @@ function ThemeDevTool() {
   return (
     <div className="fixed bottom-5 right-5 z-[200] flex flex-col items-end gap-2">
       {open && (
-        <div className="border-2 border-black bg-white w-72">
-          <div className="flex items-center justify-between px-4 py-3 border-b-2 border-black bg-black text-white">
-            <p className="text-[10px] font-black uppercase tracking-[0.2em]">Theme Explorer</p>
+        <div className="bg-white border border-[#E8E4DC] rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.12)] w-72 overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3.5 border-b border-[#E8E4DC] bg-[#F7F4EE]">
+            <p className="text-xs font-semibold text-[#1C1C1A]">Theme Explorer</p>
             {isActive && (
-              <button onClick={reset} className="text-[10px] font-black uppercase text-green-400 hover:underline">
-                Reset
-              </button>
+              <button onClick={reset} className="text-xs font-semibold text-[#00C2A8] hover:underline">Reset</button>
             )}
           </div>
 
           <div className="p-4 space-y-4">
             <div>
-              <p className="text-[9px] font-black uppercase tracking-widest text-black/40 mb-2">
-                Solo accento (sostituisce verde):
-              </p>
+              <p className="text-[10px] font-semibold text-[#5F5F5A] mb-2.5 tracking-wide uppercase">Colore accento:</p>
               <div className="grid grid-cols-6 gap-1.5">
                 {SS_PALETTE.map((c) => (
                   <button
@@ -1187,27 +1169,25 @@ function ThemeDevTool() {
                     title={c.name}
                     onClick={() => applyAccent(c.hex)}
                     style={{ backgroundColor: c.hex }}
-                    className={`w-9 h-9 border-2 transition-all hover:scale-110 ${
-                      activeHex === c.hex
-                        ? "border-black ring-2 ring-black ring-offset-1 scale-110"
-                        : "border-transparent hover:border-black"
+                    className={`w-9 h-9 rounded-xl transition-all hover:scale-110 ${
+                      activeHex === c.hex ? "ring-2 ring-[#1C1C1A] ring-offset-1 scale-110" : ""
                     }`}
                   />
                 ))}
               </div>
             </div>
 
-            <div className="border-t-2 border-black pt-4 space-y-2">
+            <div className="border-t border-[#E8E4DC] pt-4 space-y-2">
               <button
                 onClick={applyShuffle}
-                className={`w-full border-2 border-black py-3 text-[10px] font-black uppercase tracking-wider transition-colors ${
-                  shuffleColors ? "bg-black text-white" : "hover:bg-black hover:text-white"
+                className={`w-full border border-[#E8E4DC] py-3 text-xs font-semibold rounded-full transition-colors ${
+                  shuffleColors ? "bg-[#1C1C1A] text-white border-[#1C1C1A]" : "text-[#1C1C1A] hover:bg-[#F7F4EE]"
                 }`}
               >
-                ⟳ Shuffle completo
+                ⟳ Shuffle palette completa
               </button>
-              <p className="text-[9px] text-black/30 text-center leading-relaxed">
-                3 colori HSL random: verde → accento, bianco → sfondo, nero → struttura
+              <p className="text-[10px] text-[#5F5F5A]/60 text-center leading-relaxed">
+                3 colori HSL random: accento · sfondo · struttura
               </p>
               {shuffleColors && (
                 <div className="flex gap-2 justify-center pt-1">
@@ -1217,9 +1197,9 @@ function ThemeDevTool() {
                     { hex: shuffleColors.dark,   label: "struttura" },
                   ].map((c) => (
                     <div key={c.label} className="flex flex-col items-center gap-1">
-                      <div className="w-8 h-8 border-2 border-black/10" style={{ backgroundColor: c.hex }} />
-                      <span className="text-[8px] text-black/40 uppercase font-black">{c.label}</span>
-                      <span className="text-[7px] text-black/30 font-mono">{c.hex}</span>
+                      <div className="w-8 h-8 rounded-xl border border-[#E8E4DC]" style={{ backgroundColor: c.hex }} />
+                      <span className="text-[9px] text-[#5F5F5A] font-medium">{c.label}</span>
+                      <span className="text-[8px] text-[#5F5F5A]/50 font-mono">{c.hex}</span>
                     </div>
                   ))}
                 </div>
@@ -1231,10 +1211,8 @@ function ThemeDevTool() {
 
       <button
         onClick={() => setOpen((o) => !o)}
-        style={activeHex ? { backgroundColor: activeHex } : shuffleColors ? { backgroundColor: shuffleColors.accent } : {}}
-        className={`border-2 border-black w-12 h-12 font-black text-lg transition-colors flex items-center justify-center ${
-          open ? "bg-black text-white" : "bg-white text-black hover:bg-black hover:text-white"
-        }`}
+        style={activeHex ? { backgroundColor: activeHex } : shuffleColors ? { backgroundColor: shuffleColors.accent } : { backgroundColor: "#00C2A8" }}
+        className="w-12 h-12 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.12)] font-bold text-lg text-white flex items-center justify-center transition-transform hover:scale-105"
       >
         {open ? "✕" : "◐"}
       </button>
@@ -1246,15 +1224,20 @@ function ThemeDevTool() {
 
 function Navbar({ onCta }: { onCta: () => void }) {
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b-2 border-black">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between">
-        <span className="font-black text-xl tracking-tighter">SCELGOSICURO<span className="text-green-400">.</span></span>
-        <div className="hidden md:flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.2em]">
-          <a href="#come-funziona" className="hover:text-green-500 transition-colors">Come funziona</a>
-          <a href="#faq" className="hover:text-green-500 transition-colors">FAQ</a>
+    <nav className="sticky top-0 z-50 bg-white border-b border-[#E8E4DC]">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
+        <span className="font-bold text-xl text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">
+          ScelgoSicuro<span className="text-[#00C2A8]">.</span>
+        </span>
+        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#5F5F5A]">
+          <a href="#come-funziona" className="hover:text-[#1C1C1A] transition-colors">Come funziona</a>
+          <a href="#faq" className="hover:text-[#1C1C1A] transition-colors">FAQ</a>
         </div>
-        <button onClick={onCta} className="bg-green-400 text-black border-2 border-black font-black uppercase tracking-wider px-4 py-2 text-[10px] hover:bg-black hover:text-green-400 transition-all">
-          Preventivo →
+        <button
+          onClick={onCta}
+          className="bg-[#00C2A8] text-white font-semibold px-5 py-2.5 text-sm rounded-full transition-all duration-200 hover:bg-[#009E89] hover:-translate-y-px hover:shadow-[0_4px_12px_rgba(0,194,168,0.3)]"
+        >
+          Preventivo gratuito →
         </button>
       </div>
     </nav>
@@ -1304,12 +1287,10 @@ export function LandingPage({ sectors }: { sectors: Sector[] }) {
     const sid = sessionResult.sessionId
     setSessionId(sid)
 
-    // Save sector question answers so the engine can compute a real price
     if (Object.keys(fields.sectorAnswers).length > 0) {
       await saveAnswers({ sessionId: sid, answers: fields.sectorAnswers })
     }
 
-    // Track all answers (for visible_if evaluation in refinement panel)
     const allAnswers = { q_professione: fields.professionSlug, ...fields.sectorAnswers }
     setAnswers(allAnswers)
 
@@ -1340,7 +1321,6 @@ export function LandingPage({ sectors }: { sectors: Sector[] }) {
     setTimeout(() => setPriceUpdated(false), 1500)
   }
 
-  // Pick the featured AmTrust result (prefer slot='safe', else first with price)
   const featured =
     quoteResults.find((r) => r.slot === "safe" && r.premiumTotal !== null) ??
     quoteResults.find((r) => r.premiumTotal !== null) ??
