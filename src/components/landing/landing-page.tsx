@@ -233,93 +233,120 @@ export function LandingPage() {
           <circle cx="560" cy="0" r="130" stroke="#1C1C1A" strokeWidth="1" />
         </svg>
 
-        {/* testo */}
+        {/* layout 2 colonne */}
         <div className="max-w-7xl mx-auto px-6 sm:px-8 pt-24 pb-20 relative z-10">
-          <div className="space-y-9">
-            <span className="inline-block bg-[#ffe0f2] text-[#1C1C1A] text-xs font-semibold rounded-full px-3.5 py-1.5">
-              RC Professionale · Liberi Professionisti
-            </span>
-            <h1 className="text-[clamp(3rem,6vw,5.7rem)] font-bold leading-[0.97] tracking-[-0.03em] text-[#1C1C1A] font-[family-name:var(--font-heading)]">
-              Scegliere la RC giusta
-              <br />
-              non dovrebbe essere
-              <br />
-              complicato.
-            </h1>
-            <div className="lg:max-w-[560px] space-y-7">
-              <p className="text-lg sm:text-xl text-[#1C1C1A]/55 leading-relaxed">
-                ScelgoSicuro analizza il tuo profilo professionale, confronta le
-                migliori compagnie e ti spiega davvero cosa stai acquistando. In
-                2 minuti.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link
-                  href="/app"
-                  className="inline-flex items-center justify-center gap-2 bg-[#ff88c8] text-[#1C1C1A] font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:bg-[#f070b8] hover:text-white hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(255,136,200,0.45)]"
-                >
-                  Calcola il preventivo →
-                </Link>
-                <a
-                  href="#come-funziona"
-                  className="inline-flex items-center justify-center gap-2 border border-[#e2dbd0] bg-white text-[#1C1C1A] font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:border-[#1C1C1A]/30 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
-                >
-                  Come funziona
-                </a>
-              </div>
-              <div className="flex flex-wrap items-center gap-x-7 gap-y-3">
-                {[
-                  "Gratuito e senza impegno",
-                  "5+ compagnie confrontate",
-                  "Polizza attiva in 24 ore",
-                ].map((t) => (
-                  <div key={t} className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-[#ffe0f2] flex items-center justify-center flex-shrink-0">
-                      <span className="text-[#1C1C1A] text-[8px] font-bold">
-                        ✓
-                      </span>
-                    </div>
-                    <span className="text-sm text-[#1C1C1A]/55 font-medium">
-                      {t}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+          <div className="lg:grid lg:grid-cols-[1fr_400px] lg:gap-14 lg:items-center">
 
-        {/* pill grafiche — clippate a destra dal viewport */}
-        <div
-          className="hidden lg:flex flex-col gap-3.5 absolute top-1/2 -translate-y-1/2 z-20"
-          style={{ right: "-24px" }}
-        >
-          {[
-            { label: "5+ compagnie confrontate", bg: "#dbe1b0", ml: 0 },
-            { label: "✓  Colpa grave inclusa", bg: "#ffe0f2", ml: 28 },
-            { label: "Preventivo in 2 minuti", bg: "#eeb3b3", ml: 14 },
-            { label: "✓  Retroattività 10 anni", bg: "#dad2c4", ml: 40 },
-            {
-              label: "Polizza attiva in 24h",
-              bg: "white",
-              ml: 20,
-              border: true,
-            },
-          ].map((pill) => (
-            <div
-              key={pill.label}
-              className="flex items-center gap-2.5 px-5 py-3 rounded-full shadow-[0_4px_18px_rgba(0,0,0,0.07)] whitespace-nowrap"
-              style={{
-                background: pill.bg,
-                marginLeft: `${pill.ml}px`,
-                border: "none",
-              }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff88c8] flex-shrink-0" />
-              <span className="text-sm font-semibold text-[#1C1C1A]">
-                {pill.label}
+            {/* colonna sinistra — testo */}
+            <div className="space-y-9">
+              <span className="inline-block bg-[#ffe0f2] text-[#1C1C1A] text-xs font-semibold rounded-full px-3.5 py-1.5">
+                RC Professionale · Liberi Professionisti
               </span>
+              <h1 className="text-[clamp(2.6rem,5vw,4.8rem)] font-bold leading-[1] tracking-[-0.03em] text-[#1C1C1A] font-[family-name:var(--font-heading)]">
+                Scegliere la RC giusta
+                <br />
+                non dovrebbe essere
+                <br />
+                complicato.
+              </h1>
+              <div className="space-y-7 max-w-lg">
+                <p className="text-lg text-[#1C1C1A]/55 leading-relaxed">
+                  ScelgoSicuro analizza il tuo profilo, confronta le migliori
+                  compagnie e ti spiega davvero cosa stai acquistando. In 2 minuti.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Link
+                    href="/app"
+                    className="inline-flex items-center justify-center gap-2 bg-[#ff88c8] text-[#1C1C1A] font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:bg-[#f070b8] hover:text-white hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(255,136,200,0.45)]"
+                  >
+                    Calcola il preventivo →
+                  </Link>
+                  <a
+                    href="#come-funziona"
+                    className="inline-flex items-center justify-center gap-2 border border-[#e2dbd0] bg-white text-[#1C1C1A] font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:border-[#1C1C1A]/30 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+                  >
+                    Come funziona
+                  </a>
+                </div>
+                <div className="flex flex-wrap items-center gap-x-7 gap-y-3">
+                  {[
+                    "Gratuito e senza impegno",
+                    "5+ compagnie confrontate",
+                    "Polizza attiva in 24 ore",
+                  ].map((t) => (
+                    <div key={t} className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full bg-[#ffe0f2] flex items-center justify-center flex-shrink-0">
+                        <span className="text-[#1C1C1A] text-[8px] font-bold">✓</span>
+                      </div>
+                      <span className="text-sm text-[#1C1C1A]/55 font-medium">{t}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-          ))}
+
+            {/* colonna destra — pannello grafico */}
+            <div className="hidden lg:block">
+              <div className="relative bg-[#dbe1b0] rounded-[2.5rem] p-10 overflow-hidden" style={{ minHeight: "440px" }}>
+
+                {/* archi decorativi in basso a destra */}
+                <svg
+                  aria-hidden="true"
+                  className="absolute -bottom-8 -right-8 pointer-events-none"
+                  width="280" height="280" viewBox="0 0 280 280" fill="none"
+                  style={{ opacity: 0.13 }}
+                >
+                  <circle cx="280" cy="280" r="220" stroke="#1C1C1A" strokeWidth="1.5" />
+                  <circle cx="280" cy="280" r="150" stroke="#1C1C1A" strokeWidth="1.5" />
+                  <circle cx="280" cy="280" r="80" stroke="#1C1C1A" strokeWidth="1.5" />
+                </svg>
+
+                {/* blob rosa sopra */}
+                <div
+                  className="absolute pointer-events-none"
+                  style={{
+                    top: "-30%", left: "30%",
+                    width: "280px", height: "280px", borderRadius: "50%",
+                    background: "radial-gradient(circle at center, rgba(255,136,200,0.22) 0%, transparent 65%)",
+                    filter: "blur(48px)",
+                  }}
+                />
+
+                <div className="relative z-10 flex flex-col justify-between h-full" style={{ minHeight: "360px" }}>
+
+                  {/* numero grande */}
+                  <div>
+                    <p className="text-[10px] font-bold text-[#1C1C1A]/40 tracking-[0.18em] uppercase mb-3">
+                      Compagnie disponibili
+                    </p>
+                    <p className="text-[100px] font-bold text-[#1C1C1A] leading-[0.82] tracking-tighter font-[family-name:var(--font-heading)]">
+                      5+
+                    </p>
+                  </div>
+
+                  {/* chips accent */}
+                  <div className="space-y-2.5 mt-10">
+                    {[
+                      { label: "Preventivo in 2 minuti", bg: "#eeb3b3" },
+                      { label: "Polizza attiva in 24h", bg: "#dad2c4" },
+                      { label: "100% online, zero burocrazia", bg: "#ffe0f2" },
+                    ].map((chip) => (
+                      <div
+                        key={chip.label}
+                        className="rounded-2xl px-4 py-3 flex items-center gap-2.5"
+                        style={{ background: chip.bg }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#ff88c8] flex-shrink-0" />
+                        <span className="text-sm font-semibold text-[#1C1C1A]">{chip.label}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
