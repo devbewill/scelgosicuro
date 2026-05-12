@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { LandingNav } from "@/components/landing-nav";
 
 // ─── THEME PALETTES ───────────────────────────────────────────────────────────
 const TINT_PALETTE = [
@@ -212,6 +213,7 @@ function Navbar({ accent, btnBg }: { accent: string; btnBg: string }) {
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#1C1C1A]/50">
           <a href="#come-funziona" className="hover:text-[#1C1C1A] transition-colors">Come funziona</a>
           <a href="#faq" className="hover:text-[#1C1C1A] transition-colors">FAQ</a>
+          <LandingNav current="1" />
         </div>
         <Link
           href="/app"
