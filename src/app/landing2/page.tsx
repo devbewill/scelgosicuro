@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { LandingNav } from "@/components/landing-nav";
 
 const FAQ_DATA = [
@@ -34,12 +35,12 @@ const FAQ_DATA = [
 const C = {
   bg: "#FAFAF8",
   card: "#FFFFFF",
-  lime: "#e8f5a0",
-  lavender: "#e8d8f8",
-  sky: "#d8ecf8",
-  limeStrong: "#c8f560",
-  lavenderStrong: "#c8a8f0",
-  skyStrong: "#90d0f0",
+  lime: "#d4f56a",
+  lavender: "#dfc8ff",
+  sky: "#c0e4ff",
+  limeStrong: "#b8e830",
+  lavenderStrong: "#b090f0",
+  skyStrong: "#60c0f0",
   text: "#1a1a1a",
   textMuted: "#1a1a1a55",
   border: "#e5e5e0",
@@ -80,45 +81,57 @@ export default function Landing2Page() {
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className="bg-[#FAFAF8] relative overflow-hidden" style={{ minHeight: "80vh" }}>
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 flex flex-col justify-center" style={{ minHeight: "80vh" }}>
+      <section className="bg-[#FAFAF8] relative overflow-hidden" style={{ minHeight: "85vh" }}>
+        <div className="absolute pointer-events-none" style={{ top: "-15%", right: "-8%", width: "500px", height: "500px", borderRadius: "50%", background: `radial-gradient(circle, ${C.lavenderStrong}15 0%, transparent 60%)`, filter: "blur(50px)" }} />
+        <div className="absolute pointer-events-none" style={{ bottom: "-10%", left: "-5%", width: "400px", height: "400px", borderRadius: "50%", background: `radial-gradient(circle, ${C.limeStrong}12 0%, transparent 60%)`, filter: "blur(40px)" }} />
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 flex flex-col justify-center" style={{ minHeight: "85vh" }}>
           <div className="pt-24 pb-20">
-            <h1 className="text-[clamp(2.8rem,5.5vw,5.2rem)] font-bold leading-[0.92] tracking-[-0.03em] text-[#1a1a1a] pb-10">
-              <Serif>Scegliere la RC giusta non dovrebbe essere complicato.</Serif>
-            </h1>
-            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
-              <div className="space-y-6">
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Link
-                    href="/app"
-                    className="inline-flex items-center justify-center gap-2 bg-[#1a1a1a] text-white font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(0,0,0,0.18)]"
-                  >
-                    Calcola il preventivo →
-                  </Link>
-                  <a
-                    href="#come-funziona"
-                    className="inline-flex items-center justify-center gap-2 border bg-white/80 text-[#1a1a1a] font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
-                    style={{ borderColor: C.border }}
-                  >
-                    Come funziona
-                  </a>
-                </div>
-                <div className="flex flex-wrap items-center gap-x-7 gap-y-3 pt-3">
-                  {["Gratuito e senza impegno", "5+ compagnie confrontate", "Polizza attiva in 24 ore"].map((t) => (
-                    <div key={t} className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: C.lime }}>
-                        <span className="text-[#1a1a1a] text-[9px] font-bold">✓</span>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-12 lg:gap-16 items-center">
+              <div>
+                <h1 className="text-[clamp(2.8rem,5.5vw,5.2rem)] font-bold leading-[0.92] tracking-[-0.03em] text-[#1a1a1a] pb-10">
+                  <Serif>Scegliere la RC giusta non dovrebbe essere complicato.</Serif>
+                </h1>
+                <div className="space-y-6">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Link
+                      href="/app"
+                      className="inline-flex items-center justify-center gap-2 bg-[#1a1a1a] text-white font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(0,0,0,0.18)]"
+                    >
+                      Calcola il preventivo →
+                    </Link>
+                    <a
+                      href="#come-funziona"
+                      className="inline-flex items-center justify-center gap-2 border bg-white/80 text-[#1a1a1a] font-semibold px-8 py-4 text-base rounded-full transition-all duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
+                      style={{ borderColor: C.border }}
+                    >
+                      Come funziona
+                    </a>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-x-7 gap-y-3 pt-3">
+                    {["Gratuito e senza impegno", "5+ compagnie confrontate", "Polizza attiva in 24 ore"].map((t) => (
+                      <div key={t} className="flex items-center gap-3">
+                        <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: C.lime }}>
+                          <span className="text-[#1a1a1a] text-[9px] font-bold">✓</span>
+                        </div>
+                        <span className="text-sm text-[#1a1a1a50] font-medium">{t}</span>
                       </div>
-                      <span className="text-sm text-[#1a1a1a50] font-medium">{t}</span>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
-              <p className="text-base text-[#1a1a1a50] leading-relaxed lg:text-right lg:max-w-80">
-                scelgosicuro analizza il tuo profilo, confronta le migliori compagnie e ti spiega davvero cosa stai acquistando.
-                <br />
-                <span className="text-[#1a1a1a30] text-sm">In 2 minuti.</span>
-              </p>
+              {/* Hero image */}
+              <div className="hidden lg:block relative">
+                <div className="rounded-[2rem] overflow-hidden" style={{ boxShadow: `0 20px 60px rgba(0,0,0,0.08)` }}>
+                  <Image src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" alt="" width={600} height={450} className="w-full h-auto object-cover" />
+                </div>
+                <div className="absolute -bottom-4 -left-4 rounded-2xl p-4 px-6" style={{ background: C.lavender, boxShadow: "0 8px 24px rgba(0,0,0,0.08)" }}>
+                  <p className="text-2xl font-bold font-[family-name:var(--font-serif)]" style={{ color: C.text }}>2 min</p>
+                  <p className="text-[10px] text-[#1a1a1a50]">Per il tuo preventivo</p>
+                </div>
+                <div className="absolute -top-3 -right-3 w-16 h-16 rounded-full flex items-center justify-center" style={{ background: C.limeStrong, boxShadow: "0 4px 16px rgba(0,0,0,0.08)" }}>
+                  <span className="text-[#1a1a1a] text-xs font-bold">5+</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -246,9 +259,9 @@ export default function Landing2Page() {
       {/* ── TRANSPARENCY ── */}
       <section className="bg-[#FAFAF8]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 pb-24">
-          <div className="rounded-[2rem] p-8 md:p-14" style={{ background: C.lavender, boxShadow: "0 1px 8px rgba(0,0,0,0.04)" }}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div>
+          <div className="rounded-[2rem] overflow-hidden" style={{ boxShadow: "0 8px 40px rgba(0,0,0,0.06)" }}>
+            <div className="grid grid-cols-1 md:grid-cols-[1.1fr_1fr]">
+              <div className="p-8 md:p-14" style={{ background: C.lavender }}>
                 <span className="inline-block bg-white/60 text-[#1a1a1a] text-xs font-semibold rounded-full px-4 py-1.5 mb-6">
                   Trasparenza
                 </span>
@@ -261,16 +274,17 @@ export default function Landing2Page() {
                 <p className="text-base text-[#1a1a1a50] leading-relaxed mt-4">
                   scelgosicuro ti aiuta a comprendere le opzioni in modo semplice e chiaro, così puoi scegliere con maggiore sicurezza.
                 </p>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                {["Cosa copre","Cosa resta escluso","Quali garanzie contano","Clausole che incidono"].map((item, i) => (
-                  <div key={item} className="bg-white rounded-2xl p-5 flex items-start gap-3" style={{ boxShadow: "0 1px 6px rgba(0,0,0,0.04)" }}>
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: i % 2 === 0 ? C.lime : C.sky }}>
-                      <span className="text-[#1a1a1a] text-[8px] font-bold">✓</span>
+                <div className="grid grid-cols-2 gap-3 mt-8">
+                  {["Cosa copre","Cosa resta escluso","Quali garanzie contano","Clausole che incidono"].map((item, i) => (
+                    <div key={item} className="bg-white rounded-xl p-4 flex items-center gap-2" style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.03)" }}>
+                      <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: i % 2 === 0 ? C.limeStrong : C.skyStrong }} />
+                      <span className="text-xs font-semibold text-[#1a1a1a]">{item}</span>
                     </div>
-                    <span className="text-sm font-semibold text-[#1a1a1a] leading-snug">{item}</span>
-                  </div>
-                ))}
+                  ))}
+                </div>
+              </div>
+              <div className="relative hidden md:block">
+                <Image src="https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=600&q=80" alt="" width={600} height={600} className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
@@ -280,16 +294,23 @@ export default function Landing2Page() {
       {/* ── PROFESSIONI ── */}
       <section className="bg-[#FAFAF8] py-8">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 pb-24">
-          <div className="mb-10">
-            <span className="inline-block text-[#1a1a1a] text-xs font-semibold rounded-full px-4 py-1.5 mb-5" style={{ background: C.lime }}>
-              Soluzioni dedicate
-            </span>
-            <h2 className="text-[clamp(2rem,4.5vw,3.2rem)] font-bold tracking-tight text-[#1a1a1a] leading-[1.05]">
-              <Serif>Ogni professione<br />ha esigenze diverse.</Serif>
-            </h2>
-            <p className="text-base text-[#1a1a1a50] max-w-lg leading-relaxed mt-4">
-              Anche la polizza dovrebbe esserlo. Copriamo le principali categorie professionali con soluzioni calibrate sul profilo di rischio reale.
-            </p>
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_200px] gap-8 mb-10 items-end">
+            <div>
+              <span className="inline-block text-[#1a1a1a] text-xs font-semibold rounded-full px-4 py-1.5 mb-5" style={{ background: C.lime }}>
+                Soluzioni dedicate
+              </span>
+              <h2 className="text-[clamp(2rem,4.5vw,3.2rem)] font-bold tracking-tight text-[#1a1a1a] leading-[1.05]">
+                <Serif>Ogni professione<br />ha esigenze diverse.</Serif>
+              </h2>
+              <p className="text-base text-[#1a1a1a50] max-w-lg leading-relaxed mt-4">
+                Anche la polizza dovrebbe esserlo. Copriamo le principali categorie professionali con soluzioni calibrate sul profilo di rischio reale.
+              </p>
+            </div>
+            <div className="hidden md:block">
+              <div className="rounded-2xl overflow-hidden" style={{ boxShadow: "0 8px 24px rgba(0,0,0,0.06)" }}>
+                <Image src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=300&q=80" alt="" width={300} height={200} className="w-full h-auto object-cover" />
+              </div>
+            </div>
           </div>
           <div className="rounded-[2rem] p-5 md:p-6" style={{ background: C.sky }}>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
