@@ -52,7 +52,7 @@ function NLSelect({ value, onChange, placeholder, options }: { value: string; on
       onChange={(e) => onChange(e.target.value)}
       className="appearance-none bg-transparent font-bold font-[family-name:var(--font-heading)] outline-none cursor-pointer"
       style={{
-        color: value ? PUR : BLK,
+        color: value ? PUR : "rgba(0,0,0,0.38)",
         fontSize: "inherit",
         borderBottom: `2px ${value ? "solid" : "dashed"} ${value ? PUR : "rgba(0,0,0,0.35)"}`,
         paddingBottom: 2,
