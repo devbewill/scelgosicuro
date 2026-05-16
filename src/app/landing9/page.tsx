@@ -11,10 +11,10 @@ import { LandingNav } from "@/components/landing-nav"
 const THEMES = {
   slate:  { bg: "#7e98bc", text: "#f9fafb", isDark: true  },
   dark:   { bg: "#0c1018", text: "#f9fafb", isDark: true  },
-  light:  { bg: "#f9fafb", text: "#0c1018", isDark: false },
-  green:  { bg: "#e8f2df", text: "#0c1018", isDark: false },
-  mist:   { bg: "#dde6f2", text: "#0c1018", isDark: false },
-  cream:  { bg: "#fdf5e0", text: "#0c1018", isDark: false },
+  light:  { bg: "#fafafa", text: "#0c1018", isDark: false },
+  green:  { bg: "#f4faf1", text: "#0c1018", isDark: false },
+  mist:   { bg: "#f3f7fb", text: "#0c1018", isDark: false },
+  cream:  { bg: "#fdfcf6", text: "#0c1018", isDark: false },
   forest: { bg: "#3b6331", text: "#f9fafb", isDark: true  },
 } as const
 type Theme = keyof typeof THEMES
