@@ -10,13 +10,13 @@ import { LandingNav } from "@/components/landing-nav"
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const COLORS = {
-  bg:      "#0D0D0D",
-  surface: "#141414",
-  border:  "rgba(255,255,255,0.06)",
-  muted:   "rgba(255,255,255,0.45)",
-  text:    "rgba(255,255,255,0.88)",
-  accent:  "#F5F5F5",
-  brand:   "#E8E3D9",   // warm off-white — rich but not harsh
+  bg:      "#F8F7F4",       // warm off-white
+  surface: "#FFFFFF",        // white cards
+  border:  "rgba(0,0,0,0.06)",
+  muted:   "rgba(0,0,0,0.45)",
+  text:    "rgba(0,0,0,0.82)",
+  accent:  "#0C1018",
+  brand:   "#2D2A26",   // warm off-white — rich but not harsh
 }
 
 const FONT = {
@@ -100,33 +100,33 @@ function Navbar() {
       transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
       style={{
         position: "sticky", top: 0, zIndex: 100,
-        background: "rgba(13,13,13,0.88)",
+        background: "rgba(248,247,244,0.92)",
         backdropFilter: "blur(20px)",
         borderBottom: `1px solid ${COLORS.border}`,
       }}
     >
       <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 h-[64px] flex items-center justify-between">
-        <Link href="/" style={{ fontFamily: FONT.heading }} className="text-lg font-semibold tracking-[-0.02em] text-white">
-          scelgosicuro<span className="text-white/30">.</span>
+        <Link href="/" style={{ fontFamily: FONT.heading }} className="text-lg font-semibold tracking-[-0.02em] text-black">
+          scelgosicuro<span className="text-black/30">.</span>
         </Link>
 
         <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-8 text-sm text-white/50">
-            <a href="#come-funziona" className="hover:text-white/80 transition-colors">Come funziona</a>
-            <a href="#professioni"   className="hover:text-white/80 transition-colors">Professioni</a>
-            <a href="#faq"           className="hover:text-white/80 transition-colors">FAQ</a>
+          <div className="hidden sm:flex items-center gap-8 text-sm text-black/50">
+            <a href="#come-funziona" className="hover:text-black/80 transition-colors">Come funziona</a>
+            <a href="#professioni"   className="hover:text-black/80 transition-colors">Professioni</a>
+            <a href="#faq"           className="hover:text-black/80 transition-colors">FAQ</a>
           </div>
 
           <Link
             href="/preventivo/new/domande"
             style={{ fontFamily: FONT.body }}
-            className="text-sm font-semibold px-5 py-2.5 rounded-full bg-white text-black hover:bg-white/90 transition-all active:scale-95"
+            className="text-sm font-semibold px-5 py-2.5 rounded-full bg-black text-white hover:bg-black/90 transition-all active:scale-95"
           >
             Preventivo gratuito
           </Link>
 
           <div className="ml-1">
-            <LandingNav current="8" variant="dark" />
+            <LandingNav current="8" variant="light" />
           </div>
         </div>
       </div>
@@ -160,12 +160,12 @@ function Hero() {
         >
           Scegliere la RC giusta
           <br />
-          <span style={{ color: "rgba(255,255,255,0.35)" }}>non dovrebbe essere complicato.</span>
+          <span style={{ color: "rgba(0,0,0,0.35)" }}>non dovrebbe essere complicato.</span>
         </motion.h1>
 
         <motion.p
           variants={childFadeUp}
-          style={{ fontFamily: FONT.body, color: "rgba(255,255,255,0.38)" }}
+          style={{ fontFamily: FONT.body, color: "rgba(0,0,0,0.38)" }}
           className="text-base sm:text-lg leading-relaxed max-w-[560px] mb-12"
         >
           scelgosicuro analizza il tuo profilo professionale, confronta le migliori compagnie
@@ -175,7 +175,7 @@ function Hero() {
         <motion.div variants={childFadeUp} className="flex flex-col sm:flex-row gap-4">
           <Link
             href="/preventivo/new/domande"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-white text-black text-base font-semibold hover:bg-white/90 transition-all active:scale-95"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-black text-white text-base font-semibold hover:bg-black/90 transition-all active:scale-95"
           >
             Calcola il preventivo
             <span className="text-lg leading-none">→</span>
@@ -183,7 +183,7 @@ function Hero() {
 
           <a
             href="#come-funziona"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-white/15 text-white/70 text-base font-medium hover:border-white/30 hover:text-white transition-all"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-black/15 text-black/70 text-base font-medium hover:border-black/30 hover:text-black transition-all"
           >
             Come funziona
           </a>
@@ -193,7 +193,7 @@ function Hero() {
         <motion.div
           variants={childFadeUp}
           className="flex flex-wrap gap-x-8 gap-y-3 mt-16"
-          style={{ color: "rgba(255,255,255,0.28)" }}
+          style={{ color: "rgba(0,0,0,0.28)" }}
         >
           {[
             { value: "5+", label: "Compagnie" },
@@ -202,7 +202,7 @@ function Hero() {
             { value: "100%", label: "Digitale" },
           ].map(({ value, label }) => (
             <div key={label} className="flex items-baseline gap-2">
-              <span className="text-sm font-bold text-white/50">{value}</span>
+              <span className="text-sm font-bold text-black/50">{value}</span>
               <span className="text-xs">{label}</span>
             </div>
           ))}
@@ -228,14 +228,14 @@ const COMPANIES = [
 
 function TrustBar() {
   return (
-    <div className="border-y border-white/[0.06] bg-white/[0.015]">
+    <div className="border-y border-black/[0.06] bg-white/[0.015]">
       <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 py-16">
         <motion.p
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
-          style={{ fontFamily: FONT.body, color: "rgba(255,255,255,0.25)" }}
+          style={{ fontFamily: FONT.body, color: "rgba(0,0,0,0.25)" }}
           className="text-[10px] font-semibold tracking-[0.22em] uppercase mb-10 text-center"
         >
           Confrontiamo le migliori compagnie
@@ -257,18 +257,18 @@ function TrustBar() {
               <div
                 className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
                 style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.06)",
+                  background: "rgba(0,0,0,0.04)",
+                  border: "1px solid rgba(0,0,0,0.06)",
                 }}
               >
                 <span
-                  style={{ fontFamily: FONT.heading, color: "rgba(255,255,255,0.55)" }}
+                  style={{ fontFamily: FONT.heading, color: "rgba(0,0,0,0.55)" }}
                   className="text-[10px] sm:text-xs font-bold tracking-tight"
                 >
                   {name.slice(0, 2).toUpperCase()}
                 </span>
               </div>
-              <span className="text-[9px] font-medium text-white/20 uppercase tracking-wider">{name}</span>
+              <span className="text-[9px] font-medium text-black/20 uppercase tracking-wider">{name}</span>
             </motion.div>
           ))}
         </motion.div>
@@ -284,19 +284,19 @@ const STEPS = [
     num: "01",
     title: "Inserisci poche informazioni",
     desc: "Ti chiediamo solo ciò che serve: professione, attività, responsabilità, rischi. Niente moduli infiniti.",
-    color: "rgba(255,255,255,0.08)",
+    color: "rgba(0,0,0,0.08)",
   },
   {
     num: "02",
     title: "Il sistema analizza il tuo profilo",
     desc: "scelgosicuro combina le caratteristiche della tua professione e i rischi del settore per trovare la polizza più coerente con il tuo lavoro.",
-    color: "rgba(255,255,255,0.06)",
+    color: "rgba(0,0,0,0.06)",
   },
   {
     num: "03",
     title: "Ricevi una proposta già selezionata",
     desc: "Ti presentiamo la soluzione più adatta. Se vuoi, confrontala con le alternative e affina il preventivo in tempo reale.",
-    color: "rgba(255,255,255,0.04)",
+    color: "rgba(0,0,0,0.04)",
   },
 ]
 
@@ -320,11 +320,11 @@ function HowItWorks() {
             <motion.div
               key={step.num}
               variants={childFadeUp}
-              className="group flex gap-6 sm:gap-10 py-10 sm:py-12 border-b border-white/[0.05] last:border-b-0 transition-colors"
+              className="group flex gap-6 sm:gap-10 py-10 sm:py-12 border-b border-black/[0.05] last:border-b-0 transition-colors"
             >
               <span
-                style={{ fontFamily: FONT.heading, color: "rgba(255,255,255,0.20)" }}
-                className="text-2xl sm:text-3xl font-medium tracking-[-0.02em] shrink-0 mt-1 group-hover:text-white/40 transition-colors"
+                style={{ fontFamily: FONT.heading, color: "rgba(0,0,0,0.20)" }}
+                className="text-2xl sm:text-3xl font-medium tracking-[-0.02em] shrink-0 mt-1 group-hover:text-black/40 transition-colors"
               >
                 {step.num}
               </span>
@@ -409,7 +409,7 @@ function Professions() {
             />
 
             <p
-              style={{ fontFamily: FONT.body, color: "rgba(255,255,255,0.25)" }}
+              style={{ fontFamily: FONT.body, color: "rgba(0,0,0,0.25)" }}
               className="text-[9px] font-semibold tracking-[0.18em] uppercase mb-3"
             >
               {tag}
@@ -439,7 +439,7 @@ function Professions() {
 
 function Approach() {
   return (
-    <div className="border-t border-white/[0.06]">
+    <div className="border-t border-black/[0.06]">
       <Section>
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <div>
@@ -458,9 +458,9 @@ function Approach() {
               { label: "Rischi specifici",      desc: "Colpa grave, retroattività, massimali adeguati" },
               { label: "Qualità delle coperture", desc: "Non solo il premio annuo, ma cosa copre davvero" },
             ].map(({ label, desc }, i) => (
-              <div key={label} className="flex gap-4 border-b border-white/[0.04] pb-8 last:border-b-0">
+              <div key={label} className="flex gap-4 border-b border-black/[0.04] pb-8 last:border-b-0">
                 <span
-                  style={{ fontFamily: FONT.heading, color: "rgba(255,255,255,0.15)" }}
+                  style={{ fontFamily: FONT.heading, color: "rgba(0,0,0,0.15)" }}
                   className="text-lg font-medium shrink-0"
                 >
                   0{i + 1}
@@ -512,7 +512,7 @@ function Transparency() {
               <div
                 key={item}
                 className="flex items-center gap-3 px-4 py-3 rounded-xl"
-                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.04)" }}
+                style={{ background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.04)" }}
               >
                 <span className="text-xs">✓</span>
                 <span style={{ fontFamily: FONT.body, color: COLORS.text }} className="text-[13px]">{item}</span>
@@ -604,14 +604,14 @@ function FAQ() {
               >
                 <span
                   style={{ fontFamily: FONT.heading, color: COLORS.accent }}
-                  className="text-base sm:text-lg font-medium tracking-[-0.01em] group-hover:text-white transition-colors"
+                  className="text-base sm:text-lg font-medium tracking-[-0.01em] group-hover:text-black transition-colors"
                 >
                   {q}
                 </span>
                 <motion.span
                   animate={{ rotate: open === i ? 45 : 0 }}
                   transition={{ duration: 0.25 }}
-                  className="text-white/25 text-lg shrink-0"
+                  className="text-black/25 text-lg shrink-0"
                 >
                   +
                 </motion.span>
@@ -654,9 +654,9 @@ function CTA() {
       >
         <div
           className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-10"
-          style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}
+          style={{ background: "rgba(0,0,0,0.06)", border: "1px solid rgba(0,0,0,0.08)" }}
         >
-          <span className="text-white/40 text-xl">✦</span>
+          <span className="text-black/40 text-xl">✦</span>
         </div>
 
         <h2
@@ -675,7 +675,7 @@ function CTA() {
 
         <Link
           href="/preventivo/new/domande"
-          className="inline-flex items-center gap-2 px-10 py-4 rounded-full bg-white text-black text-base font-semibold hover:bg-white/90 transition-all active:scale-95"
+          className="inline-flex items-center gap-2 px-10 py-4 rounded-full bg-black text-white text-base font-semibold hover:bg-black/90 transition-all active:scale-95"
         >
           Calcola il preventivo gratuito
           <span className="text-lg leading-none">→</span>
@@ -694,8 +694,8 @@ function Footer() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link href="/" style={{ fontFamily: FONT.heading }} className="text-xl font-semibold tracking-[-0.02em] text-white mb-6 block">
-              scelgosicuro<span className="text-white/30">.</span>
+            <Link href="/" style={{ fontFamily: FONT.heading }} className="text-xl font-semibold tracking-[-0.02em] text-black mb-6 block">
+              scelgosicuro<span className="text-black/30">.</span>
             </Link>
 
             <p style={{ fontFamily: FONT.body, color: COLORS.muted }} className="text-sm leading-relaxed max-w-[360px] mb-6">
@@ -703,19 +703,19 @@ function Footer() {
               Regolato da D.Lgs. 209/2005.
             </p>
 
-            <p style={{ fontFamily: FONT.body, color: "rgba(255,255,255,0.15)" }} className="text-xs">
+            <p style={{ fontFamily: FONT.body, color: "rgba(0,0,0,0.15)" }} className="text-xs">
               Milano, Italia
             </p>
           </div>
 
           {/* Professioni */}
           <div>
-            <p style={{ fontFamily: FONT.body, color: "rgba(255,255,255,0.25)" }} className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-6">
+            <p style={{ fontFamily: FONT.body, color: "rgba(0,0,0,0.25)" }} className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-6">
               Professioni
             </p>
             <div className="space-y-2.5">
               {["Medici", "Avvocati", "Ingegneri", "Architetti", "Geometri", "Commercialisti", "Consulenti"].map(p => (
-                <Link key={p} href={`#professioni`} style={{ fontFamily: FONT.body, color: COLORS.muted }} className="text-sm block hover:text-white/70 transition-colors">
+                <Link key={p} href={`#professioni`} style={{ fontFamily: FONT.body, color: COLORS.muted }} className="text-sm block hover:text-black/70 transition-colors">
                   {p}
                 </Link>
               ))}
@@ -724,7 +724,7 @@ function Footer() {
 
           {/* Azienda */}
           <div>
-            <p style={{ fontFamily: FONT.body, color: "rgba(255,255,255,0.25)" }} className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-6">
+            <p style={{ fontFamily: FONT.body, color: "rgba(0,0,0,0.25)" }} className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-6">
               Azienda
             </p>
             <div className="space-y-2.5">
@@ -735,7 +735,7 @@ function Footer() {
                 { label: "Privacy Policy", href: "#" },
                 { label: "Cookie Policy", href: "#" },
               ].map(({ label, href }) => (
-                <Link key={label} href={href} style={{ fontFamily: FONT.body, color: COLORS.muted }} className="text-sm block hover:text-white/70 transition-colors">
+                <Link key={label} href={href} style={{ fontFamily: FONT.body, color: COLORS.muted }} className="text-sm block hover:text-black/70 transition-colors">
                   {label}
                 </Link>
               ))}
@@ -743,12 +743,12 @@ function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-white/[0.05] flex flex-col sm:flex-row justify-between gap-4">
-          <p style={{ fontFamily: FONT.body, color: "rgba(255,255,255,0.15)" }} className="text-xs">
+        <div className="mt-16 pt-8 border-t border-black/[0.05] flex flex-col sm:flex-row justify-between gap-4">
+          <p style={{ fontFamily: FONT.body, color: "rgba(0,0,0,0.15)" }} className="text-xs">
             © {new Date().getFullYear()} scelgosicuro. Tutti i diritti riservati.
           </p>
 
-          <p style={{ fontFamily: FONT.body, color: "rgba(255,255,255,0.10)" }} className="text-xs italic">
+          <p style={{ fontFamily: FONT.body, color: "rgba(0,0,0,0.10)" }} className="text-xs italic">
             La scelta giusta non è sempre la più economica — è quella più adatta a proteggere il tuo lavoro.
           </p>
         </div>
