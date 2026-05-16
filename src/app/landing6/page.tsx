@@ -156,7 +156,7 @@ export default function Landing6() {
           </div>
           <div className="flex items-center gap-3">
             <LandingNav current="6" variant="dark" />
-            <Link href="/app" className="text-sm font-semibold px-5 py-2.5 rounded-full text-white transition-all hover:opacity-85" style={{ background: BLUE }}>
+            <Link href="/app" className="hidden sm:block text-sm font-semibold px-5 py-2.5 rounded-full text-white transition-all hover:opacity-85" style={{ background: BLUE }}>
               Preventivo →
             </Link>
           </div>
