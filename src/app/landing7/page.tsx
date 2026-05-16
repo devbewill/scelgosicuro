@@ -251,6 +251,138 @@ function MockupPolicy() {
   )
 }
 
+// ─── HERO FORM ────────────────────────────────────────────────────────────────
+
+const PROFESSIONS = ["Medico","Avvocato","Ingegnero","Geometra","Architetto","Commercialista","Consulente","Altro"]
+const ACTIVITIES  = ["Libero professionista","Studio associato","Società di professionisti","Azienda"]
+const COVERAGE    = ["Fino a €500k","Fino a €1M","Fino a €2.5M","Fino a €5M","Personalizzato"]
+
+function HeroForm() {
+  const [profession, setProfession] = useState("")
+  const [activity,   setActivity]   = useState("")
+  const [coverage,   setCoverage]   = useState("")
+
+  return (
+    <div style={{
+      position: "relative",
+      background: "#fff",
+      border: `1px solid ${BORDER}`,
+      borderRadius: 16,
+      boxShadow: "0 12px 48px rgba(10,37,64,0.12)",
+      maxWidth: 420,
+      margin: "0 auto",
+      overflow: "hidden",
+    }}>
+      {/* top accent line */}
+      <div style={{ height: 3, background: `linear-gradient(90deg, ${PURPLE}, #9B8FFF)` }} />
+
+      <div style={{ padding: "28px 28px 24px" }}>
+        {/* header */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, color: PURPLE, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+            Calcola il tuo preventivo
+          </p>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <div style={{ width: 7, height: 7, borderRadius: "50%", background: PURPLE }} />
+            <span style={{ fontSize: 10, fontWeight: 700, color: MUTED, letterSpacing: "0.10em", textTransform: "uppercase" }}>Live</span>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          {/* top row: professione + attività */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            {[
+              { label: "Professione", value: profession, set: setProfession, opts: PROFESSIONS },
+              { label: "Attività",    value: activity,   set: setActivity,   opts: ACTIVITIES  },
+            ].map(({ label, value, set, opts }) => (
+              <div key={label} style={{
+                background: LIGHT,
+                border: `1px solid ${BORDER}`,
+                borderRadius: 8,
+                padding: "10px 12px",
+              }}>
+                <p style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: MUTED, marginBottom: 6 }}>{label}</p>
+                <select
+                  value={value}
+                  onChange={(e) => set(e.target.value)}
+                  style={{
+                    width: "100%",
+                    appearance: "none" as const,
+                    background: "transparent",
+                    border: "none",
+                    outline: "none",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: value ? NAVY : "#8898AA",
+                    cursor: "pointer",
+                  }}
+                >
+                  <option value="" disabled style={{ background: "#fff" }}>Seleziona…</option>
+                  {opts.map(o => <option key={o} value={o} style={{ background: "#fff", color: NAVY }}>{o}</option>)}
+                </select>
+              </div>
+            ))}
+          </div>
+
+          {/* copertura — full width */}
+          <div style={{
+            background: LIGHT,
+            border: `1px solid ${BORDER}`,
+            borderRadius: 8,
+            padding: "10px 12px",
+          }}>
+            <p style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: MUTED, marginBottom: 6 }}>Massimale</p>
+            <select
+              value={coverage}
+              onChange={(e) => setCoverage(e.target.value)}
+              style={{
+                width: "100%",
+                appearance: "none" as const,
+                background: "transparent",
+                border: "none",
+                outline: "none",
+                fontSize: 13,
+                fontWeight: 700,
+                color: coverage ? NAVY : "#8898AA",
+                cursor: "pointer",
+              }}
+            >
+              <option value="" disabled style={{ background: "#fff" }}>Seleziona…</option>
+              {COVERAGE.map(o => <option key={o} value={o} style={{ background: "#fff", color: NAVY }}>{o}</option>)}
+            </select>
+          </div>
+
+          {/* CTA */}
+          <button style={{
+            width: "100%",
+            background: PURPLE,
+            color: "#fff",
+            border: "none",
+            borderRadius: 8,
+            padding: "14px 0",
+            fontSize: 14,
+            fontWeight: 700,
+            cursor: "pointer",
+            marginTop: 2,
+          }}>
+            Calcola il preventivo →
+          </button>
+
+          {/* footer */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 2 }}>
+            <p style={{ fontSize: 10, color: "#8898AA" }}>Gratuito · Senza impegno · 2 minuti</p>
+            <div style={{ display: "flex", gap: 3 }}>
+              {[0,1,2,3,4].map(i => (
+                <div key={i} style={{ width: 16, height: 3, borderRadius: 2, background: i < 3 ? PURPLE : `${PURPLE}20` }} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── FEATURE CARDS (sezione con gradient bg — identico a Stripe) ──────────────
 
 const FEATURE_CARDS = [
@@ -436,80 +568,14 @@ export default function Landing7() {
             </p>
           </div>
 
-          {/* right: hero image — illustrazione professioni */}
+          {/* right: quote form */}
           <div style={{ position: "relative" }}>
-            {/* outer glow */}
             <div style={{
               position: "absolute", inset: -40,
               background: `radial-gradient(ellipse at 50% 50%, ${PURPLE}18 0%, transparent 70%)`,
               pointerEvents: "none",
             }} />
-            {/* card stack */}
-            <div style={{ position: "relative", display: "flex", flexDirection: "column", gap: 12, maxWidth: 420, margin: "0 auto" }}>
-              {/* prodotto consigliato */}
-              <div style={{
-                background: "#fff",
-                border: `1px solid ${BORDER}`,
-                borderRadius: 12,
-                padding: "20px 24px",
-                boxShadow: "0 8px 32px rgba(10,37,64,0.10)",
-              }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
-                  <div>
-                    <p style={{ fontSize: 11, fontWeight: 700, color: PURPLE, letterSpacing: "0.10em", textTransform: "uppercase", marginBottom: 4 }}>
-                      ★ Consigliato per te
-                    </p>
-                    <p style={{ fontSize: 17, fontWeight: 800, color: NAVY }}>AmTrust Medico Protetto</p>
-                    <p style={{ fontSize: 13, color: MUTED, marginTop: 2 }}>RC Professionale — Medico chirurgo</p>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <p style={{ fontSize: 26, fontWeight: 800, color: NAVY, lineHeight: 1 }}>€320</p>
-                    <p style={{ fontSize: 11, color: MUTED }}>/ anno</p>
-                  </div>
-                </div>
-                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
-                  {["Colpa grave", "Retroattività 10a", "Tutela legale"].map(t => (
-                    <span key={t} style={{
-                      fontSize: 11, fontWeight: 600,
-                      color: PURPLE, background: `${PURPLE}10`,
-                      border: `1px solid ${PURPLE}25`,
-                      padding: "3px 8px", borderRadius: 4,
-                    }}>{t}</span>
-                  ))}
-                </div>
-                <div style={{
-                  padding: "10px 16px",
-                  background: PURPLE, color: "#fff",
-                  borderRadius: 6, fontWeight: 700, fontSize: 13,
-                  textAlign: "center",
-                }}>
-                  Acquista polizza →
-                </div>
-              </div>
-
-              {/* altre offerte mini */}
-              <div style={{
-                background: LIGHT,
-                border: `1px solid ${BORDER}`,
-                borderRadius: 10,
-                padding: "14px 20px",
-                display: "flex", gap: 10,
-                boxShadow: "0 2px 8px rgba(10,37,64,0.05)",
-              }}>
-                {[{ n: "AXA", p: "€345" }, { n: "Generali", p: "€368" }, { n: "Unipol", p: "€298" }].map(c => (
-                  <div key={c.n} style={{
-                    flex: 1, textAlign: "center",
-                    padding: "8px 4px",
-                    background: "#fff",
-                    borderRadius: 7,
-                    border: `1px solid ${BORDER}`,
-                  }}>
-                    <p style={{ fontSize: 10, fontWeight: 700, color: MUTED, marginBottom: 3 }}>{c.n}</p>
-                    <p style={{ fontSize: 14, fontWeight: 800, color: NAVY }}>{c.p}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <HeroForm />
           </div>
         </div>
       </section>

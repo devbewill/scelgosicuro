@@ -51,10 +51,15 @@ function NLSelect({ value, onChange, placeholder, options }: { value: string; on
       value={value}
       onChange={(e) => onChange(e.target.value)}
       className="appearance-none bg-transparent font-bold font-[family-name:var(--font-heading)] outline-none cursor-pointer"
-      style={{ color: value ? PUR : "rgba(0,0,0,0.25)", fontSize: "inherit" }}
+      style={{
+        color: value ? PUR : BLK,
+        fontSize: "inherit",
+        borderBottom: `2px ${value ? "solid" : "dashed"} ${value ? PUR : "rgba(0,0,0,0.35)"}`,
+        paddingBottom: 2,
+      }}
     >
-      <option value="" disabled style={{ background: YEL }}>{placeholder}</option>
-      {options.map((o) => <option key={o} value={o} style={{ background: YEL }}>{o}</option>)}
+      <option value="" disabled style={{ background: YEL, color: BLK }}>{placeholder}</option>
+      {options.map((o) => <option key={o} value={o} style={{ background: YEL, color: BLK }}>{o}</option>)}
     </select>
   );
 }
