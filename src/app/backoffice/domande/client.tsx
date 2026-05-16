@@ -36,13 +36,13 @@ export function QuestionPageClient({
 
   return (
     <div className="flex flex-col">
-      <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b-2 border-black bg-white px-6">
-        <h1 className="text-sm font-black uppercase tracking-widest">Domande</h1>
+      <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-[#e2dbd0] bg-white px-6">
+        <h1 className="text-sm font-bold text-[#1C1C1A] font-[family-name:var(--font-heading)]">Domande</h1>
         <div className="flex items-center gap-3">
-          <span className="text-xs font-bold text-black/40">{questions.length} domande</span>
+          <span className="text-xs font-medium text-[#1C1C1A]/40">{questions.length} domande</span>
           <button
             onClick={() => setShowAdd(true)}
-            className="border-2 border-black bg-black px-3 py-1.5 text-xs font-black uppercase tracking-wide text-white hover:bg-green-400 hover:text-black transition-colors"
+            className="bg-[#1C1C1A] text-white font-semibold px-4 py-1.5 text-xs rounded-full transition-all duration-200 hover:bg-black hover:shadow-[0_4px_12px_rgba(0,0,0,0.2)]"
           >
             + Aggiungi domanda
           </button>
@@ -54,8 +54,10 @@ export function QuestionPageClient({
         <div className="flex flex-wrap gap-2">
           <Link
             href="/backoffice/domande"
-            className={`border-2 px-3 py-1 text-xs font-black uppercase tracking-wide transition-colors ${
-              !currentSector ? "border-black bg-black text-white" : "border-black text-black hover:bg-black hover:text-white"
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+              !currentSector
+                ? "bg-[#1C1C1A] text-white"
+                : "border border-[#e2dbd0] text-[#1C1C1A]/60 hover:text-[#1C1C1A] hover:border-[#1C1C1A]/30"
             }`}
           >
             Tutte
@@ -64,8 +66,10 @@ export function QuestionPageClient({
             <Link
               key={s.slug}
               href={`/backoffice/domande?sector=${s.slug}`}
-              className={`border-2 px-3 py-1 text-xs font-black uppercase tracking-wide transition-colors ${
-                currentSector === s.slug ? "border-black bg-black text-white" : "border-black text-black hover:bg-black hover:text-white"
+              className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                currentSector === s.slug
+                  ? "bg-[#1C1C1A] text-white"
+                  : "border border-[#e2dbd0] text-[#1C1C1A]/60 hover:text-[#1C1C1A] hover:border-[#1C1C1A]/30"
               }`}
             >
               {s.name}
@@ -125,7 +129,7 @@ function DeleteButton({ id }: { id: number }) {
     <button
       onClick={handleDelete}
       disabled={loading}
-      className="border-2 border-red-500 px-2 py-1 text-xs font-black uppercase tracking-wide text-red-500 hover:bg-red-500 hover:text-white transition-colors disabled:opacity-30"
+      className="border border-red-300 text-red-500 font-semibold px-2.5 py-1 text-xs rounded-full hover:bg-red-50 transition-colors disabled:opacity-30"
     >
       {loading ? "…" : "Elimina"}
     </button>
@@ -139,23 +143,23 @@ function QuestionRow({ q, onEdit }: { q: BOQuestion; onEdit: () => void }) {
   const hasOptions = q.options && q.options.length > 0
 
   return (
-    <div className="border-2 border-black overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.05)] overflow-hidden">
       {/* Main row */}
       <div className="flex items-center gap-3 px-4 py-3">
-        <code className="shrink-0 font-mono text-xs bg-black text-green-400 px-2 py-0.5">{q.key}</code>
+        <code className="shrink-0 font-mono text-xs bg-[#ffe0f2] text-[#1C1C1A] px-2 py-0.5 rounded">{q.key}</code>
 
         <span className="flex-1 text-sm font-medium">{q.label}</span>
 
-        <span className="shrink-0 border-2 border-black/20 px-2 py-0.5 text-xs font-black uppercase tracking-wide">
+        <span className="shrink-0 bg-[#fbf8f5] border border-[#e2dbd0] px-2.5 py-0.5 text-xs font-semibold rounded-full text-[#1C1C1A]/60">
           {TYPE_LABELS[q.type] ?? q.type}
         </span>
 
         <div className="flex shrink-0 flex-wrap gap-1">
           {q.sectorNames.map((name) => (
-            <span key={name} className="border border-black/20 px-2 py-0.5 text-xs font-bold">{name}</span>
+            <span key={name} className="border border-[#e2dbd0] px-2 py-0.5 text-xs font-medium text-[#1C1C1A]/60 rounded-full">{name}</span>
           ))}
           {q.sectorNames.length === 0 && (
-            <span className="text-xs font-bold text-black/30">Nessun settore</span>
+            <span className="text-xs font-medium text-[#1C1C1A]/30">Nessun settore</span>
           )}
         </div>
 
@@ -170,7 +174,7 @@ function QuestionRow({ q, onEdit }: { q: BOQuestion; onEdit: () => void }) {
           )}
           <button
             onClick={onEdit}
-            className="border-2 border-black px-2 py-1 text-xs font-black uppercase tracking-wide hover:bg-black hover:text-white transition-colors"
+            className="border border-[#e2dbd0] text-[#1C1C1A] font-semibold px-2.5 py-1 text-xs rounded-full hover:border-[#1C1C1A]/30 hover:bg-[#fbf8f5] transition-colors"
           >
             Modifica
           </button>
@@ -180,7 +184,7 @@ function QuestionRow({ q, onEdit }: { q: BOQuestion; onEdit: () => void }) {
 
       {/* Expanded options */}
       {open && hasOptions && (
-        <div className="border-t-2 border-black/10 bg-black/[0.02] px-4 py-3">
+        <div className="border-t border-[#e2dbd0] bg-[#fbf8f5] px-4 py-3">
           <table className="w-full text-xs">
             <thead>
               <tr className="text-left">
@@ -436,14 +440,14 @@ function AddQuestionForm({
 
 function Modal({ title, children, onClose }: { title: string; children: React.ReactNode; onClose: () => void }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
       <div
-        className="w-full max-w-xl border-2 border-black bg-white p-6 max-h-[90vh] overflow-y-auto"
+        className="w-full max-w-xl bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] p-6 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mb-5 flex items-center justify-between border-b-2 border-black pb-4">
-          <h2 className="font-black uppercase tracking-wide">{title}</h2>
-          <button onClick={onClose} className="font-black text-black/40 hover:text-black">✕</button>
+        <div className="mb-5 flex items-center justify-between border-b border-[#e2dbd0] pb-4">
+          <h2 className="font-bold text-[#1C1C1A] font-[family-name:var(--font-heading)]">{title}</h2>
+          <button onClick={onClose} className="text-[#1C1C1A]/40 hover:text-[#1C1C1A] transition-colors">✕</button>
         </div>
         {children}
       </div>

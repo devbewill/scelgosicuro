@@ -41,8 +41,8 @@ export function ProductDetailClient({ product }: { product: BOProductDetail }) {
         </Link>
         <span className="text-muted-foreground">/</span>
         <h1 className="text-sm font-bold">{product.name}</h1>
-        <span className={`ml-1 rounded-full px-2 py-0.5 text-xs font-bold ${
-          product.is_active ? "bg-green-100 text-green-800" : "bg-muted text-muted-foreground"
+        <span className={`ml-1 rounded-full px-2 py-0.5 text-xs font-semibold ${
+          product.is_active ? "bg-[#ffe0f2] text-[#1C1C1A]" : "bg-muted text-muted-foreground"
         }`}>
           {product.is_active ? "Attivo" : "Disattivo"}
         </span>
@@ -189,7 +189,7 @@ export function ProductDetailClient({ product }: { product: BOProductDetail }) {
                             </td>
                             <td className="px-4 py-3">
                               <span className={`rounded px-2 py-0.5 text-xs font-bold font-mono ${
-                                m.factor < 1 ? "bg-green-100 text-green-800" :
+                                m.factor < 1 ? "bg-[#ffe0f2] text-[#1C1C1A]" :
                                 m.factor > 1 ? "bg-red-100 text-red-800" : "bg-muted"
                               }`}>
                                 {m.factor} ({PCT(m.factor)})

@@ -20,22 +20,22 @@ const sections = [
 
 export default function BackofficePage() {
   return (
-    <main className="flex min-h-screen w-full flex-col gap-8 p-8">
-      <header className="border-b-2 border-black pb-6">
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-black/30">BACKOFFICE</p>
-        <h1 className="text-4xl font-black uppercase tracking-tight">Dashboard</h1>
-        <p className="mt-1 text-sm font-medium text-black/50">Strumenti di configurazione e test.</p>
+    <main className="p-8">
+      <header className="mb-8 pb-6 border-b border-[#e2dbd0]">
+        <p className="text-xs font-semibold text-[#1C1C1A]/40 uppercase tracking-wider mb-1">Backoffice</p>
+        <h1 className="text-3xl font-bold text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">Dashboard</h1>
+        <p className="mt-1.5 text-sm text-[#1C1C1A]/50">Strumenti di configurazione e test.</p>
       </header>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {sections.map((s) => (
           <Link
             key={s.href}
             href={s.href}
-            className="flex flex-col gap-3 border-2 border-black p-5 transition-colors hover:bg-green-400 group"
+            className="flex flex-col gap-3 bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
           >
-            <span className="text-lg font-black uppercase tracking-wide">{s.title}</span>
-            <span className="text-sm text-black/60 group-hover:text-black/70">{s.description}</span>
-            <span className="mt-auto text-xs font-black uppercase tracking-widest">Apri →</span>
+            <span className="text-lg font-bold text-[#1C1C1A] font-[family-name:var(--font-heading)]">{s.title}</span>
+            <span className="text-sm text-[#1C1C1A]/55 leading-relaxed">{s.description}</span>
+            <span className="text-xs font-semibold text-[#ff88c8] mt-auto">Apri →</span>
           </Link>
         ))}
       </div>

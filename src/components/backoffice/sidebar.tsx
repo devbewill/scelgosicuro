@@ -13,15 +13,15 @@ export function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="fixed inset-y-0 left-0 flex w-56 flex-col border-r-2 border-black bg-black">
-      <div className="flex h-14 items-center border-b-2 border-white/10 px-4">
-        <Link href="/backoffice" className="text-sm font-black uppercase tracking-widest text-white">
-          scelgosicuro<span className="text-green-400"> /admin</span>
+    <aside className="fixed inset-y-0 left-0 flex w-56 flex-col bg-white border-r border-[#e2dbd0]">
+      <div className="flex h-16 items-center border-b border-[#e2dbd0] px-5">
+        <Link href="/backoffice" className="font-bold text-lg text-[#1C1C1A] tracking-tight font-[family-name:var(--font-heading)]">
+          scelgosicuro<span className="text-[#ff88c8]">.</span>
         </Link>
       </div>
 
-      <nav className="flex flex-col gap-0 p-3 flex-1">
-        <p className="px-2 pb-2 pt-1 text-[10px] font-black uppercase tracking-[0.2em] text-white/30">
+      <nav className="flex flex-col gap-1 p-3 flex-1">
+        <p className="px-3 pb-2 pt-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#1C1C1A]/30">
           Gestione Prodotti
         </p>
         {subnav.map((item) => {
@@ -30,10 +30,10 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center px-2 py-2 text-sm font-bold uppercase tracking-wide transition-colors ${
+              className={`flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                 active
-                  ? "bg-green-400 text-black"
-                  : "text-white/60 hover:bg-white/10 hover:text-white"
+                  ? "bg-[#ffe0f2] text-[#1C1C1A] font-semibold"
+                  : "text-[#1C1C1A]/50 hover:text-[#1C1C1A] hover:bg-[#fbf8f5]"
               }`}
             >
               {item.label}
@@ -42,8 +42,8 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="border-t-2 border-white/10 p-4">
-        <Link href="/" className="text-xs font-bold uppercase tracking-wide text-white/40 hover:text-white">
+      <div className="border-t border-[#e2dbd0] p-4">
+        <Link href="/" className="text-xs font-medium text-[#1C1C1A]/40 hover:text-[#1C1C1A] transition-colors">
           ← Torna al sito
         </Link>
       </div>
