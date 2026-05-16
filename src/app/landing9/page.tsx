@@ -70,15 +70,18 @@ export default function Landing9() {
 
   useEffect(() => {
     const sections = document.querySelectorAll<HTMLElement>("[data-theme9]")
+    // rootMargin "-45% 0px -45% 0px" creates a 10% band in the centre of the
+    // viewport. Only one section can occupy that band at a time, so the theme
+    // changes exactly once per section — no flickering between adjacent sections.
     const observer = new IntersectionObserver(
       (entries) => {
-        let best: IntersectionObserverEntry | null = null
         for (const e of entries) {
-          if (e.isIntersecting && (!best || e.intersectionRatio > best.intersectionRatio)) best = e
+          if (e.isIntersecting) {
+            setTheme(e.target.getAttribute("data-theme9") as Theme)
+          }
         }
-        if (best) setTheme(best.target.getAttribute("data-theme9") as Theme)
       },
-      { threshold: [0.25, 0.5] }
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
     )
     sections.forEach(s => observer.observe(s))
     return () => observer.disconnect()
