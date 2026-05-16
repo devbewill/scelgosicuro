@@ -12,6 +12,7 @@ const LANDINGS = [
   { href: "/landing6", label: "6" },
   { href: "/landing7", label: "7" },
   { href: "/landing8", label: "8" },
+  { href: "/landing9", label: "9" },
 ]
 
 export function LandingNav({ current, variant = "light" }: { current: string; variant?: "light" | "dark" }) {
