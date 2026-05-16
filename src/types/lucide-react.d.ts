@@ -1,0 +1,34 @@
+declare module "lucide-react" {
+  import { FC, SVGProps } from "react"
+  export const ChevronDownIcon: FC<SVGProps<SVGSVGElement>>
+  export const CheckIcon: FC<SVGProps<SVGSVGElement>>
+  export const ChevronUpIcon: FC<SVGProps<SVGSVGElement>>
+  export const ChevronRightIcon: FC<SVGProps<SVGSVGElement>>
+  export const ChevronLeftIcon: FC<SVGProps<SVGSVGElement>>
+  export const MenuIcon: FC<SVGProps<SVGSVGElement>>
+  export const XIcon: FC<SVGProps<SVGSVGElement>>
+  export const ArrowRightIcon: FC<SVGProps<SVGSVGElement>>
+  export const SearchIcon: FC<SVGProps<SVGSVGElement>>
+  export const PlusIcon: FC<SVGProps<SVGSVGElement>>
+  export const MinusIcon: FC<SVGProps<SVGSVGElement>>
+  export const InfoIcon: FC<SVGProps<SVGSVGElement>>
+  export const AlertCircleIcon: FC<SVGProps<SVGSVGElement>>
+  export const CheckCircleIcon: FC<SVGProps<SVGSVGElement>>
+  export const XCircleIcon: FC<SVGProps<SVGSVGElement>>
+  export const Loader2Icon: FC<SVGProps<SVGSVGElement>>
+  export const ExternalLinkIcon: FC<SVGProps<SVGSVGElement>>
+  export const CopyIcon: FC<SVGProps<SVGSVGElement>>
+  export const TrashIcon: FC<SVGProps<SVGSVGElement>>
+  export const EditIcon: FC<SVGProps<SVGSVGElement>>
+  export const EyeIcon: FC<SVGProps<SVGSVGElement>>
+  export const EyeOffIcon: FC<SVGProps<SVGSVGElement>>
+  export const SettingsIcon: FC<SVGProps<SVGSVGElement>>
+  export const HomeIcon: FC<SVGProps<SVGSVGElement>>
+  export const UserIcon: FC<SVGProps<SVGSVGElement>>
+  export const LogOutIcon: FC<SVGProps<SVGSVGElement>>
+  export const LogInIcon: FC<SVGProps<SVGSVGElement>>
+  export const ShieldIcon: FC<SVGProps<SVGSVGElement>>
+  export const FileTextIcon: FC<SVGProps<SVGSVGElement>>
+  export const DownloadIcon: FC<SVGProps<SVGSVGElement>>
+  export const UploadIcon: FC<SVGProps<SVGSVGElement>>
+}
