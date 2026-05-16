@@ -248,7 +248,7 @@ export default function Landing6() {
         <div className="max-w-5xl mx-auto">
           <div className="relative overflow-hidden" style={{ borderRadius: 32, aspectRatio: "16/7" }}>
             <Image
-              src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=1200&q=80"
+              src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=1200&q=80"
               alt="Professionista assicurato con ScelgoSicuro"
               fill
               className="object-cover"
