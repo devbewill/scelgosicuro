@@ -30,8 +30,8 @@ function Navbar() {
         <div className="hidden md:flex items-center gap-8 text-sm font-medium" style={{ color: `${NAVY}40` }}>
           <a href="#come-funziona" className="hover:opacity-100 transition-opacity" style={{ color: "inherit" }}>Come funziona</a>
           <a href="#faq" className="hover:opacity-100 transition-opacity" style={{ color: "inherit" }}>FAQ</a>
-          <LandingNav current="3" />
         </div>
+        <LandingNav current="3" />
         <Link href="/app" className="font-bold px-5 py-2.5 text-sm rounded-full transition-all duration-200 hover:-translate-y-px hover:shadow-lg" style={{ background: TERRA, color: "#fff" }}>
           Preventivo gratuito →
         </Link>

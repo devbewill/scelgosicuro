@@ -74,8 +74,8 @@ function Navbar() {
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-white/50">
             <a href="#come-funziona" className="hover:text-white transition-colors">Come funziona</a>
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
-            <LandingNav current="5" variant="dark" />
           </div>
+          <LandingNav current="5" variant="dark" />
           <Link
             href="/app"
             className="font-bold px-5 py-2.5 text-sm transition-all duration-200 hover:brightness-110"

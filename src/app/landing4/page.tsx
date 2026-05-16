@@ -34,8 +34,8 @@ function Navbar() {
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-white/40">
             <a href="#come-funziona" className="hover:text-white transition-colors">Come funziona</a>
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
-            <LandingNav current="4" variant="dark" />
           </div>
+          <LandingNav current="4" variant="dark" />
           <Link href="/app" className="font-bold px-5 py-2 text-sm rounded-full transition-all duration-200 hover:shadow-[0_0_20px_rgba(124,58,237,0.4)]" style={{ background: PUR, color: WHT }}>
             Preventivo gratuito →
           </Link>
