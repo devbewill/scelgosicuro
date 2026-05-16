@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { LandingNav } from "@/components/landing-nav"
@@ -126,14 +126,25 @@ function DashboardMockup() {
 
 export default function Landing6() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [scrolled,  setScrolled]  = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   return (
     <div style={{ background: WHITE, fontFamily: "var(--font-sans)" }}>
 
       {/* ── NAVBAR ─────────────────────────────────────────────────────────── */}
       <nav
-        className="fixed top-0 left-0 right-0 z-50"
-        style={{ background: `${INK}F2`, backdropFilter: "blur(24px)", borderBottom: "1px solid rgba(255,255,255,0.07)" }}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          background: scrolled ? `${INK}F8` : "transparent",
+          backdropFilter: "blur(20px)",
+          borderBottom: scrolled ? "1px solid rgba(255,255,255,0.07)" : "1px solid transparent",
+        }}
       >
         <div className="max-w-6xl mx-auto px-6 sm:px-10 h-16 flex items-center justify-between">
           <span className="text-xl tracking-tight text-white" style={{ fontFamily: "var(--font-serif)" }}>
