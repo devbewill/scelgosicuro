@@ -159,7 +159,7 @@ export default function Landing12Page() {
       const scrolledInSection = -rect.top
       const progress = Math.max(0, Math.min(1, scrolledInSection / sectionHeight))
       setPaypalProgress(progress * 100)
-setPaypalVisible(progress > 0.05 && progress < 0.95)
+setPaypalVisible(progress > 0.05)
     }
     window.addEventListener("scroll", handlePaypalScroll, { passive: true })
     return () => window.removeEventListener("scroll", handlePaypalScroll)
@@ -347,15 +347,14 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
         /* PayPal-style fullscreen pinned scroll */
         .paypal-pin-section { height: 300vh; position: relative; }
         .paypal-pin-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; background: ${BLACK}; }
-        .paypal-pin-content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 8vw; z-index: 2; pointer-events: none; padding: 0 10vw; }
-        .paypal-pin-left { overflow: hidden; max-width: 50%; }
-        .paypal-pin-right { overflow: hidden; text-align: right; max-width: 50%; }
-        .paypal-pin-word { font-size: 180px; font-weight: 800; letter-spacing: -0.06em; line-height: 1; color: #fafafa; transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease; }
+.paypal-pin-content { position: absolute; inset: 0; display: flex; align-items: flex-start; justify-content: space-between; padding: 0 8vw; z-index: 2; pointer-events: none; }
+        .paypal-pin-left { overflow: hidden; margin-top: 22vh; }
+        .paypal-pin-right { overflow: hidden; text-align: right; align-self: flex-end; margin-bottom: 22vh; }
+        .paypal-pin-word { font-size: clamp(140px, 14vw, 240px); font-weight: 800; letter-spacing: -0.06em; line-height: 1; color: #fafafa; transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease; white-space: nowrap; }
         .paypal-pin-word.from-left { transform: translateX(-200px); opacity: 0; }
         .paypal-pin-word.from-right { transform: translateX(200px); opacity: 0; }
         .paypal-pin-word.visible { transform: translateX(0); opacity: 1; }
-        
-        @media (max-width: 768px) { .paypal-pin-content { flex-direction: column; justify-content: center; gap: 16px; padding: 0 40px; } .paypal-pin-word { font-size: clamp(2.8rem, 10vw, 5rem); } .paypal-pin-right { text-align: center; } }
+        @media (max-width: 768px) { .paypal-pin-content { flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 40px; gap: 0; } .paypal-pin-word { font-size: clamp(3rem, 12vw, 6rem); } .paypal-pin-right { text-align: left; } .paypal-pin-left { margin-top: 35vh; } .paypal-pin-right { margin-bottom: 0; } }
 
         /* Stacked panels */
         .stack-section { position: relative; background: ${WHITE}; }
@@ -742,7 +741,7 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
           </div>
           <div className="paypal-pin-content">
             <div className="paypal-pin-left">
-              <div className={`paypal-pin-word from-left ${paypalVisible ? "visible" : ""}`}>La tua<br/>RC</div>
+              <div className={`paypal-pin-word from-left ${paypalVisible ? "visible" : ""}`}>La tua RC</div>
             </div>
             <div className="paypal-pin-right">
               <div className={`paypal-pin-word from-right ${paypalVisible ? "visible" : ""}`}>scelgo sicuro</div>
