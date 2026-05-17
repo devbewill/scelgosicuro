@@ -100,9 +100,9 @@ const STATS = [
 ]
 
 const STACK_CARDS = [
-  { num: "01", title: "Confronto intelligente", body: "Analizziamo 12 Compagnie e ordiniamo le proposte per coerenza con il tuo profilo.", accent: "#1B5E20", bg: "#E8F5E9", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80" },
-  { num: "02", title: "Preventivo in 2 minuti", body: "Nessun modulo infinito. Solo le informazioni essenziali per una proposta su misura.", accent: "#2E7D32", bg: "#C8E6C9", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80" },
-  { num: "03", title: "Copertura chiara", body: "Ti spieghiamo ogni clausola prima che tu decida. Zero sorprese, zero termini nascosti.", accent: "#388E3C", bg: "#A5D6A7", image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&q=80" },
+  { title: "Confronto intelligente", body: "Analizziamo 12 Compagnie e ordiniamo le proposte per coerenza con il tuo profilo.", accent: "#1B5E20", bg: "#2E7D32", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80" },
+  { title: "Preventivo in 2 minuti", body: "Nessun modulo infinito. Solo le informazioni essenziali per una proposta su misura.", accent: "#388E3C", bg: "#1B5E20", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80" },
+  { title: "Copertura chiara", body: "Ti spieghiamo ogni clausola prima che tu decida. Zero sorprese, zero termini nascosti.", accent: "#43A047", bg: "#2E7D32", image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&q=80" },
 ]
 
 const FAQS = [
@@ -373,11 +373,10 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
         .stack-title { font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 800; letter-spacing: -0.05em; line-height: 1; color: ${DARK_TEXT}; }
         .stack-cards-container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
         .stack-card-wrapper { position: sticky; top: 80px; margin-bottom: 40px; }
-        .stack-card { width: 100%; max-width: 1000px; margin: 0 auto; border-radius: 32px; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.1); display: grid; grid-template-columns: 1fr 1fr; min-height: 600px; }
+        .stack-card { width: 100%; max-width: 1000px; margin: 0 auto; border-radius: 0; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.1); display: grid; grid-template-columns: 1fr 1fr; min-height: 600px; }
         .stack-card-inner { padding: 56px 48px; display: flex; flex-direction: column; justify-content: center; }
-        .stack-card-num { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 24px; display: inline-block; padding: 6px 16px; border-radius: 100px; }
-        .stack-card-title { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; color: ${DARK_TEXT}; margin-bottom: 16px; }
-        .stack-card-body { font-size: 1rem; line-height: 1.65; color: ${MUTED_TEXT}; max-width: 36ch; }
+        .stack-card-title { font-size: clamp(2.4rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; color: ${WHITE}; margin-bottom: 20px; }
+        .stack-card-body { font-size: clamp(1.1rem, 1.5vw, 1.3rem); line-height: 1.6; color: rgba(255,255,255,0.75); max-width: 36ch; font-weight: 500; }
         .stack-card-img { position: relative; width: 100%; height: 100%; min-height: 600px; }
         @media (max-width: 768px) { .stack-card { grid-template-columns: 1fr; min-height: auto; } .stack-card-inner { padding: 32px 24px; } .stack-card-img { min-height: 220px; } .stack-card-wrapper { top: 60px; } .stack-header { padding: 80px 24px 48px; } }
 
@@ -454,10 +453,9 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
         </div>
         <div className="stack-cards-container">
           {STACK_CARDS.map((card, i) => (
-            <div key={card.num} className="stack-card-wrapper" style={{ zIndex: i + 1 }}>
+            <div key={i} className="stack-card-wrapper" style={{ zIndex: i + 1 }}>
               <div className="stack-card">
                 <div className="stack-card-inner" style={{ background: card.bg }}>
-                  <span className="stack-card-num" style={{ background: `${card.accent}20`, color: card.accent }}>{card.num}</span>
                   <h3 className="stack-card-title">{card.title}</h3>
                   <p className="stack-card-body">{card.body}</p>
                 </div>
