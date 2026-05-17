@@ -423,41 +423,6 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
           <Link href="/app" className="btn-primary">Calcola il tuo preventivo →</Link>
           <Link href="#" className="btn-secondary">Come funziona</Link>
         </div>
-
-        <div className="hero-mockup">
-          <div className="mockup-card">
-            <div className="mockup-row">
-              <div className="mockup-icon">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L18 10L10 18L2 10L10 2Z" fill="white" /></svg>
-              </div>
-              <div>
-                <div className="mockup-label">Proposta migliore</div>
-                <div className="mockup-value">Generali — €380/anno</div>
-              </div>
-            </div>
-            <div className="mockup-bar"><div className="mockup-bar-fill" style={{ width: "78%" }} /></div>
-            <div style={{ fontSize: 11, color: MUTED_TEXT, marginTop: 8 }}>Punteggio coerenza profilo: 78%</div>
-            <div className="mockup-divider" />
-            <div className="mockup-company">
-              <span>UnipolSai</span><span style={{ color: MUTED_TEXT }}>€420</span>
-            </div>
-            <div className="mockup-company" style={{ marginTop: 8 }}>
-              <span>Allianz</span><span style={{ color: MUTED_TEXT }}>€445</span>
-            </div>
-            <div className="mockup-company" style={{ marginTop: 8 }}>
-              <span>AXA</span><span style={{ color: MUTED_TEXT }}>€510</span>
-            </div>
-          </div>
-
-          <div className="floating-badge badge-1">
-            <div className="badge-dot" />
-            Risparmio: €870/anno
-          </div>
-          <div className="floating-badge badge-2">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L10 5.5L15 6L11.5 9.5L12.5 14.5L8 12L3.5 14.5L4.5 9.5L1 6L6 5.5L8 1Z" fill="#38a372" /></svg>
-            Copertura completa
-          </div>
-        </div>
       </section>
 
       {/* ── STATS BAR ── */}
@@ -743,10 +708,10 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
           </div>
           <div className="paypal-pin-content">
             <div className="paypal-pin-left">
-              <div className={`paypal-pin-word from-left ${paypalVisible ? "visible" : ""}`}>Invia.</div>
+              <div className={`paypal-pin-word from-left ${paypalVisible ? "visible" : ""}`}>Proteggi.</div>
             </div>
             <div className="paypal-pin-right">
-              <div className={`paypal-pin-word from-right ${paypalVisible ? "visible" : ""}`}>Più smart.</div>
+              <div className={`paypal-pin-word from-right ${paypalVisible ? "visible" : ""}`}>Con criterio.</div>
             </div>
           </div>
           <div className="paypal-pin-progress">
