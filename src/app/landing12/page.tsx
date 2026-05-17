@@ -347,15 +347,14 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
         /* PayPal-style fullscreen pinned scroll */
         .paypal-pin-section { height: 300vh; position: relative; }
         .paypal-pin-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; background: ${BLACK}; }
-        .paypal-pin-content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 20vw; z-index: 2; pointer-events: none; }
-        .paypal-pin-left { overflow: hidden; }
-        .paypal-pin-right { overflow: hidden; text-align: right; }
+        .paypal-pin-content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 8vw; z-index: 2; pointer-events: none; padding: 0 10vw; }
+        .paypal-pin-left { overflow: hidden; max-width: 50%; }
+        .paypal-pin-right { overflow: hidden; text-align: right; max-width: 50%; }
         .paypal-pin-word { font-size: 180px; font-weight: 800; letter-spacing: -0.06em; line-height: 1; color: #fafafa; transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease; }
         .paypal-pin-word.from-left { transform: translateX(-200px); opacity: 0; }
         .paypal-pin-word.from-right { transform: translateX(200px); opacity: 0; }
         .paypal-pin-word.visible { transform: translateX(0); opacity: 1; }
-        .paypal-pin-progress { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(255,255,255,0.08); z-index: 3; }
-        .paypal-pin-progress-fill { height: 100%; background: ${SKY}; width: 0%; transition: width 0.1s linear; }
+        
         @media (max-width: 768px) { .paypal-pin-content { flex-direction: column; justify-content: center; gap: 16px; padding: 0 40px; } .paypal-pin-word { font-size: clamp(2.8rem, 10vw, 5rem); } .paypal-pin-right { text-align: center; } }
 
         /* Stacked panels */
@@ -743,14 +742,11 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
           </div>
           <div className="paypal-pin-content">
             <div className="paypal-pin-left">
-              <div className={`paypal-pin-word from-left ${paypalVisible ? "visible" : ""}`}>La tua RC</div>
+              <div className={`paypal-pin-word from-left ${paypalVisible ? "visible" : ""}`}>La tua<br/>RC</div>
             </div>
             <div className="paypal-pin-right">
               <div className={`paypal-pin-word from-right ${paypalVisible ? "visible" : ""}`}>scelgo sicuro</div>
             </div>
-          </div>
-          <div className="paypal-pin-progress">
-            <div className="paypal-pin-progress-fill" style={{ width: `${paypalProgress}%` }} />
           </div>
         </div>
       </section>
