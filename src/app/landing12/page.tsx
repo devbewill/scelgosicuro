@@ -100,10 +100,10 @@ const STATS = [
 ]
 
 const STACK_CARDS = [
-  { num: "01", title: "Confronto intelligente", body: "Analizziamo 12 Compagnie e ordiniamo le proposte per coerenza con il tuo profilo.", accent: BLUE },
-  { num: "02", title: "Preventivo in 2 minuti", body: "Nessun modulo infinito. Solo le informazioni essenziali per una proposta su misura.", accent: SKY },
-  { num: "03", title: "Copertura chiara", body: "Ti spieghiamo ogni clausola prima che tu decida. Zero sorprese, zero termini nascosti.", accent: "#111" },
-  { num: "04", title: "Risparmio reale", body: "Non il più economico, il più adatto al tuo rischio. Fino a €1.200 risparmiati all'anno.", accent: BLUE },
+  { num: "01", title: "Confronto intelligente", body: "Analizziamo 12 Compagnie e ordiniamo le proposte per coerenza con il tuo profilo.", accent: BLUE, bg: "#EBF4FF", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80" },
+  { num: "02", title: "Preventivo in 2 minuti", body: "Nessun modulo infinito. Solo le informazioni essenziali per una proposta su misura.", accent: SKY, bg: "#EFF8FF", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80" },
+  { num: "03", title: "Copertura chiara", body: "Ti spieghiamo ogni clausola prima che tu decida. Zero sorprese, zero termini nascosti.", accent: "#111", bg: "#F5F5F5", image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&q=80" },
+  { num: "04", title: "Risparmio reale", body: "Non il più economico, il più adatto al tuo rischio. Fino a €1.200 risparmiati all'anno.", accent: BLUE, bg: "#E8F5E9", image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=900&q=80" },
 ]
 
 const FAQS = [
@@ -389,11 +389,14 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
         .stack-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: ${BLUE}; margin-bottom: 16px; display: block; }
         .stack-title { font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 800; letter-spacing: -0.05em; line-height: 1; color: ${DARK_TEXT}; }
         .stack-cards { position: relative; width: 100%; max-width: 900px; height: 520px; }
-        .stack-card { position: absolute; left: 50%; width: 100%; max-width: 900px; padding: 56px 64px; border-radius: 32px; background: ${WHITE}; box-shadow: 0 4px 40px rgba(0,0,0,0.08); will-change: transform, opacity; }
-        .stack-card-num { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px; display: inline-block; padding: 4px 12px; border-radius: 100px; }
-        .stack-card-title { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; color: ${DARK_TEXT}; margin-bottom: 16px; }
-        .stack-card-body { font-size: 1rem; line-height: 1.65; color: ${MUTED_TEXT}; max-width: 44ch; }
-        @media (max-width: 768px) { .stack-card { padding: 40px 32px; border-radius: 24px; } .stack-sticky { padding-top: 8vh; } .stack-cards { height: 400px; } .stack-title { font-size: 2rem; } }
+        .stack-card { position: absolute; left: 50%; width: 100%; max-width: 900px; padding: 0; border-radius: 32px; overflow: hidden; box-shadow: 0 4px 40px rgba(0,0,0,0.08); will-change: transform, opacity; display: grid; grid-template-columns: 1fr 1fr; min-height: 380px; }
+        .stack-card-inner { padding: 56px 48px; display: flex; flex-direction: column; justify-content: center; }
+        .stack-card-num { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 20px; display: inline-block; padding: 4px 14px; border-radius: 100px; }
+        .stack-card-title { font-size: clamp(1.6rem, 2.5vw, 2rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; color: ${DARK_TEXT}; margin-bottom: 16px; }
+        .stack-card-body { font-size: 1rem; line-height: 1.65; color: ${MUTED_TEXT}; max-width: 36ch; }
+        .stack-card-img { position: relative; width: 100%; height: 100%; min-height: 280px; }
+        .stack-card-img img, .stack-card-img Image { width: 100%; height: 100%; object-fit: cover; }
+        @media (max-width: 768px) { .stack-card { grid-template-columns: 1fr; min-height: auto; } .stack-card-inner { padding: 32px 24px; } .stack-card-img { min-height: 200px; } .stack-sticky { padding-top: 8vh; } .stack-cards { height: 400px; } .stack-title { font-size: 2rem; } }
 
         /* CTA section */
         .cta-section { background: ${BLACK}; padding: 120px 32px; text-align: center; }
@@ -505,9 +508,14 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
                   }}
                   className="stack-card"
                 >
-                  <span className="stack-card-num" style={{ background: `${card.accent}15`, color: card.accent }}>{card.num}</span>
-                  <h3 className="stack-card-title">{card.title}</h3>
-                  <p className="stack-card-body">{card.body}</p>
+                  <div className="stack-card-inner" style={{ background: card.bg }}>
+                    <span className="stack-card-num" style={{ background: `${card.accent}15`, color: card.accent }}>{card.num}</span>
+                    <h3 className="stack-card-title">{card.title}</h3>
+                    <p className="stack-card-body">{card.body}</p>
+                  </div>
+                  <div className="stack-card-img">
+                    <Image src={card.image} alt={card.title} fill style={{ objectFit: "cover", objectPosition: "center 30%" }} />
+                  </div>
                 </div>
               )
             })}
