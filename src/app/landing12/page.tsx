@@ -99,6 +99,13 @@ const STATS = [
   { value: "2min", label: "Tempo medio preventivo" },
 ]
 
+const STACK_CARDS = [
+  { num: "01", title: "Confronto intelligente", body: "Analizziamo 12 Compagnie e ordiniamo le proposte per coerenza con il tuo profilo.", accent: BLUE },
+  { num: "02", title: "Preventivo in 2 minuti", body: "Nessun modulo infinito. Solo le informazioni essenziali per una proposta su misura.", accent: SKY },
+  { num: "03", title: "Copertura chiara", body: "Ti spieghiamo ogni clausola prima che tu decida. Zero sorprese, zero termini nascosti.", accent: "#111" },
+  { num: "04", title: "Risparmio reale", body: "Non il più economico, il più adatto al tuo rischio. Fino a €1.200 risparmiati all'anno.", accent: BLUE },
+]
+
 const FAQS = [
   {
     q: "Quanto tempo serve per avere un preventivo?",
@@ -129,6 +136,7 @@ export default function Landing12Page() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const [paypalVisible, setPaypalVisible] = useState(false)
   const [paypalProgress, setPaypalProgress] = useState(0)
+  const [stackProgress, setStackProgress] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40)
@@ -165,6 +173,20 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
     }
     window.addEventListener("scroll", handlePaypalScroll, { passive: true })
     return () => window.removeEventListener("scroll", handlePaypalScroll)
+  }, [])
+
+  useEffect(() => {
+    const handleStackScroll = () => {
+      const section = document.querySelector(".stack-section") as HTMLElement
+      if (!section) return
+      const rect = section.getBoundingClientRect()
+      const sectionHeight = section.scrollHeight - window.innerHeight
+      const scrolledInSection = -rect.top
+      const progress = Math.max(0, Math.min(1, scrolledInSection / sectionHeight))
+      setStackProgress(progress)
+    }
+    window.addEventListener("scroll", handleStackScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleStackScroll)
   }, [])
 
   return (
@@ -360,6 +382,19 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
         .paypal-pin-progress-fill { height: 100%; background: ${SKY}; width: 0%; transition: width 0.1s linear; }
         @media (max-width: 768px) { .paypal-pin-content { flex-direction: column; justify-content: center; gap: 16px; padding: 0 40px; } .paypal-pin-word { font-size: clamp(2.8rem, 10vw, 5rem); } .paypal-pin-right { text-align: center; } }
 
+        /* Stacked panels */
+        .stack-section { height: 400vh; position: relative; background: ${WHITE}; }
+        .stack-sticky { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; padding-top: 10vh; overflow: hidden; }
+        .stack-header { text-align: center; margin-bottom: 48px; }
+        .stack-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: ${BLUE}; margin-bottom: 16px; display: block; }
+        .stack-title { font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 800; letter-spacing: -0.05em; line-height: 1; color: ${DARK_TEXT}; }
+        .stack-cards { position: relative; width: 100%; max-width: 900px; height: 520px; }
+        .stack-card { position: absolute; left: 50%; width: 100%; max-width: 900px; padding: 56px 64px; border-radius: 32px; background: ${WHITE}; box-shadow: 0 4px 40px rgba(0,0,0,0.08); will-change: transform, opacity; }
+        .stack-card-num { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px; display: inline-block; padding: 4px 12px; border-radius: 100px; }
+        .stack-card-title { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; color: ${DARK_TEXT}; margin-bottom: 16px; }
+        .stack-card-body { font-size: 1rem; line-height: 1.65; color: ${MUTED_TEXT}; max-width: 44ch; }
+        @media (max-width: 768px) { .stack-card { padding: 40px 32px; border-radius: 24px; } .stack-sticky { padding-top: 8vh; } .stack-cards { height: 400px; } .stack-title { font-size: 2rem; } }
+
         /* CTA section */
         .cta-section { background: ${BLACK}; padding: 120px 32px; text-align: center; }
         .cta-title { font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 800; letter-spacing: -0.05em; color: ${WHITE}; line-height: 1; margin-bottom: 24px; }
@@ -422,6 +457,61 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
         <div className="hero-cta-group">
           <Link href="/app" className="btn-primary">Calcola il tuo preventivo →</Link>
           <Link href="#" className="btn-secondary">Come funziona</Link>
+        </div>
+      </section>
+
+      {/* ── STACKED PANELS ── */}
+      <section className="stack-section">
+        <div className="stack-sticky">
+          <div className="stack-header">
+            <span className="stack-eyebrow">COME FUNZIONA</span>
+            <h2 className="stack-title">Semplice. Veloce. Trasparente.</h2>
+          </div>
+          <div className="stack-cards">
+            {STACK_CARDS.map((card, i) => {
+              const progress = stackProgress * STACK_CARDS.length
+              const cardStart = i * 0.9
+              let translateY: number
+              let scale: number
+              let opacity: number
+
+              if (i === 0) {
+                translateY = 0
+                scale = 1
+                opacity = 1
+              } else if (progress < cardStart) {
+                translateY = 80
+                scale = 1.02
+                opacity = 0
+              } else if (progress >= cardStart + 0.5) {
+                translateY = 0
+                scale = 1
+                opacity = 1
+              } else {
+                const t = (progress - cardStart) / 0.5
+                translateY = 80 * (1 - t)
+                scale = 1.02 - t * 0.02
+                opacity = t
+              }
+
+              return (
+                <div
+                  key={card.num}
+                  style={{
+                    transform: `translateX(-50%) translateY(${translateY}px) scale(${scale})`,
+                    opacity,
+                    zIndex: i + 1,
+                    top: i * 24,
+                  }}
+                  className="stack-card"
+                >
+                  <span className="stack-card-num" style={{ background: `${card.accent}15`, color: card.accent }}>{card.num}</span>
+                  <h3 className="stack-card-title">{card.title}</h3>
+                  <p className="stack-card-body">{card.body}</p>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </section>
 
