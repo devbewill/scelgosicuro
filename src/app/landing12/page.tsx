@@ -350,7 +350,7 @@ setPaypalVisible(progress > 0.05)
 .paypal-pin-content { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
         .paypal-pin-left { position: absolute; top: 18vh; left: 6vw; overflow: hidden; }
         .paypal-pin-right { position: absolute; bottom: 18vh; right: 6vw; overflow: hidden; text-align: right; }
-        .paypal-pin-word { font-size: clamp(140px, 14vw, 240px); font-weight: 800; letter-spacing: -0.06em; line-height: 1; color: #fafafa; transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease; white-space: nowrap; }
+        .paypal-pin-word { font-size: 180px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.15; color: #fafafa; transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease; white-space: nowrap; }
         .paypal-pin-word.from-left { transform: translateX(-200px); opacity: 0; }
         .paypal-pin-word.from-right { transform: translateX(200px); opacity: 0; }
         .paypal-pin-word.visible { transform: translateX(0); opacity: 1; }
