@@ -44,6 +44,25 @@ const STORY_STEPS = [
   },
 ]
 
+const FEATURES = [
+  {
+    tag: "VELOCITÀ",
+    title: "Preventivo in 2 minuti. Nessuna carta necessaria.",
+    body: "Rispondi a poche domande essenziali. Il nostro sistema analizza il tuo profilo e confronta le migliori RC professionali disponibili. Risultato: una proposta su misura, senza complicatezioni.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80",
+    alt: "Dashboard analytics",
+    flip: false,
+  },
+  {
+    tag: "TRASPARENZA",
+    title: "Capisci cosa stai sottoscrivendo. Ogni clausola.",
+    body: "Massimali, franchigie, esclusioni, retroattività. Ti spieghiamo tutto in modo chiaro prima che tu decida. Nessun sorpresa, nessun termine nascosto.",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80",
+    alt: "Team meeting",
+    flip: true,
+  },
+]
+
 const CARD_BLOCKS = [
   {
     bg: BLUE,
@@ -327,8 +346,8 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
 
         /* PayPal-style fullscreen pinned scroll */
         .paypal-pin-section { height: 300vh; position: relative; }
-        .paypal-pin-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; background: ${WHITE}; }
-        .paypal-pin-content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 120px; z-index: 2; pointer-events: none; }
+        .paypal-pin-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; background: ${BLACK}; }
+        .paypal-pin-content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 20vw; z-index: 2; pointer-events: none; }
         .paypal-pin-left { overflow: hidden; }
         .paypal-pin-right { overflow: hidden; text-align: right; }
         .paypal-pin-word { font-size: 180px; font-weight: 800; letter-spacing: -0.06em; line-height: 1; color: #fafafa; transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease; }
@@ -341,7 +360,7 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
 
         /* Stacked panels */
         .stack-section { position: relative; background: ${WHITE}; }
-        .stack-header { text-align: center; padding: 120px 32px 80px; }
+        .stack-header { text-align: center; padding: 40px 32px 80px; }
         .stack-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #2E7D32; margin-bottom: 16px; display: block; }
         .stack-title { font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 800; letter-spacing: -0.05em; line-height: 1; color: ${DARK_TEXT}; }
         .stack-cards-container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
@@ -488,6 +507,19 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
         </div>
       </section>
 
+      {/* ── FEATURE SPLIT 1 ── */}
+      <section className="feature-section">
+        <div>
+          <span className="feature-tag">{FEATURES[0].tag}</span>
+          <h2 className="feature-title">{FEATURES[0].title}</h2>
+          <p className="feature-body">{FEATURES[0].body}</p>
+        </div>
+        <div className="feature-img-wrap">
+          <Image src={FEATURES[0].image} alt={FEATURES[0].alt} fill style={{ objectFit: "cover" }} />
+          <span className="feature-img-tag">✓ Preventivo calcolato</span>
+        </div>
+      </section>
+
       {/* ── COLOR BLOCKS ── */}
       <section className="color-blocks">
         {CARD_BLOCKS.map((b, i) => (
@@ -503,6 +535,19 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
             </div>
           </div>
         ))}
+      </section>
+
+      {/* ── FEATURE SPLIT 2 (flipped) ── */}
+      <section className="feature-section flip">
+        <div>
+          <span className="feature-tag">{FEATURES[1].tag}</span>
+          <h2 className="feature-title">{FEATURES[1].title}</h2>
+          <p className="feature-body">{FEATURES[1].body}</p>
+        </div>
+        <div className="feature-img-wrap">
+          <Image src={FEATURES[1].image} alt={FEATURES[1].alt} fill style={{ objectFit: "cover" }} />
+          <span className="feature-img-tag">✓ Nessuna sorpresa</span>
+        </div>
       </section>
 
       {/* ── EDITORIAL SPLIT ── */}
