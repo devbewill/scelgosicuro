@@ -180,9 +180,9 @@ export default function Landing12Page() {
         .nl-form select:focus { border-bottom-color: ${SKY}; }
         @media (max-width: 768px) {
           .nl-form-section { padding: 60px 24px; }
-          .nl-form { flex-direction: column; align-items: flex-start; gap: 8px; }
-          .nl-form-text { font-size: 1.8rem; }
-          .nl-form select { font-size: 1.8rem; min-width: 140px; }
+          .nl-form { flex-wrap: nowrap; overflow-x: auto; align-items: center; gap: 0; }
+          .nl-form-text { font-size: 1.2rem; white-space: nowrap; }
+          .nl-form select { font-size: 1.2rem; min-width: 100px; padding: 2px 8px; }
         }
 
         /* Stats bar */
@@ -257,14 +257,15 @@ export default function Landing12Page() {
         @media (max-width: 768px) { .counter-grid { grid-template-columns: 1fr; } }
 
         /* Floating cards gallery */
-        .gallery-section { padding: 120px 32px; background: ${BLACK}; position: relative; overflow: hidden; }
+        .gallery-section { padding: 120px 32px; background: ${BLUE}; position: relative; overflow: hidden; }
         .gallery-section::before { content: ''; position: absolute; top: -200px; left: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(103,199,242,0.12) 0%, transparent 70%); border-radius: 50%; pointer-events: none; }
         .gallery-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: ${SKY}; margin-bottom: 20px; display: block; text-align: center; }
         .gallery-title { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -0.04em; color: ${WHITE}; text-align: center; margin-bottom: 64px; line-height: 1.1; }
         .gallery-cards { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
         .gallery-card { background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 32px; width: 260px; transition: transform 0.3s ease, background 0.3s ease; cursor: default; }
-        .gallery-card:hover { transform: translateY(-8px); background: rgba(255,255,255,0.10); }
-        .gallery-card-icon { width: 48px; height: 48px; border-radius: 14px; background: ${SKY}; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .gallery-card-icon { width: 48px; height: 48px; border-radius: 14px; background: ${WHITE}; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .gallery-card-icon svg { width: 22px; height: 22px; }
+        .gallery-card:hover { transform: translateY(-8px); background: rgba(255,255,255,0.12); }
         .gallery-card h4 { font-size: 1rem; font-weight: 700; color: ${WHITE}; margin-bottom: 8px; letter-spacing: -0.02em; }
         .gallery-card p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; }
 
@@ -572,10 +573,26 @@ export default function Landing12Page() {
         </motion.h2>
         <div className="gallery-cards">
           {[
-            { icon: "⚡", title: "Velocità", desc: "2 minuti per il tuo preventivo. Zero carta." },
-            { icon: "🔒", title: "Sicurezza", desc: "Dati crittografati. Nessunaemail necessaria." },
-            { icon: "🎯", title: "Precisione", desc: "12 Compagnie analizzate per ogni profilo." },
-            { icon: "💬", title: "Supporto", desc: "Un consulente umano sempre disponibile." },
+            {
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="#0038FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+              title: "Velocità",
+              desc: "2 minuti per il tuo preventivo. Zero carta."
+            },
+            {
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="#0038FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+              title: "Sicurezza",
+              desc: "Dati crittografati. Nessuna email necessaria."
+            },
+            {
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="#0038FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
+              title: "Precisione",
+              desc: "12 Compagnie analizzate per ogni profilo."
+            },
+            {
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="#0038FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
+              title: "Supporto",
+              desc: "Un consulente umano sempre disponibile."
+            },
           ].map((card, i) => (
             <motion.div
               key={card.title}
@@ -586,9 +603,7 @@ export default function Landing12Page() {
               transition={{ delay: i * 0.1, duration: 0.5 }}
               whileHover={{ y: -8 }}
             >
-              <div className="gallery-card-icon">
-                <span style={{ fontSize: 22 }}>{card.icon}</span>
-              </div>
+              <div className="gallery-card-icon">{card.icon}</div>
               <h4>{card.title}</h4>
               <p>{card.desc}</p>
             </motion.div>
