@@ -44,33 +44,6 @@ const STORY_STEPS = [
   },
 ]
 
-const FEATURES = [
-  {
-    tag: "VELOCITÀ",
-    title: "Preventivo in 2 minuti. Nessuna carta necessaria.",
-    body: "Rispondi a poche domande essenziali. Il nostro sistema analizza il tuo profilo e confronta le migliori RC professionali disponibili. Risultato: una proposta su misura, senza complicatezioni.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80",
-    alt: "Dashboard analytics",
-    flip: false,
-  },
-  {
-    tag: "TRASPARENZA",
-    title: "Capisci cosa stai sottoscrivendo. Ogni clausola.",
-    body: "Massimali, franchigie, esclusioni, retroattività. Ti spieghiamo tutto in modo chiaro prima che tu decida. Nessun sorpresa, nessun termine nascosto.",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80",
-    alt: "Team meeting",
-    flip: true,
-  },
-  {
-    tag: "RISPARMIO",
-    title: "Fino a €1.200 risparmiati l'anno sulla tua RC.",
-    body: "Confrontiamo 12 compagnie diverse. Non solo il prezzo: valutiamo copertura, affidabilità e coerenza con il tuo profilo. Non sempre il più economico è il migliore.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80",
-    alt: "Business growth chart",
-    flip: false,
-  },
-]
-
 const CARD_BLOCKS = [
   {
     bg: BLUE,
@@ -100,9 +73,9 @@ const STATS = [
 ]
 
 const STACK_CARDS = [
-  { title: "Confronto intelligente", body: "Analizziamo 12 Compagnie e ordiniamo le proposte per coerenza con il tuo profilo.", accent: "#1B5E20", bg: "#2E7D32", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80" },
-  { title: "Preventivo in 2 minuti", body: "Nessun modulo infinito. Solo le informazioni essenziali per una proposta su misura.", accent: "#388E3C", bg: "#1B5E20", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80" },
-  { title: "Copertura chiara", body: "Ti spieghiamo ogni clausola prima che tu decida. Zero sorprese, zero termini nascosti.", accent: "#43A047", bg: "#2E7D32", image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&q=80" },
+  { title: "Confronto intelligente", body: "Analizziamo 12 Compagnie e ordiniamo le proposte per coerenza con il tuo profilo.", bg: "#0e5635", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80" },
+  { title: "Preventivo in 2 minuti", body: "Nessun modulo infinito. Solo le informazioni essenziali per una proposta su misura.", bg: "#1c8957", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80" },
+  { title: "Copertura chiara", body: "Ti spieghiamo ogni clausola prima che tu decida. Zero sorprese, zero termini nascosti.", bg: "#38a372", image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&q=80" },
 ]
 
 const FAQS = [
@@ -515,19 +488,6 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
         </div>
       </section>
 
-      {/* ── FEATURE SPLIT 1 ── */}
-      <section className="feature-section">
-        <div>
-          <span className="feature-tag">{FEATURES[0].tag}</span>
-          <h2 className="feature-title">{FEATURES[0].title}</h2>
-          <p className="feature-body">{FEATURES[0].body}</p>
-        </div>
-        <div className="feature-img-wrap">
-          <Image src={FEATURES[0].image} alt={FEATURES[0].alt} fill style={{ objectFit: "cover" }} />
-          <span className="feature-img-tag">✓ Preventivo calcolato</span>
-        </div>
-      </section>
-
       {/* ── COLOR BLOCKS ── */}
       <section className="color-blocks">
         {CARD_BLOCKS.map((b, i) => (
@@ -543,19 +503,6 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
             </div>
           </div>
         ))}
-      </section>
-
-      {/* ── FEATURE SPLIT 2 (flipped) ── */}
-      <section className="feature-section flip">
-        <div>
-          <span className="feature-tag">{FEATURES[1].tag}</span>
-          <h2 className="feature-title">{FEATURES[1].title}</h2>
-          <p className="feature-body">{FEATURES[1].body}</p>
-        </div>
-        <div className="feature-img-wrap">
-          <Image src={FEATURES[1].image} alt={FEATURES[1].alt} fill style={{ objectFit: "cover" }} />
-          <span className="feature-img-tag">✓ Nessuna sorpresa</span>
-        </div>
       </section>
 
       {/* ── EDITORIAL SPLIT ── */}
@@ -760,19 +707,6 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
           <div className="paypal-pin-progress">
             <div className="paypal-pin-progress-fill" style={{ width: `${paypalProgress}%` }} />
           </div>
-        </div>
-      </section>
-
-      {/* ── FEATURE SPLIT 3 ── */}
-      <section className="feature-section">
-        <div>
-          <span className="feature-tag">{FEATURES[2].tag}</span>
-          <h2 className="feature-title">{FEATURES[2].title}</h2>
-          <p className="feature-body">{FEATURES[2].body}</p>
-        </div>
-        <div className="feature-img-wrap">
-          <Image src={FEATURES[2].image} alt={FEATURES[2].alt} fill style={{ objectFit: "cover" }} />
-          <span className="feature-img-tag">✓ Risparmio medio €850</span>
         </div>
       </section>
 
