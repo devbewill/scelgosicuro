@@ -21,6 +21,29 @@ const ATTIVITA = ["Studio individuale", "Studio associato", "Società profession
 const MASSIMALI = ["€250.000", "€500.000", "€1.000.000", "€2.000.000", "€5.000.000"]
 const FRANCHIGIE = ["Nessuna", "€500", "€1.000", "€2.500", "€5.000"]
 
+const STORY_STEPS = [
+  {
+    title: "Invia",
+    body: "Richiedi il tuo preventivo in 2 minuti. Compila solo ciò che serve.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80",
+  },
+  {
+    title: "Ricevi",
+    body: "Il sistema confronta 12 Compagnie e ti mostra la proposta migliore.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80",
+  },
+  {
+    title: "Dividi",
+    body: "Suddividi il pagamento in rate mensili. Zero sorprese, zero costi nascosti.",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80",
+  },
+  {
+    title: "Raccogli",
+    body: "La tua polizza RC arriva via email. Copertura attiva da subito.",
+    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&q=80",
+  },
+]
+
 const FEATURES = [
   {
     tag: "VELOCITÀ",
@@ -102,11 +125,46 @@ export default function Landing12Page() {
   const [attivita, setAttivita] = useState("")
   const [massimale, setMassimale] = useState("")
   const [franchigia, setFranchigia] = useState("")
+  const [activeStep, setActiveStep] = useState(0)
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [paypalVisible, setPaypalVisible] = useState(false)
+  const [paypalProgress, setPaypalProgress] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const handleStoryScroll = () => {
+      const section = document.querySelector(".story-section")
+      if (!section) return
+      const rect = section.getBoundingClientRect()
+      const sectionHeight = section.scrollHeight - window.innerHeight
+      const scrolledInSection = -rect.top
+      const progress = Math.max(0, Math.min(1, scrolledInSection / sectionHeight))
+      setScrollProgress(progress * 100)
+      const rawStep = Math.floor(progress * 4)
+      setActiveStep(Math.min(3, Math.max(0, rawStep)))
+    }
+    window.addEventListener("scroll", handleStoryScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleStoryScroll)
+  }, [])
+
+  useEffect(() => {
+    const handlePaypalScroll = () => {
+      const section = document.querySelector(".paypal-pin-section") as HTMLElement
+      if (!section) return
+      const rect = section.getBoundingClientRect()
+      const sectionHeight = section.scrollHeight - window.innerHeight
+      const scrolledInSection = -rect.top
+      const progress = Math.max(0, Math.min(1, scrolledInSection / sectionHeight))
+      setPaypalProgress(progress * 100)
+setPaypalVisible(progress > 0.05 && progress < 0.95)
+    }
+    window.addEventListener("scroll", handlePaypalScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handlePaypalScroll)
   }, [])
 
   return (
@@ -180,8 +238,8 @@ export default function Landing12Page() {
         .nl-form select:focus { border-bottom-color: ${SKY}; }
         @media (max-width: 768px) {
           .nl-form-section { padding: 60px 24px; }
-          .nl-form { flex-wrap: nowrap; overflow-x: auto; align-items: center; gap: 0; }
-          .nl-form-text { font-size: 1.2rem; white-space: nowrap; }
+          .nl-form { flex-wrap: wrap; align-items: center; gap: 4px 0; }
+          .nl-form-text { font-size: 1.2rem; }
           .nl-form select { font-size: 1.2rem; min-width: 100px; padding: 2px 8px; }
         }
 
@@ -269,18 +327,38 @@ export default function Landing12Page() {
         .gallery-card h4 { font-size: 1rem; font-weight: 700; color: ${WHITE}; margin-bottom: 8px; letter-spacing: -0.02em; }
         .gallery-card p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; }
 
-        /* Animated reveal for sections */
-        .reveal-section { padding: 120px 32px; }
-        .reveal-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
-        .reveal-card { background: ${GRAY}; padding: 48px 40px; transition: background 0.3s ease; cursor: default; }
-        .reveal-card:hover { background: ${SKY}; }
-        .reveal-card:hover .reveal-card-num { color: rgba(255,255,255,0.25); }
-        .reveal-card:hover .reveal-card-title { color: ${WHITE}; }
-        .reveal-card:hover .reveal-card-body { color: rgba(255,255,255,0.75); }
-        .reveal-card-num { font-size: 4rem; font-weight: 800; letter-spacing: -0.06em; color: rgba(0,0,0,0.06); line-height: 1; margin-bottom: 24px; transition: color 0.3s ease; }
-        .reveal-card-title { font-size: 1.4rem; font-weight: 700; color: ${DARK_TEXT}; margin-bottom: 12px; letter-spacing: -0.03em; transition: color 0.3s ease; }
-        .reveal-card-body { font-size: 14px; color: ${MUTED_TEXT}; line-height: 1.6; transition: color 0.3s ease; }
-        @media (max-width: 768px) { .reveal-grid { grid-template-columns: 1fr; } .reveal-section { padding: 80px 24px; } }
+        /* Scroll-driven storytelling */
+        .story-section { height: 400vh; position: relative; }
+        .story-sticky { position: sticky; top: 0; height: 100vh; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; background: ${GRAY}; }
+        .story-left { display: flex; flex-direction: column; justify-content: center; padding: 80px 240px; position: relative; }
+        .story-left-inner { width: 100%; max-width: none; }
+        .story-left-item { padding: 12px 0; cursor: pointer; transition: opacity 0.4s ease; }
+        .story-left-item.inactive { opacity: 0.35; }
+        .story-left-item:hover { opacity: 1; }
+        .story-left-title { font-size: clamp(3.3rem, 5.25vw, 4.5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; color: ${DARK_TEXT}; }
+        .story-progress-vertical { position: absolute; left: 32px; top: 80px; bottom: 80px; width: 2px; background: rgba(0,0,0,0.06); display: none; }
+        .story-progress-fill { width: 100%; background: ${BLUE}; transition: height 0.3s ease; }
+        .story-right { position: relative; overflow: hidden; height: 100%; }
+        .story-right-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .story-right-content { position: absolute; inset: 0; transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); z-index: 1; }
+        .story-right-content.inactive { opacity: 0; transform: translateY(24px); pointer-events: none; z-index: 0; }
+        .story-right-content.active { opacity: 1; transform: translateY(0); z-index: 2; }
+        .story-right-body { position: absolute; bottom: 80px; left: 64px; font-size: clamp(1rem, 1.5vw, 1.2rem); color: ${WHITE}; line-height: 1.5; max-width: 44ch; text-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+        @media (max-width: 768px) { .story-sticky { grid-template-columns: 1fr; grid-template-rows: auto 1fr; } .story-left { padding: 60px 32px; flex-direction: row; align-items: center; gap: 24px; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.06); overflow-x: auto; } .story-left-item { padding: 0; flex-shrink: 0; } .story-left-title { font-size: 1.4rem; } .story-right { padding: 60px 32px; } }
+
+        /* PayPal-style fullscreen pinned scroll */
+        .paypal-pin-section { height: 300vh; position: relative; }
+        .paypal-pin-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; background: ${BLACK}; }
+        .paypal-pin-content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 120px; z-index: 2; pointer-events: none; }
+        .paypal-pin-left { overflow: hidden; }
+        .paypal-pin-right { overflow: hidden; text-align: right; }
+        .paypal-pin-word { font-size: 230px; font-weight: 800; letter-spacing: -0.06em; line-height: 1; color: ${WHITE}; transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease; }
+        .paypal-pin-word.from-left { transform: translateX(-200px); opacity: 0; }
+        .paypal-pin-word.from-right { transform: translateX(200px); opacity: 0; }
+        .paypal-pin-word.visible { transform: translateX(0); opacity: 1; }
+        .paypal-pin-progress { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(255,255,255,0.08); z-index: 3; }
+        .paypal-pin-progress-fill { height: 100%; background: ${SKY}; width: 0%; transition: width 0.1s linear; }
+        @media (max-width: 768px) { .paypal-pin-content { flex-direction: column; justify-content: center; gap: 16px; padding: 0 40px; } .paypal-pin-word { font-size: clamp(2.8rem, 10vw, 5rem); } .paypal-pin-right { text-align: center; } }
 
         /* CTA section */
         .cta-section { background: ${BLACK}; padding: 120px 32px; text-align: center; }
@@ -611,28 +689,69 @@ export default function Landing12Page() {
         </div>
       </section>
 
-      {/* ── REVEAL GRID ── */}
-      <section className="reveal-section">
-        <div className="reveal-grid">
-          {[
-            { n: "01", t: "Nessuna carta", b: "Solo le informazioni essenziali. Il resto lo facciamo noi." },
-            { n: "02", t: "Copertura chiara", b: "Spieghiamo ogni clausola prima che tu decida." },
-            { n: "03", t: "Risparmio reale", b: "Non il più экономичный, il più adatto al tuo rischio." },
-          ].map((r, i) => (
-            <motion.div
-              key={r.n}
-              className="reveal-card"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.5 }}
-              whileHover={{ background: `${SKY}` }}
-            >
-              <div className="reveal-card-num">{r.n}</div>
-              <div className="reveal-card-title">{r.t}</div>
-              <p className="reveal-card-body">{r.b}</p>
-            </motion.div>
-          ))}
+      {/* ── STORY SECTION ── */}
+      <section className="story-section">
+        <div className="story-sticky">
+          {/* LEFT: step labels */}
+          <div className="story-left">
+            <div className="story-left-inner">
+              {STORY_STEPS.map((step, i) => (
+                <div
+                  key={step.title}
+                  className={`story-left-item ${activeStep === i ? "active" : "inactive"}`}
+                  onClick={() => {
+                    const section = document.querySelector(".story-section") as HTMLElement
+                    if (!section) return
+                    const target = section.offsetTop + (section.scrollHeight / 4) * i
+                    window.scrollTo({ top: target, behavior: "smooth" })
+                  }}
+                >
+                  <div className="story-left-title">{step.title}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT: active step content */}
+          <div className="story-right">
+            {STORY_STEPS.map((step, i) => (
+              <div key={step.title} className={`story-right-content ${activeStep === i ? "active" : "inactive"}`}>
+                <Image src={step.image} alt={step.title} className="story-right-img" fill style={{ objectFit: "cover" }} />
+                <p className="story-right-body">{step.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PAYPAL-STYLE PIN ── */}
+      <section className="paypal-pin-section">
+        <div className="paypal-pin-sticky">
+          <div style={{
+            position: "relative",
+            width: `${40 + paypalProgress * 0.55}vw`,
+            height: `${25 + paypalProgress * 0.7}vh`,
+            maxWidth: "98vw",
+            maxHeight: "98vh",
+            borderRadius: paypalProgress > 90 ? 0 : 24,
+            overflow: "hidden",
+            transition: "border-radius 0.4s ease",
+            zIndex: 1,
+          }}>
+            <Image src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1800&q=80" alt="" fill style={{ objectFit: "cover", objectPosition: "center 40%" }} />
+            <div style={{ position: "absolute", inset: 0, background: `rgba(0,0,0,${0.2 + paypalProgress * 0.002})`, zIndex: 1, pointerEvents: "none" }} />
+          </div>
+          <div className="paypal-pin-content">
+            <div className="paypal-pin-left">
+              <div className={`paypal-pin-word from-left ${paypalVisible ? "visible" : ""}`}>Invia.</div>
+            </div>
+            <div className="paypal-pin-right">
+              <div className={`paypal-pin-word from-right ${paypalVisible ? "visible" : ""}`}>Più smart.</div>
+            </div>
+          </div>
+          <div className="paypal-pin-progress">
+            <div className="paypal-pin-progress-fill" style={{ width: `${paypalProgress}%` }} />
+          </div>
         </div>
       </section>
 
