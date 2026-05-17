@@ -1,0 +1,695 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { motion, useInView } from "framer-motion"
+import { LandingNav } from "@/components/landing-nav"
+
+const SKY = "#67C7F2"
+const BLUE = "#0038FF"
+const BLACK = "#000000"
+const WHITE = "#FFFFFF"
+const GRAY = "#F5F5F5"
+const DARK_TEXT = "#111111"
+const MUTED_TEXT = "#555555"
+
+const NAV_LINKS = ["Features", "Soluzioni", "Prezzi", "Azienda"]
+
+const PROFESSIONI = ["Medico Chirurgo", "Medico di Base", "Avvocato", "Ingegnere", "Architetto", "Commercialista", "Geometra", "Psicologo", "Dentista"]
+const ATTIVITA = ["Studio individuale", "Studio associato", "Società professionale", "Libero professionista"]
+const MASSIMALI = ["€250.000", "€500.000", "€1.000.000", "€2.000.000", "€5.000.000"]
+const FRANCHIGIE = ["Nessuna", "€500", "€1.000", "€2.500", "€5.000"]
+
+const FEATURES = [
+  {
+    tag: "VELOCITÀ",
+    title: "Preventivo in 2 minuti. Nessuna carta necessaria.",
+    body: "Rispondi a poche domande essenziali. Il nostro sistema analizza il tuo profilo e confronta le migliori RC professionali disponibili. Risultato: una proposta su misura, senza complicatezioni.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80",
+    alt: "Dashboard analytics",
+    flip: false,
+  },
+  {
+    tag: "TRASPARENZA",
+    title: "Capisci cosa stai sottoscrivendo. Ogni clausola.",
+    body: "Massimali, franchigie, esclusioni, retroattività. Ti spieghiamo tutto in modo chiaro prima che tu decida. Nessun sorpresa, nessun termine nascosto.",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80",
+    alt: "Team meeting",
+    flip: true,
+  },
+  {
+    tag: "RISPARMIO",
+    title: "Fino a €1.200 risparmiati l'anno sulla tua RC.",
+    body: "Confrontiamo 12 compagnie diverse. Non solo il prezzo: valutiamo copertura, affidabilità e coerenza con il tuo profilo. Non sempre il più economico è il migliore.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80",
+    alt: "Business growth chart",
+    flip: false,
+  },
+]
+
+const CARD_BLOCKS = [
+  {
+    bg: BLUE,
+    tag: "SU MISURA",
+    title: "Pensato per la\ntua professione.",
+    body: "Ogni attività professionale ha rischi diversi. La tua RC deve essere calibrata sul tuo lavoro, non su uno generico.",
+    cta: "Scopri la tua soluzione",
+    ctaColor: WHITE,
+    image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",
+  },
+  {
+    bg: SKY,
+    tag: "SUPPORTO",
+    title: "Un consulente\ndedicato, sempre.",
+    body: "Hai domande? Puoi parlare con una persona vera. Nessun bot, nessuna attesa infinita.",
+    cta: "Parla con noi",
+    ctaColor: BLACK,
+    image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80",
+  },
+]
+
+const STATS = [
+  { value: "12", label: "Compagnie confrontate" },
+  { value: "€850", label: "Risparmio medio annuo" },
+  { value: "4.9", label: "Rating utenti" },
+  { value: "2min", label: "Tempo medio preventivo" },
+]
+
+const FAQS = [
+  {
+    q: "Quanto tempo serve per avere un preventivo?",
+    a: "In media 2-3 minuti. Pochi campi, nessuna documentazione necessaria.",
+  },
+  {
+    q: "Il preventivo è gratuito e senza impegno?",
+    a: "Sì, assolutamente. Nessun costo, nessun obbligo di acquisto.",
+  },
+  {
+    q: "Posso scegliere di confrontare tutte le compagnie?",
+    a: "Sì. Ti mostriamo una proposta consigliata, ma puoi sempre vedere tutte le alternative.",
+  },
+  {
+    q: "Che coperture sono incluse nella RC professionale?",
+    a: "Dipende dalla polizza scelta. In genere: RC verso terzi, colpa grave, retroattività. Ti spieghiamo ogni clausola prima che tu decida.",
+  },
+]
+
+export default function Landing12Page() {
+  const [scrolled, setScrolled] = useState(false)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [professione, setProfessione] = useState("")
+  const [attivita, setAttivita] = useState("")
+  const [massimale, setMassimale] = useState("")
+  const [franchigia, setFranchigia] = useState("")
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  return (
+    <>
+      <LandingNav current="12" />
+
+      <style>{`
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: ${WHITE}; color: ${DARK_TEXT}; overflow-x: hidden; }
+
+        .paypal-hero { min-height: 100vh; background: ${SKY}; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 120px 32px 80px; position: relative; overflow: hidden; }
+        .paypal-hero::before { content: ''; position: absolute; top: -60px; right: -80px; width: 600px; height: 600px; background: rgba(255,255,255,0.12); border-radius: 50%; pointer-events: none; }
+        .paypal-hero::after { content: ''; position: absolute; bottom: -100px; left: -60px; width: 400px; height: 400px; background: rgba(255,255,255,0.08); border-radius: 50%; pointer-events: none; }
+
+        .pill-tag { display: inline-block; background: rgba(0,0,0,0.08); color: ${DARK_TEXT}; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 8px 20px; border-radius: 100px; margin-bottom: 32px; }
+
+        .hero-title { font-size: clamp(3.5rem, 9vw, 8rem); font-weight: 800; letter-spacing: -0.06em; line-height: 0.92; color: ${DARK_TEXT}; margin-bottom: 32px; max-width: 14ch; }
+        .hero-sub { font-size: clamp(1rem, 2vw, 1.25rem); font-weight: 400; color: rgba(17,17,17,0.65); max-width: 44ch; line-height: 1.6; margin-bottom: 48px; }
+
+        .hero-cta-group { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: center; }
+        .btn-primary { background: ${BLACK}; color: ${WHITE}; font-size: 15px; font-weight: 600; padding: 18px 40px; border-radius: 100px; text-decoration: none; transition: transform 0.2s ease, opacity 0.2s ease; display: inline-block; }
+        .btn-primary:hover { transform: scale(1.04); opacity: 0.92; }
+        .btn-secondary { background: transparent; color: ${DARK_TEXT}; font-size: 15px; font-weight: 500; padding: 18px 36px; border-radius: 100px; text-decoration: none; border: 1.5px solid rgba(17,17,17,0.2); transition: all 0.2s ease; display: inline-block; }
+        .btn-secondary:hover { border-color: rgba(17,17,17,0.5); transform: scale(1.03); }
+
+        .hero-mockup { position: relative; margin-top: 64px; width: 100%; max-width: 540px; }
+        .mockup-card { background: ${WHITE}; border-radius: 28px; padding: 32px; box-shadow: 0 40px 100px rgba(0,0,0,0.12); text-align: left; }
+        .mockup-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+        .mockup-icon { width: 44px; height: 44px; border-radius: 12px; background: ${BLUE}; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .mockup-label { font-size: 12px; color: ${MUTED_TEXT}; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+        .mockup-value { font-size: 22px; font-weight: 700; color: ${DARK_TEXT}; }
+        .mockup-bar { height: 8px; background: ${GRAY}; border-radius: 100px; overflow: hidden; margin-top: 4px; }
+        .mockup-bar-fill { height: 100%; background: ${BLUE}; border-radius: 100px; }
+        .mockup-divider { height: 1px; background: ${GRAY}; margin: 20px 0; }
+        .mockup-company { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: ${DARK_TEXT}; }
+        .mockup-company span:last-child { font-weight: 700; color: ${BLUE}; }
+
+        .floating-badge { position: absolute; background: ${WHITE}; border-radius: 20px; padding: 14px 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.12); font-size: 13px; font-weight: 600; color: ${DARK_TEXT}; display: flex; align-items: center; gap: 10px; }
+        .badge-1 { bottom: -20px; left: -40px; }
+        .badge-2 { top: 40px; right: -30px; }
+        .badge-dot { width: 10px; height: 10px; border-radius: 50%; background: #22C55E; }
+
+        @media (max-width: 768px) {
+          .hero-title { font-size: clamp(2.8rem, 11vw, 4rem); }
+          .paypal-hero { padding: 100px 24px 60px; }
+          .hero-mockup { max-width: 100%; }
+          .floating-badge { display: none; }
+        }
+
+        /* Navbar */
+        .paypal-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.06); transition: box-shadow 0.3s ease; }
+        .paypal-nav.scrolled { box-shadow: 0 1px 20px rgba(0,0,0,0.08); }
+        .paypal-nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+        .paypal-nav-logo { font-size: 18px; font-weight: 800; color: ${DARK_TEXT}; text-decoration: none; letter-spacing: -0.04em; }
+        .paypal-nav-links { display: flex; gap: 32px; list-style: none; }
+        .paypal-nav-links a { font-size: 14px; font-weight: 500; color: ${MUTED_TEXT}; text-decoration: none; transition: color 0.2s ease; }
+        .paypal-nav-links a:hover { color: ${DARK_TEXT}; }
+        .paypal-nav-cta { background: ${BLACK}; color: ${WHITE}; font-size: 13px; font-weight: 600; padding: 10px 24px; border-radius: 100px; text-decoration: none; transition: transform 0.2s ease, opacity 0.2s ease; display: inline-block; }
+        .paypal-nav-cta:hover { transform: scale(1.04); opacity: 0.9; }
+        @media (max-width: 768px) { .paypal-nav-links { display: none; } }
+
+        /* NL Form */
+        .nl-form-section { padding: 80px 32px; background: ${WHITE}; border-bottom: 1px solid rgba(0,0,0,0.06); }
+        .nl-form-inner { max-width: 1400px; margin: 0 auto; }
+        .nl-form-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: ${BLUE}; margin-bottom: 24px; display: block; }
+        .nl-form { display: flex; align-items: center; flex-wrap: wrap; gap: 0; }
+        .nl-form-text { font-size: 3rem; font-weight: 800; color: ${DARK_TEXT}; letter-spacing: -0.04em; line-height: 1.3; }
+        .nl-form select { appearance: none; background: transparent; border: none; border-bottom: 2px solid ${BLUE}; color: ${BLUE}; font-size: 3rem; font-family: inherit; font-weight: 800; padding: 4px 12px; cursor: pointer; outline: none; min-width: 160px; transition: all 0.25s ease; }
+        .nl-form select:hover { background: rgba(0,56,255,0.05); }
+        .nl-form select:focus { border-bottom-color: ${SKY}; }
+        @media (max-width: 768px) {
+          .nl-form-section { padding: 60px 24px; }
+          .nl-form { flex-direction: column; align-items: flex-start; gap: 8px; }
+          .nl-form-text { font-size: 1.8rem; }
+          .nl-form select { font-size: 1.8rem; min-width: 140px; }
+        }
+
+        /* Stats bar */
+        .stats-bar { background: ${BLACK}; padding: 48px 32px; }
+        .stats-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+        .stat-item { text-align: center; }
+        .stat-value { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: ${WHITE}; letter-spacing: -0.04em; }
+        .stat-label { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 6px; font-weight: 400; }
+        @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        /* Feature sections */
+        .feature-section { padding: 120px 32px; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .feature-section.flip { direction: rtl; }
+        .feature-section.flip > * { direction: ltr; }
+        .feature-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: ${BLUE}; margin-bottom: 20px; display: block; }
+        .feature-title { font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; color: ${DARK_TEXT}; margin-bottom: 24px; }
+        .feature-body { font-size: 1rem; line-height: 1.7; color: ${MUTED_TEXT}; max-width: 44ch; }
+        .feature-img-wrap { border-radius: 24px; overflow: hidden; position: relative; aspect-ratio: 4/3; }
+        .feature-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .feature-img-tag { position: absolute; bottom: 20px; left: 20px; background: ${WHITE}; border-radius: 100px; padding: 8px 16px; font-size: 12px; font-weight: 600; color: ${DARK_TEXT}; }
+        @media (max-width: 768px) { .feature-section { grid-template-columns: 1fr; gap: 40px; padding: 80px 24px; } .feature-section.flip { direction: ltr; } }
+
+        /* Colored blocks */
+        .color-blocks { display: grid; grid-template-columns: 1fr 1fr; }
+        .color-block { padding: 80px 48px; min-height: 480px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+        .color-block-content { position: relative; z-index: 1; max-width: 480px; }
+        .color-block .block-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 20px; display: block; }
+        .color-block h3 { font-size: clamp(2rem, 3vw, 2.6rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; white-space: pre-line; margin-bottom: 20px; }
+        .color-block p { font-size: 1rem; line-height: 1.65; opacity: 0.75; margin-bottom: 32px; max-width: 36ch; }
+        .color-block a { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; padding: 14px 28px; border-radius: 100px; text-decoration: none; transition: transform 0.2s ease; width: fit-content; }
+        .color-block a:hover { transform: scale(1.04); }
+        .color-block-deco { position: absolute; border-radius: 50%; opacity: 0.12; }
+        @media (max-width: 768px) { .color-blocks { grid-template-columns: 1fr; } .color-block { padding: 60px 32px; min-height: 400px; } }
+
+        /* Split editorial */
+        .editorial-split { display: grid; grid-template-columns: 1fr 1fr; }
+        .editorial-img { position: relative; min-height: 560px; }
+        .editorial-img img { width: 100%; height: 100%; object-fit: cover; }
+        .editorial-text { background: ${GRAY}; padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; }
+        .editorial-text .big-num { font-size: 6rem; font-weight: 800; color: rgba(0,56,255,0.08); letter-spacing: -0.06em; line-height: 1; margin-bottom: -20px; }
+        .editorial-text h3 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -0.04em; color: ${DARK_TEXT}; margin-bottom: 20px; line-height: 1.1; }
+        .editorial-text p { font-size: 1rem; line-height: 1.7; color: ${MUTED_TEXT}; max-width: 40ch; margin-bottom: 32px; }
+        @media (max-width: 768px) { .editorial-split { grid-template-columns: 1fr; } .editorial-text { padding: 60px 32px; } }
+
+        /* Process section */
+        .process-section { padding: 120px 32px; background: ${GRAY}; text-align: center; }
+        .section-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: ${BLUE}; margin-bottom: 20px; }
+        .section-title { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; letter-spacing: -0.05em; color: ${DARK_TEXT}; margin-bottom: 16px; line-height: 1; }
+        .section-sub { font-size: 1.1rem; color: ${MUTED_TEXT}; max-width: 48ch; margin: 0 auto 64px; line-height: 1.6; }
+        .process-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 1000px; margin: 0 auto; }
+        .process-step { background: ${WHITE}; padding: 48px 40px; text-align: left; }
+        .step-num { font-size: 11px; font-weight: 700; color: ${SKY}; letter-spacing: 0.1em; margin-bottom: 24px; display: block; }
+        .step-title { font-size: 1.3rem; font-weight: 700; color: ${DARK_TEXT}; margin-bottom: 12px; letter-spacing: -0.02em; }
+        .step-body { font-size: 0.95rem; color: ${MUTED_TEXT}; line-height: 1.65; }
+        @media (max-width: 768px) { .process-steps { grid-template-columns: 1fr; } .process-section { padding: 80px 24px; } }
+
+        /* Marquee / ticker */
+        .ticker-section { background: ${GRAY}; padding: 40px 0; overflow: hidden; border-top: 1px solid rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .ticker-label { text-align: center; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: ${MUTED_TEXT}; margin-bottom: 32px; }
+        .ticker-track { display: flex; gap: 48px; animation: ticker-scroll 24s linear infinite; width: max-content; }
+        .ticker-item { font-size: 1.4rem; font-weight: 800; color: ${DARK_TEXT}; letter-spacing: -0.04em; white-space: nowrap; opacity: 0.2; transition: opacity 0.3s ease; }
+        .ticker-item:hover { opacity: 1; }
+        @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @media (max-width: 768px) { .ticker-item { font-size: 1rem; } }
+
+        /* Animated counter section */
+        .counter-section { padding: 120px 32px; background: ${WHITE}; text-align: center; }
+        .counter-grid { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+        .counter-item { padding: 48px 32px; border: 1px solid rgba(0,0,0,0.06); }
+        .counter-num { font-size: clamp(3rem, 6vw, 5rem); font-weight: 800; letter-spacing: -0.06em; color: ${BLUE}; line-height: 1; }
+        .counter-label { font-size: 14px; color: ${MUTED_TEXT}; margin-top: 12px; font-weight: 400; }
+        @media (max-width: 768px) { .counter-grid { grid-template-columns: 1fr; } }
+
+        /* Floating cards gallery */
+        .gallery-section { padding: 120px 32px; background: ${BLACK}; position: relative; overflow: hidden; }
+        .gallery-section::before { content: ''; position: absolute; top: -200px; left: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(103,199,242,0.12) 0%, transparent 70%); border-radius: 50%; pointer-events: none; }
+        .gallery-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: ${SKY}; margin-bottom: 20px; display: block; text-align: center; }
+        .gallery-title { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -0.04em; color: ${WHITE}; text-align: center; margin-bottom: 64px; line-height: 1.1; }
+        .gallery-cards { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .gallery-card { background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 32px; width: 260px; transition: transform 0.3s ease, background 0.3s ease; cursor: default; }
+        .gallery-card:hover { transform: translateY(-8px); background: rgba(255,255,255,0.10); }
+        .gallery-card-icon { width: 48px; height: 48px; border-radius: 14px; background: ${SKY}; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .gallery-card h4 { font-size: 1rem; font-weight: 700; color: ${WHITE}; margin-bottom: 8px; letter-spacing: -0.02em; }
+        .gallery-card p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+        /* Animated reveal for sections */
+        .reveal-section { padding: 120px 32px; }
+        .reveal-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+        .reveal-card { background: ${GRAY}; padding: 48px 40px; transition: background 0.3s ease; cursor: default; }
+        .reveal-card:hover { background: ${SKY}; }
+        .reveal-card:hover .reveal-card-num { color: rgba(255,255,255,0.25); }
+        .reveal-card:hover .reveal-card-title { color: ${WHITE}; }
+        .reveal-card:hover .reveal-card-body { color: rgba(255,255,255,0.75); }
+        .reveal-card-num { font-size: 4rem; font-weight: 800; letter-spacing: -0.06em; color: rgba(0,0,0,0.06); line-height: 1; margin-bottom: 24px; transition: color 0.3s ease; }
+        .reveal-card-title { font-size: 1.4rem; font-weight: 700; color: ${DARK_TEXT}; margin-bottom: 12px; letter-spacing: -0.03em; transition: color 0.3s ease; }
+        .reveal-card-body { font-size: 14px; color: ${MUTED_TEXT}; line-height: 1.6; transition: color 0.3s ease; }
+        @media (max-width: 768px) { .reveal-grid { grid-template-columns: 1fr; } .reveal-section { padding: 80px 24px; } }
+
+        /* CTA section */
+        .cta-section { background: ${BLACK}; padding: 120px 32px; text-align: center; }
+        .cta-title { font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 800; letter-spacing: -0.05em; color: ${WHITE}; line-height: 1; margin-bottom: 24px; }
+        .cta-sub { font-size: 1.1rem; color: rgba(255,255,255,0.55); max-width: 44ch; margin: 0 auto 48px; line-height: 1.65; }
+        .cta-section .btn-primary { background: ${SKY}; color: ${BLACK}; font-size: 16px; padding: 20px 48px; }
+        .cta-section .btn-primary:hover { transform: scale(1.04); opacity: 0.92; }
+
+        /* FAQ */
+        .faq-section { padding: 120px 32px; max-width: 800px; margin: 0 auto; }
+        .faq-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.04em; color: ${DARK_TEXT}; margin-bottom: 56px; text-align: center; }
+        .faq-item { border-bottom: 1px solid ${GRAY}; }
+        .faq-q { width: 100%; background: none; border: none; padding: 28px 0; font-size: 1.1rem; font-weight: 600; color: ${DARK_TEXT}; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+        .faq-q:hover { color: ${BLUE}; }
+        .faq-icon { width: 24px; height: 24px; flex-shrink: 0; transition: transform 0.3s ease; }
+        .faq-item.open .faq-icon { transform: rotate(45deg); }
+        .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
+        .faq-item.open .faq-a { max-height: 200px; padding-bottom: 28px; }
+        .faq-a p { font-size: 1rem; line-height: 1.7; color: ${MUTED_TEXT}; }
+
+        /* Footer */
+        .paypal-footer { background: ${GRAY}; padding: 80px 32px 40px; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; }
+        .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 64px; }
+        .footer-brand h4 { font-size: 20px; font-weight: 800; color: ${DARK_TEXT}; letter-spacing: -0.04em; margin-bottom: 12px; }
+        .footer-brand p { font-size: 14px; color: ${MUTED_TEXT}; line-height: 1.6; max-width: 32ch; }
+        .footer-col h5 { font-size: 13px; font-weight: 600; color: ${DARK_TEXT}; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.08em; }
+        .footer-col a { display: block; font-size: 14px; color: ${MUTED_TEXT}; text-decoration: none; margin-bottom: 12px; transition: color 0.2s ease; }
+        .footer-col a:hover { color: ${DARK_TEXT}; }
+        .footer-bottom { border-top: 1px solid rgba(0,0,0,0.08); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: ${MUTED_TEXT}; }
+        @media (max-width: 768px) { .footer-top { grid-template-columns: 1fr 1fr; } .footer-bottom { flex-direction: column; gap: 16px; text-align: center; } }
+      `}</style>
+
+      {/* ── NAVBAR ── */}
+      <nav className={`paypal-nav${scrolled ? " scrolled" : ""}`}>
+        <div className="paypal-nav-inner">
+          <Link href="/" className="paypal-nav-logo">ScelgoSicuro</Link>
+          <ul className="paypal-nav-links">
+            {NAV_LINKS.map((l) => (
+              <li key={l}><a href="#">{l}</a></li>
+            ))}
+          </ul>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <LandingNav current="12" />
+            <Link href="/app" className="paypal-nav-cta">Calcola preventivo</Link>
+          </div>
+        </div>
+      </nav>
+
+      {/* ── HERO ── */}
+      <section className="paypal-hero">
+        <span className="pill-tag">RC Professionale — Confronto Gratuito</span>
+        <h1 className="hero-title">
+          La tua assicurazione<br />
+          professionale,<br />
+          trovata.
+        </h1>
+        <p className="hero-sub">
+          Confronto intelligente tra 12 Compagnie. Preventivo in 2 minuti. Nessuna carta necessaria.
+        </p>
+        <div className="hero-cta-group">
+          <Link href="/app" className="btn-primary">Calcola il tuo preventivo →</Link>
+          <Link href="#" className="btn-secondary">Come funziona</Link>
+        </div>
+
+        <div className="hero-mockup">
+          <div className="mockup-card">
+            <div className="mockup-row">
+              <div className="mockup-icon">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L18 10L10 18L2 10L10 2Z" fill="white" /></svg>
+              </div>
+              <div>
+                <div className="mockup-label">Proposta migliore</div>
+                <div className="mockup-value">Generali — €380/anno</div>
+              </div>
+            </div>
+            <div className="mockup-bar"><div className="mockup-bar-fill" style={{ width: "78%" }} /></div>
+            <div style={{ fontSize: 11, color: MUTED_TEXT, marginTop: 8 }}>Punteggio coerenza profilo: 78%</div>
+            <div className="mockup-divider" />
+            <div className="mockup-company">
+              <span>UnipolSai</span><span style={{ color: MUTED_TEXT }}>€420</span>
+            </div>
+            <div className="mockup-company" style={{ marginTop: 8 }}>
+              <span>Allianz</span><span style={{ color: MUTED_TEXT }}>€445</span>
+            </div>
+            <div className="mockup-company" style={{ marginTop: 8 }}>
+              <span>AXA</span><span style={{ color: MUTED_TEXT }}>€510</span>
+            </div>
+          </div>
+
+          <div className="floating-badge badge-1">
+            <div className="badge-dot" />
+            Risparmio: €870/anno
+          </div>
+          <div className="floating-badge badge-2">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L10 5.5L15 6L11.5 9.5L12.5 14.5L8 12L3.5 14.5L4.5 9.5L1 6L6 5.5L8 1Z" fill="#0038FF" /></svg>
+            Copertura completa
+          </div>
+        </div>
+      </section>
+
+      {/* ── STATS BAR ── */}
+      <section className="stats-bar">
+        <div className="stats-grid">
+          {STATS.map((s) => (
+            <div key={s.label} className="stat-item">
+              <div className="stat-value">{s.value}</div>
+              <div className="stat-label">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── NL FORM ── */}
+      <section className="nl-form-section">
+        <div className="nl-form-inner">
+          <span className="nl-form-eyebrow">TROVA LA TUA POLIZZA</span>
+          <div className="nl-form">
+            <span className="nl-form-text">Sono{" "}</span>
+            <select value={professione} onChange={(e) => setProfessione(e.target.value)}>
+              <option value="" disabled>professione</option>
+              {PROFESSIONI.map((p) => <option key={p} value={p}>{p}</option>)}
+            </select>
+            <span className="nl-form-text"> e lavoro come{" "}</span>
+            <select value={attivita} onChange={(e) => setAttivita(e.target.value)}>
+              <option value="" disabled>tipo di attività</option>
+              {ATTIVITA.map((a) => <option key={a} value={a}>{a}</option>)}
+            </select>
+            <span className="nl-form-text"> cerco una RC con massimale{" "}</span>
+            <select value={massimale} onChange={(e) => setMassimale(e.target.value)}>
+              <option value="" disabled>massimale</option>
+              {MASSIMALI.map((m) => <option key={m} value={m}>{m}</option>)}
+            </select>
+            <span className="nl-form-text"> e franchigia{" "}</span>
+            <select value={franchigia} onChange={(e) => setFranchigia(e.target.value)}>
+              <option value="" disabled>franchigia</option>
+              {FRANCHIGIE.map((f) => <option key={f} value={f}>{f}</option>)}
+            </select>
+          </div>
+          <div style={{ marginTop: 40, display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+            <Link href="/app" style={{ display: "inline-flex", alignItems: "center", gap: 10, background: BLACK, color: WHITE, fontSize: 14, fontWeight: 600, padding: "16px 32px", borderRadius: 100, textDecoration: "none", transition: "transform 0.2s ease, opacity 0.2s ease" }}>
+              Calcola preventivo →
+            </Link>
+            <span style={{ fontSize: 13, color: MUTED_TEXT }}>Gratuito · 2 min · Nessun impegno</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FEATURE SPLIT 1 ── */}
+      <section className="feature-section">
+        <div>
+          <span className="feature-tag">{FEATURES[0].tag}</span>
+          <h2 className="feature-title">{FEATURES[0].title}</h2>
+          <p className="feature-body">{FEATURES[0].body}</p>
+        </div>
+        <div className="feature-img-wrap">
+          <Image src={FEATURES[0].image} alt={FEATURES[0].alt} fill style={{ objectFit: "cover" }} />
+          <span className="feature-img-tag">✓ Preventivo calcolato</span>
+        </div>
+      </section>
+
+      {/* ── COLOR BLOCKS ── */}
+      <section className="color-blocks">
+        {CARD_BLOCKS.map((b, i) => (
+          <div key={i} className="color-block" style={{ background: b.bg }}>
+            <div className="color-block-deco" style={{ width: 320, height: 320, top: -80, right: -60, background: i === 0 ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.08)" }} />
+            <div className="color-block-deco" style={{ width: 180, height: 180, bottom: -40, left: 80, background: i === 0 ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.05)", borderRadius: "30% 70% 70% 30% / 30% 30% 70% 70%" }} />
+            <div style={{ position: "absolute", top: 48, right: 48, width: 60, height: 60, border: `3px solid ${i === 0 ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.12)"}`, borderRadius: 16, transform: "rotate(15deg)" }} />
+            <div className="color-block-content">
+              <span className="block-tag" style={{ color: i === 0 ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.5)" }}>{b.tag}</span>
+              <h3 style={{ color: i === 0 ? WHITE : DARK_TEXT }}>{b.title}</h3>
+              <p style={{ color: i === 0 ? WHITE : MUTED_TEXT }}>{b.body}</p>
+              <a href="/app" style={{ background: b.ctaColor, color: i === 0 ? BLUE : WHITE }}>{b.cta}</a>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      {/* ── FEATURE SPLIT 2 (flipped) ── */}
+      <section className="feature-section flip">
+        <div>
+          <span className="feature-tag">{FEATURES[1].tag}</span>
+          <h2 className="feature-title">{FEATURES[1].title}</h2>
+          <p className="feature-body">{FEATURES[1].body}</p>
+        </div>
+        <div className="feature-img-wrap">
+          <Image src={FEATURES[1].image} alt={FEATURES[1].alt} fill style={{ objectFit: "cover" }} />
+          <span className="feature-img-tag">✓ Nessuna sorpresa</span>
+        </div>
+      </section>
+
+      {/* ── EDITORIAL SPLIT ── */}
+      <section className="editorial-split">
+        <div className="editorial-img">
+          <Image src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=900&q=80" alt="Professional woman" fill style={{ objectFit: "cover", objectPosition: "center top" }} />
+        </div>
+        <div className="editorial-text">
+          <div className="big-num">12</div>
+          <h3>Compagnie.<br />Un'unica<br />proposta.</h3>
+          <p>Non ti mostriamo tutte le polizze disponibili. Ti consigliamo la più adatta al tuo profilo professionale, dopo averne analizzate 12.</p>
+          <Link href="/app" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 600, color: BLUE, textDecoration: "none" }}>
+            Trova la tua polizza →
+          </Link>
+        </div>
+      </section>
+
+      {/* ── PROCESS ── */}
+      <section className="process-section">
+        <p className="section-eyebrow">IL PROCESSO</p>
+        <h2 className="section-title">Tre passi. Nessuna carta.</h2>
+        <p className="section-sub">Un percorso semplice e veloce, pensato per chi ha poco tempo ma vuole la copertura giusta.</p>
+        <div className="process-steps">
+          <div className="process-step">
+            <span className="step-num">01</span>
+            <div className="step-title">Racconta il tuo lavoro</div>
+            <p className="step-body">Professione, attività, massimale preferito. Solo le informazioni che servono davvero.</p>
+          </div>
+          <div className="process-step">
+            <span className="step-num">02</span>
+            <div className="step-title">Il sistema analizza</div>
+            <p className="step-body">Confrontiamo 12 Compagnie. Valutiamo copertura, prezzo e coerenza con il tuo rischio.</p>
+          </div>
+          <div className="process-step">
+            <span className="step-num">03</span>
+            <div className="step-title">Ricevi la proposta</div>
+            <p className="step-body">Ti presentiamo la soluzione migliore. Se vuoi, confrontala con tutte le alternative.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TICKER ── */}
+      <section className="ticker-section">
+        <p className="ticker-label">Trusted by 12+ leading insurers</p>
+        <div style={{ overflow: "hidden" }}>
+          <div className="ticker-track">
+            {["AXA", "Generali", "UnipolSai", "Allianz", "HDI", "AmTrust", "Unipol", "Cattolica", "Zurich", "Lloyd's", "Helvetia", "Reale"].map((c, i) => (
+              <span key={i} className="ticker-item">{c}</span>
+            ))}
+            {["AXA", "Generali", "UnipolSai", "Allianz", "HDI", "AmTrust", "Unipol", "Cattolica", "Zurich", "Lloyd's", "Helvetia", "Reale"].map((c, i) => (
+              <span key={`dup-${i}`} className="ticker-item">{c}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── COUNTER SECTION ── */}
+      <motion.section
+        className="counter-section"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="counter-grid">
+          {[{ num: "98%", label: "Clienti soddisfatti" }, { num: "4.9★", label: "Rating medio" }, { num: "2min", label: "Per un preventivo" }].map((c, i) => (
+            <motion.div
+              key={c.label}
+              className="counter-item"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.15, duration: 0.5 }}
+            >
+              <div className="counter-num">{c.num}</div>
+              <div className="counter-label">{c.label}</div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* ── GALLERY / BENEFITS ── */}
+      <section className="gallery-section">
+        <motion.span
+          className="gallery-eyebrow"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          PERCHÉ SCEGLIERCI
+        </motion.span>
+        <motion.h2
+          className="gallery-title"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+        >
+          Più di un comparatore.<br />Un consulente intelligente.
+        </motion.h2>
+        <div className="gallery-cards">
+          {[
+            { icon: "⚡", title: "Velocità", desc: "2 minuti per il tuo preventivo. Zero carta." },
+            { icon: "🔒", title: "Sicurezza", desc: "Dati crittografati. Nessunaemail necessaria." },
+            { icon: "🎯", title: "Precisione", desc: "12 Compagnie analizzate per ogni profilo." },
+            { icon: "💬", title: "Supporto", desc: "Un consulente umano sempre disponibile." },
+          ].map((card, i) => (
+            <motion.div
+              key={card.title}
+              className="gallery-card"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              whileHover={{ y: -8 }}
+            >
+              <div className="gallery-card-icon">
+                <span style={{ fontSize: 22 }}>{card.icon}</span>
+              </div>
+              <h4>{card.title}</h4>
+              <p>{card.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── REVEAL GRID ── */}
+      <section className="reveal-section">
+        <div className="reveal-grid">
+          {[
+            { n: "01", t: "Nessuna carta", b: "Solo le informazioni essenziali. Il resto lo facciamo noi." },
+            { n: "02", t: "Copertura chiara", b: "Spieghiamo ogni clausola prima che tu decida." },
+            { n: "03", t: "Risparmio reale", b: "Non il più экономичный, il più adatto al tuo rischio." },
+          ].map((r, i) => (
+            <motion.div
+              key={r.n}
+              className="reveal-card"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.12, duration: 0.5 }}
+              whileHover={{ background: `${SKY}` }}
+            >
+              <div className="reveal-card-num">{r.n}</div>
+              <div className="reveal-card-title">{r.t}</div>
+              <p className="reveal-card-body">{r.b}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FEATURE SPLIT 3 ── */}
+      <section className="feature-section">
+        <div>
+          <span className="feature-tag">{FEATURES[2].tag}</span>
+          <h2 className="feature-title">{FEATURES[2].title}</h2>
+          <p className="feature-body">{FEATURES[2].body}</p>
+        </div>
+        <div className="feature-img-wrap">
+          <Image src={FEATURES[2].image} alt={FEATURES[2].alt} fill style={{ objectFit: "cover" }} />
+          <span className="feature-img-tag">✓ Risparmio medio €850</span>
+        </div>
+      </section>
+
+      {/* ── CTA FINAL ── */}
+      <section className="cta-section">
+        <h2 className="cta-title">La tua RC<br />professionale.</h2>
+        <p className="cta-sub">Non la più cara. Non la più barata. La più adatta al tuo lavoro. Calcolala in 2 minuti.</p>
+        <Link href="/app" className="btn-primary">Calcola il tuo preventivo →</Link>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="faq-section">
+        <h2 className="faq-title">Domande frequenti</h2>
+        {FAQS.map((faq, i) => (
+          <div key={i} className={`faq-item${openFaq === i ? " open" : ""}`}>
+            <button className="faq-q" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+              {faq.q}
+              <svg className="faq-icon" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+            </button>
+            <div className="faq-a"><p>{faq.a}</p></div>
+          </div>
+        ))}
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="paypal-footer">
+        <div className="footer-inner">
+          <div className="footer-top">
+            <div className="footer-brand">
+              <h4>ScelgoSicuro</h4>
+              <p>La RC professionale scelta con criterio. Preventivo gratuito, senza impegno.</p>
+            </div>
+            <div className="footer-col">
+              <h5>Prodotto</h5>
+              <a href="#">Funzionalità</a>
+              <a href="#">Prezzi</a>
+              <a href="#">Compagnie</a>
+              <a href="#">FAQ</a>
+            </div>
+            <div className="footer-col">
+              <h5>Azienda</h5>
+              <a href="#">Chi siamo</a>
+              <a href="#">Professioni</a>
+              <a href="#">Blog</a>
+              <a href="#">Contatti</a>
+            </div>
+            <div className="footer-col">
+              <h5>Legale</h5>
+              <a href="#">Privacy</a>
+              <a href="#">Termini</a>
+              <a href="#">Cookie</a>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <span>© 2025 ScelgoSicuro. Tutti i diritti riservati.</span>
+            <span>P.IVA 12345678901</span>
+          </div>
+        </div>
+      </footer>
+    </>
+  )
+}
