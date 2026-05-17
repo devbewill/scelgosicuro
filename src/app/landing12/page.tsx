@@ -7,7 +7,7 @@ import { motion, useInView } from "framer-motion"
 import { LandingNav } from "@/components/landing-nav"
 
 const SKY = "#aaddc0"
-const BLUE = "#0038FF"
+const BLUE = "#38a372"
 const BLACK = "#000000"
 const WHITE = "#FFFFFF"
 const GRAY = "#F5F5F5"
@@ -376,7 +376,7 @@ export default function Landing12Page() {
             Risparmio: €870/anno
           </div>
           <div className="floating-badge badge-2">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L10 5.5L15 6L11.5 9.5L12.5 14.5L8 12L3.5 14.5L4.5 9.5L1 6L6 5.5L8 1Z" fill="#0038FF" /></svg>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L10 5.5L15 6L11.5 9.5L12.5 14.5L8 12L3.5 14.5L4.5 9.5L1 6L6 5.5L8 1Z" fill="#38a372" /></svg>
             Copertura completa
           </div>
         </div>
@@ -574,22 +574,22 @@ export default function Landing12Page() {
         <div className="gallery-cards">
           {[
             {
-              icon: <svg viewBox="0 0 24 24" fill="none" stroke="#0038FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="#38a372" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
               title: "Velocità",
               desc: "2 minuti per il tuo preventivo. Zero carta."
             },
             {
-              icon: <svg viewBox="0 0 24 24" fill="none" stroke="#0038FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="#38a372" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
               title: "Sicurezza",
               desc: "Dati crittografati. Nessuna email necessaria."
             },
             {
-              icon: <svg viewBox="0 0 24 24" fill="none" stroke="#0038FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="#38a372" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
               title: "Precisione",
               desc: "12 Compagnie analizzate per ogni profilo."
             },
             {
-              icon: <svg viewBox="0 0 24 24" fill="none" stroke="#0038FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="#38a372" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
               title: "Supporto",
               desc: "Un consulente umano sempre disponibile."
             },
