@@ -348,11 +348,11 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
 
         /* PayPal-style fullscreen pinned scroll */
         .paypal-pin-section { height: 300vh; position: relative; }
-        .paypal-pin-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; background: ${BLACK}; }
+        .paypal-pin-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; background: ${WHITE}; }
         .paypal-pin-content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 120px; z-index: 2; pointer-events: none; }
         .paypal-pin-left { overflow: hidden; }
         .paypal-pin-right { overflow: hidden; text-align: right; }
-        .paypal-pin-word { font-size: 230px; font-weight: 800; letter-spacing: -0.06em; line-height: 1; color: ${WHITE}; transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease; }
+        .paypal-pin-word { font-size: 180px; font-weight: 800; letter-spacing: -0.06em; line-height: 1; color: #fafafa; transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease; }
         .paypal-pin-word.from-left { transform: translateX(-200px); opacity: 0; }
         .paypal-pin-word.from-right { transform: translateX(200px); opacity: 0; }
         .paypal-pin-word.visible { transform: translateX(0); opacity: 1; }
@@ -708,10 +708,10 @@ setPaypalVisible(progress > 0.05 && progress < 0.95)
           </div>
           <div className="paypal-pin-content">
             <div className="paypal-pin-left">
-              <div className={`paypal-pin-word from-left ${paypalVisible ? "visible" : ""}`}>Proteggi.</div>
+              <div className={`paypal-pin-word from-left ${paypalVisible ? "visible" : ""}`}>La tua RC</div>
             </div>
             <div className="paypal-pin-right">
-              <div className={`paypal-pin-word from-right ${paypalVisible ? "visible" : ""}`}>Con criterio.</div>
+              <div className={`paypal-pin-word from-right ${paypalVisible ? "visible" : ""}`}>scelgo sicuro</div>
             </div>
           </div>
           <div className="paypal-pin-progress">
