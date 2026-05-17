@@ -347,9 +347,9 @@ setPaypalVisible(progress > 0.05)
         /* PayPal-style fullscreen pinned scroll */
         .paypal-pin-section { height: 300vh; position: relative; }
         .paypal-pin-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; background: ${BLACK}; }
-.paypal-pin-content { position: absolute; inset: 0; display: flex; align-items: flex-start; justify-content: space-between; padding: 0 8vw; z-index: 2; pointer-events: none; }
-        .paypal-pin-left { overflow: hidden; margin-top: 22vh; }
-        .paypal-pin-right { overflow: hidden; text-align: right; align-self: flex-end; margin-bottom: 22vh; }
+.paypal-pin-content { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+        .paypal-pin-left { position: absolute; top: 18vh; left: 6vw; overflow: hidden; }
+        .paypal-pin-right { position: absolute; bottom: 18vh; right: 6vw; overflow: hidden; text-align: right; }
         .paypal-pin-word { font-size: clamp(140px, 14vw, 240px); font-weight: 800; letter-spacing: -0.06em; line-height: 1; color: #fafafa; transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease; white-space: nowrap; }
         .paypal-pin-word.from-left { transform: translateX(-200px); opacity: 0; }
         .paypal-pin-word.from-right { transform: translateX(200px); opacity: 0; }
