@@ -473,10 +473,15 @@ const ImmersiveSection = () => {
     offset: ["start start", "end end"],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 0.5], [0.8, 1]);
-  const borderRadius = useTransform(scrollYProgress, [0, 0.5], [80, 0]);
-  const textXLeft = useTransform(scrollYProgress, [0.4, 0.8], [-1400, 0]);
-  const textXRight = useTransform(scrollYProgress, [0.4, 0.8], [1400, 0]);
+  const scale        = useTransform(scrollYProgress, [0, 0.5],  [0.8, 1]);
+  const borderRadius = useTransform(scrollYProgress, [0, 0.5],  [80, 0]);
+
+  // Testo: parte quasi subito, finisce a metà scroll — in sincronia con lo zoom
+  const textXLeft   = useTransform(scrollYProgress, [0.05, 0.45], [-1800, 0]);
+  const textXRight  = useTransform(scrollYProgress, [0.05, 0.45], [1800, 0]);
+  const textYTop    = useTransform(scrollYProgress, [0.05, 0.45], [-50, 0]);
+  const textYBottom = useTransform(scrollYProgress, [0.05, 0.45], [50, 0]);
+  const textOpacity = useTransform(scrollYProgress, [0.05, 0.35], [0, 1]);
 
   return (
     <section ref={containerRef} className="pin-section">
@@ -488,16 +493,24 @@ const ImmersiveSection = () => {
           <img
             src="/sage-friedman.jpg"
             className="w-full h-full object-cover"
-            alt="Immersive"
+            alt="Serenità"
           />
         </motion.div>
 
         <div className="pin-content">
-          <motion.div style={{ x: textXLeft }} className="pin-word">
-            PROTEZIONE
+          {/* Top-left — scivola da sinistra + dall'alto */}
+          <motion.div
+            style={{ x: textXLeft, y: textYTop, opacity: textOpacity }}
+            className="pin-word pin-word-top"
+          >
+            SERENITÀ
           </motion.div>
-          <motion.div style={{ x: textXRight }} className="pin-word">
-            SENZA LIMITI
+          {/* Bottom-right — scivola da destra + dal basso */}
+          <motion.div
+            style={{ x: textXRight, y: textYBottom, opacity: textOpacity }}
+            className="pin-word pin-word-bottom"
+          >
+            È UNA SCELTA
           </motion.div>
         </div>
       </div>
