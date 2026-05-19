@@ -166,7 +166,7 @@ const Hero = () => {
 
       {/* Hero image — right side, parallax, slight tilt */}
       <motion.div
-        className="absolute right-[-4%] top-0 bottom-0 w-[56%] hidden lg:flex items-center"
+        className="absolute right-[-4%] top-0 bottom-0 w-[56%] hidden lg:flex items-center overflow-hidden"
         style={{ y: imageY }}
       >
         <motion.img
