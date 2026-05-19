@@ -486,7 +486,7 @@ const ImmersiveSection = () => {
           className="relative w-full h-full overflow-hidden z-10"
         >
           <img
-            src="https://images.unsplash.com/photo-1510074377623-8cf13fb86c08?q=80&w=2072&auto=format&fit=crop"
+            src="/landing-2.jpg"
             className="w-full h-full object-cover"
             alt="Immersive"
           />
