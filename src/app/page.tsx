@@ -166,15 +166,15 @@ const Hero = () => {
 
       {/* Hero image — right side, parallax, slight tilt */}
       <motion.div
-        className="absolute right-[-4%] top-0 bottom-0 w-[56%] hidden lg:flex items-center overflow-hidden"
+        className="absolute right-[-14%] top-0 bottom-0 w-[54%] hidden lg:flex items-center overflow-hidden"
         style={{ y: imageY }}
       >
         <motion.img
           src="/hero-2.jpg"
           alt="Professionisti ScelgoSicuro"
-          className="w-full h-auto object-contain drop-shadow-2xl"
+          className="w-full h-auto object-contain drop-shadow-2xl opacity-70"
           initial={{ opacity: 0, x: 80, rotate: 4 }}
-          animate={{ opacity: 1, x: 0, rotate: 2 }}
+          animate={{ opacity: 0.7, x: 0, rotate: 2 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
         />
         <div className="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-[#fdfdfb] to-transparent pointer-events-none" />
@@ -211,17 +211,6 @@ const Hero = () => {
               </span>
             </motion.h1>
           </div>
-          <motion.div
-            style={{ rotate: rotateScroll }}
-            className="hidden lg:block w-64 h-64 border-2 border-black rounded-[60px] flex items-center justify-center p-12"
-          >
-            <div className="text-center">
-              <div className="text-5xl font-black mb-2">12+</div>
-              <div className="text-[10px] font-bold uppercase tracking-widest opacity-40">
-                Compagnie Leader
-              </div>
-            </div>
-          </motion.div>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-12 items-start">
