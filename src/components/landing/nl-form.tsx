@@ -2,8 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, MoveRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { MoveRight } from "lucide-react";
 
 const PROFESSIONI = ["medico", "avvocato", "ingegnere", "architetto", "commercialista", "geometra", "consulente"];
 const ATTIVITA    = ["studio individuale", "studio associato", "società professionale", "libero professionista"];
@@ -34,9 +33,8 @@ function Dropdown({
 
   return (
     <div ref={ref} className="nl-select inline-flex">
-      <button onClick={() => setOpen(!open)} className="flex items-center gap-1 sm:gap-2">
+      <button onClick={() => setOpen(!open)}>
         <span>{value || placeholder}</span>
-        <ChevronDown className={cn("w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300", open && "rotate-180")} />
       </button>
 
       <AnimatePresence>

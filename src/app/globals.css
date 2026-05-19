@@ -161,7 +161,6 @@
 
   .nl-select {
     color: var(--color-mint);
-    border-bottom: 4px solid var(--color-mint);
     font-family: var(--font-playfair), serif;
     font-style: italic;
     font-weight: 400;
@@ -170,8 +169,8 @@
     display: inline-flex;
     align-items: center;
     position: relative;
-    transition: all 0.3s ease;
-    padding: 0 4px;
+    transition: color 0.3s ease;
+    padding: 0 2px;
   }
 
   /* Pin / immersive scroll section */
