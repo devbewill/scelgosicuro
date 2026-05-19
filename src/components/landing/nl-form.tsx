@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MoveRight } from "lucide-react";
 
 const PROFESSIONI = ["medico", "avvocato", "ingegnere", "architetto", "commercialista", "geometra", "consulente"];
 const ATTIVITA    = ["studio individuale", "studio associato", "società professionale", "libero professionista"];
@@ -93,20 +92,7 @@ export function NlForm() {
             <Dropdown value={franchigia} options={FRANCHIGIE} onChange={setFranchigia} placeholder="franchigia" />
           </div>
 
-          <div className="mt-10 sm:mt-20 flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-12">
-            <button className="group flex items-center gap-3 sm:gap-6 text-2xl sm:text-4xl font-black uppercase tracking-tighter hover:text-mint transition-colors">
-              Confronta 12 Compagnie
-              <MoveRight className="w-8 h-8 sm:w-12 sm:h-12 group-hover:translate-x-4 transition-transform" />
-            </button>
-            <div className="flex flex-col">
-              <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-white/40">
-                Senza impegno · 100% Online
-              </span>
-              <span className="text-xs font-medium text-mint/60">
-                Risparmio medio riscontrato: 30%
-              </span>
-            </div>
-          </div>
+
         </motion.div>
       </div>
     </section>

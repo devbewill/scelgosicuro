@@ -152,10 +152,9 @@
 @layer components {
   /* Natural-language form */
   .nl-form-text {
-    font-size: clamp(3rem, 5.5vw, 7.5rem);
+    font-size: clamp(2.7rem, 5.5vw, 7.5rem);
     line-height: 1.2;
     font-weight: 900;
-    text-transform: uppercase;
     letter-spacing: -0.04em;
   }
 
@@ -163,7 +162,7 @@
     color: var(--color-mint);
     font-family: var(--font-playfair), serif;
     font-style: italic;
-    font-weight: 400;
+    font-weight: 700;
     text-transform: lowercase;
     cursor: pointer;
     display: inline-flex;
