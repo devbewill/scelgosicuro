@@ -507,7 +507,7 @@ const ImmersiveSection = () => {
 };
 
 const AnalisiGraphic = () => (
-  <svg viewBox="0 0 300 260" fill="none" className="w-full max-w-xs">
+  <svg viewBox="0 0 300 260" fill="none" className="w-full max-w-lg">
     {/* Bars */}
     <rect x="18"  y="150" width="42" height="90"  rx="8" fill="rgba(178,255,218,0.12)"/>
     <rect x="74"  y="70"  width="42" height="170" rx="8" fill="#b2ffda"/>
@@ -528,32 +528,35 @@ const AnalisiGraphic = () => (
 );
 
 const ChiarezzaGraphic = () => (
-  <svg viewBox="0 0 280 290" fill="none" className="w-full max-w-xs">
-    {/* Document */}
-    <rect x="24" y="16" width="232" height="258" rx="20" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5"/>
-    {/* Header */}
-    <rect x="50" y="44" width="100" height="10" rx="4" fill="rgba(255,255,255,0.45)"/>
-    <rect x="50" y="60" width="70"  height="7"  rx="3" fill="rgba(255,255,255,0.2)"/>
-    {/* Clause 1 — crossed out */}
-    <rect x="50" y="98"  width="164" height="8" rx="3" fill="rgba(255,255,255,0.15)"/>
-    <rect x="50" y="112" width="120" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
-    <line x1="50" y1="101" x2="214" y2="101" stroke="rgba(255,100,100,0.55)" strokeWidth="1.5"/>
-    <text x="228" y="110" textAnchor="middle" fill="rgba(255,100,100,0.7)" fontSize="14" fontWeight="700">✕</text>
-    {/* Clause 2 — crossed out */}
-    <rect x="50" y="142" width="164" height="8" rx="3" fill="rgba(255,255,255,0.15)"/>
-    <rect x="50" y="156" width="90"  height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
-    <line x1="50" y1="145" x2="214" y2="145" stroke="rgba(255,100,100,0.55)" strokeWidth="1.5"/>
-    <text x="228" y="154" textAnchor="middle" fill="rgba(255,100,100,0.7)" fontSize="14" fontWeight="700">✕</text>
-    {/* Clause 3 — highlighted OK */}
-    <rect x="38" y="188" width="204" height="60" rx="14" fill="rgba(255,255,255,0.13)" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5"/>
-    <rect x="58" y="204" width="130" height="8" rx="4" fill="rgba(255,255,255,0.8)"/>
-    <rect x="58" y="218" width="90"  height="6" rx="3" fill="rgba(255,255,255,0.45)"/>
-    <text x="222" y="222" textAnchor="middle" fill="#b2ffda" fontSize="22" fontWeight="800">✓</text>
+  <svg viewBox="0 0 300 260" fill="none" className="w-full max-w-lg">
+    {/* Row 1 — Massimale */}
+    <text x="0" y="28" fill="rgba(255,255,255,0.5)" fontSize="11" fontWeight="800" letterSpacing="2">MASSIMALE</text>
+    <text x="300" y="28" textAnchor="end" fill="white" fontSize="11" fontWeight="900">€1.000.000</text>
+    <rect x="0" y="38" width="300" height="10" rx="5" fill="rgba(255,255,255,0.1)"/>
+    <rect x="0" y="38" width="240" height="10" rx="5" fill="white"/>
+
+    {/* Row 2 — Franchigia */}
+    <text x="0" y="90" fill="rgba(255,255,255,0.5)" fontSize="11" fontWeight="800" letterSpacing="2">FRANCHIGIA</text>
+    <text x="300" y="90" textAnchor="end" fill="white" fontSize="11" fontWeight="900">€500</text>
+    <rect x="0" y="100" width="300" height="10" rx="5" fill="rgba(255,255,255,0.1)"/>
+    <rect x="0" y="100" width="80" height="10" rx="5" fill="white"/>
+
+    {/* Row 3 — Copertura */}
+    <text x="0" y="152" fill="rgba(255,255,255,0.5)" fontSize="11" fontWeight="800" letterSpacing="2">COPERTURA RC</text>
+    <text x="300" y="152" textAnchor="end" fill="white" fontSize="11" fontWeight="900">100%</text>
+    <rect x="0" y="162" width="300" height="10" rx="5" fill="rgba(255,255,255,0.1)"/>
+    <rect x="0" y="162" width="300" height="10" rx="5" fill="white"/>
+
+    {/* Row 4 — Clausole extra */}
+    <text x="0" y="214" fill="rgba(255,255,255,0.5)" fontSize="11" fontWeight="800" letterSpacing="2">CLAUSOLE EXTRA</text>
+    <text x="300" y="214" textAnchor="end" fill="white" fontSize="11" fontWeight="900">3 / 3</text>
+    <rect x="0" y="224" width="300" height="10" rx="5" fill="rgba(255,255,255,0.1)"/>
+    <rect x="0" y="224" width="300" height="10" rx="5" fill="white"/>
   </svg>
 );
 
 const EmissioneGraphic = () => (
-  <svg viewBox="0 0 280 290" fill="none" className="w-full max-w-xs">
+  <svg viewBox="0 0 280 290" fill="none" className="w-full max-w-lg">
     {/* Outer track */}
     <circle cx="140" cy="126" r="94" stroke="rgba(11,45,36,0.12)" strokeWidth="14"/>
     {/* Progress arc — quasi completo */}
