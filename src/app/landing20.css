@@ -274,8 +274,8 @@
   font-family: "Playfair Display", serif;
   font-style: italic;
   font-weight: 300;
-  font-size: clamp(2.5rem, 9vw, 11rem);
-  color: #fff;
+  font-size: clamp(2.5rem, 10vw, 13rem);
+  color: #b2ffda;
   text-transform: lowercase;
   letter-spacing: -0.01em;
   text-shadow:

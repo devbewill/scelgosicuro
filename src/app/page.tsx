@@ -481,10 +481,8 @@ const ImmersiveSection = () => {
   const textXRight   = useTransform(scrollYProgress, [0, 0.4], [1800, 0]);
   const textYTop     = useTransform(scrollYProgress, [0, 0.4], [-60, 0]);
   const textYBottom  = useTransform(scrollYProgress, [0, 0.4], [60, 0]);
-  const textOpacity  = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
   // "di essere" — zoom-out dal centro
   const centerScale  = useTransform(scrollYProgress, [0, 0.4], [1.4, 1]);
-  const centerOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
   return (
     <section ref={containerRef} className="pin-section">
@@ -503,21 +501,21 @@ const ImmersiveSection = () => {
         <div className="pin-content">
           {/* Top-left — scivola da sinistra */}
           <motion.div
-            style={{ x: textXLeft, y: textYTop, opacity: textOpacity }}
+            style={{ x: textXLeft, y: textYTop }}
             className="pin-word pin-word-top"
           >
             SCEGLI
           </motion.div>
           {/* Center — zoom-out dal mezzo */}
           <motion.div
-            style={{ scale: centerScale, opacity: centerOpacity }}
+            style={{ scale: centerScale }}
             className="pin-word pin-word-center"
           >
             di essere
           </motion.div>
           {/* Bottom-right — scivola da destra */}
           <motion.div
-            style={{ x: textXRight, y: textYBottom, opacity: textOpacity }}
+            style={{ x: textXRight, y: textYBottom }}
             className="pin-word pin-word-bottom"
           >
             SICURO
