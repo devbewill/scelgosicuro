@@ -161,7 +161,9 @@ const Hero = () => {
   const imageY = useTransform(scrollY, [0, 600], [0, -60]);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-[#fdfdfb]">
+    <section className="relative min-h-screen flex flex-col justify-center pt-32 pb-20 overflow-hidden bg-[#fdfdfb]">
+      <div className="hero-blob" />
+
       {/* Hero image — right side, parallax, slight tilt */}
       <motion.div
         className="absolute right-[-4%] top-0 bottom-0 w-[56%] hidden lg:flex items-center"
@@ -175,82 +177,79 @@ const Hero = () => {
           animate={{ opacity: 1, x: 0, rotate: 2 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
         />
-        {/* Fade sul bordo sinistro per fusione con lo sfondo */}
         <div className="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-[#fdfdfb] to-transparent pointer-events-none" />
-        {/* Fade sul bordo inferiore */}
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#fdfdfb] to-transparent pointer-events-none" />
       </motion.div>
 
-      {/* Contenuto testuale — sinistra */}
-      <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10 w-full pt-32 pb-20">
-        <div className="lg:w-[48%]">
+      <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10 w-full">
+        <div className="flex flex-col lg:flex-row items-end justify-between gap-12 mb-20">
+          <div className="max-w-6xl">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-3 mb-8"
+            >
+              <div className="h-[1px] w-12 bg-black" />
+              <span className="text-xs font-bold uppercase tracking-[0.3em]">
+                Oltre la polizza standard
+              </span>
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+              className="text-[clamp(3rem,9vw,9rem)] font-black leading-[0.85] tracking-tighter text-black uppercase"
+            >
+              Una {}
+              <span className="italic font-light text-[#136d58] lowercase font-serif-creative">
+                scelta
+              </span>
+              <br />
+              quella{" "}
+              <span className="italic font-light text-[#136d58] lowercase font-serif-creative">
+                sicura
+              </span>
+            </motion.h1>
+          </div>
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-3 mb-10"
+            style={{ rotate: rotateScroll }}
+            className="hidden lg:block w-64 h-64 border-2 border-black rounded-[60px] flex items-center justify-center p-12"
           >
-            <div className="h-[1px] w-12 bg-black" />
-            <span className="text-xs font-bold uppercase tracking-[0.3em]">
-              Oltre la polizza standard
-            </span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="text-[clamp(3rem,6.5vw,8rem)] font-black leading-[0.85] tracking-tighter text-black uppercase mb-14"
-          >
-            Una{" "}
-            <span className="italic font-light text-[#136d58] lowercase font-serif-creative">
-              scelta
-            </span>
-            <br />
-            quella{" "}
-            <span className="italic font-light text-[#136d58] lowercase font-serif-creative">
-              sicura
-            </span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-xl text-[#5a6a65] mb-10 font-medium leading-relaxed max-w-sm"
-          >
-            Analizziamo il tuo profilo e troviamo il prodotto più adatto a te.
-            Protezione senza complicazioni.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="flex flex-col gap-4 items-start mb-16"
-          >
-            <button className="h-16 px-10 bg-black text-[#b2ffda] rounded-full font-bold flex items-center gap-3 hover:scale-105 transition-transform group uppercase tracking-widest text-sm">
-              La tua scelta sicura{" "}
-              <MoveRight className="group-hover:translate-x-2 transition-transform" />
-            </button>
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-black/40 ml-4">
-              Una valutazione semplice e sicura.
-            </span>
+            <div className="text-center">
+              <div className="text-5xl font-black mb-2">12+</div>
+              <div className="text-[10px] font-bold uppercase tracking-widest opacity-40">
+                Compagnie Leader
+              </div>
+            </div>
           </motion.div>
         </div>
 
+        <div className="grid lg:grid-cols-12 gap-12 items-start">
+          <div className="lg:col-span-4">
+            <p className="text-2xl text-[#5a6a65] lengthing-tight mb-12 font-medium">
+              Analizziamo il tuo profilo e troviamo il prodotto più adatto a te.
+              Protezione senza complicazioni.
+            </p>
+            <div className="flex flex-col gap-4 items-start">
+              <button className="h-16 px-10 bg-black text-[#b2ffda] rounded-full font-bold flex items-center gap-3 hover:scale-105 transition-transform group uppercase tracking-widest text-sm">
+                La tua scelta sicura{" "}
+                <MoveRight className="group-hover:translate-x-2 transition-transform" />
+              </button>
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-black/40 ml-4">
+                Una valutazione semplice e sicura.
+              </span>
+            </div>
+          </div>
+        </div>
+
         {/* Mobile: immagine sotto il testo */}
-        <motion.div
-          className="lg:hidden mt-16 -mx-6 relative"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-        >
+        <div className="lg:hidden mt-16 -mx-6">
           <img
             src="/hero.png"
             alt="Professionisti ScelgoSicuro"
             className="w-full object-contain"
           />
-        </motion.div>
+        </div>
       </div>
     </section>
   );
