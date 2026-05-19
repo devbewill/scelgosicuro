@@ -490,7 +490,6 @@ const ImmersiveSection = () => {
             className="w-full h-full object-cover"
             alt="Immersive"
           />
-          <div className="absolute inset-0 bg-white/45" />
         </motion.div>
 
         <div className="pin-content">
