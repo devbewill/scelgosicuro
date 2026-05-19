@@ -15,7 +15,6 @@ import {
   Compass,
   Zap,
   Layers,
-  CheckCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import "./landing20.css";
@@ -159,137 +158,113 @@ const Navbar = () => {
 const Hero = () => {
   const { scrollY } = useScroll();
   const rotateScroll = useTransform(scrollY, [0, 800], [0, 45]);
+  const imageY = useTransform(scrollY, [0, 600], [0, -60]);
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center pt-32 pb-20 overflow-hidden bg-[#fdfdfb]">
-      <div className="hero-blob" />
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-[#fdfdfb]">
 
-      <div className="hidden xl:flex hero-orbital-container">
-        {[1, 2, 3, 4].map((i) => (
+      {/* Hero image — right side, parallax, slight tilt */}
+      <motion.div
+        className="absolute right-[-4%] top-0 bottom-0 w-[56%] hidden lg:flex items-center"
+        style={{ y: imageY }}
+      >
+        <motion.img
+          src="/hero-img.png"
+          alt="Professionisti ScelgoSicuro"
+          className="w-full h-auto object-contain drop-shadow-2xl"
+          initial={{ opacity: 0, x: 80, rotate: 4 }}
+          animate={{ opacity: 1, x: 0, rotate: 2 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+        />
+        {/* Fade sul bordo sinistro per fusione con lo sfondo */}
+        <div className="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-[#fdfdfb] to-transparent pointer-events-none" />
+        {/* Fade sul bordo inferiore */}
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#fdfdfb] to-transparent pointer-events-none" />
+      </motion.div>
+
+      {/* Contenuto testuale — sinistra */}
+      <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10 w-full pt-32 pb-20">
+        <div className="lg:w-[48%]">
+
           <motion.div
-            key={i}
-            className="orbital-ring"
-            style={{
-              width: i * 120,
-              height: i * 120,
-              borderWidth: 1.5,
-              opacity: 1 - i * 0.15,
-            }}
-            animate={{
-              rotate: i % 2 === 0 ? 360 : -360,
-              scale: [1, 1.05, 1],
-            }}
-            transition={{
-              rotate: {
-                duration: 15 + i * 8,
-                repeat: Infinity,
-                ease: "linear",
-              },
-              scale: { duration: 5 + i, repeat: Infinity, ease: "easeInOut" },
-            }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-3 mb-10"
           >
-            <div className="orbital-node" style={{ top: -6 }} />
-            {i % 2 === 0 && (
-              <div className="orbital-node" style={{ bottom: -6 }} />
-            )}
-            <div
-              className="orbital-particle"
-              style={{ left: "20%", top: "20%" }}
-            />
-            <div
-              className="orbital-particle"
-              style={{ right: "30%", bottom: "15%" }}
-            />
+            <div className="h-[1px] w-12 bg-black" />
+            <span className="text-xs font-bold uppercase tracking-[0.3em]">
+              Oltre la polizza standard
+            </span>
           </motion.div>
-        ))}
-        <motion.div
-          className="w-32 h-32 bg-[#0b2d24] rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(178,255,218,0.2)]"
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{ duration: 4, repeat: Infinity }}
-        >
-          <BrandLogo className="w-14 h-14" invert />
-        </motion.div>
-      </div>
 
-      <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10 w-full">
-        <div className="flex flex-col lg:flex-row items-end justify-between gap-12 mb-20">
-          <div className="max-w-6xl">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-3 mb-8"
-            >
-              <div className="h-[1px] w-12 bg-black" />
-              <span className="text-xs font-bold uppercase tracking-[0.3em]">
-                Oltre la polizza standard
-              </span>
-            </motion.div>
-            <motion.h1
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-              className="text-[clamp(3rem,9vw,9rem)] font-black leading-[0.85] tracking-tighter text-black uppercase"
-            >
-              Una {}
-              <span className="italic font-light text-[#136d58] lowercase font-serif-creative">
-                scelta
-              </span>
-              <br />
-              quella{" "}
-              <span className="italic font-light text-[#136d58] lowercase font-serif-creative">
-                sicura
-              </span>
-            </motion.h1>
-          </div>
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            className="text-[clamp(3rem,6.5vw,8rem)] font-black leading-[0.85] tracking-tighter text-black uppercase mb-14"
+          >
+            Una{" "}
+            <span className="italic font-light text-[#136d58] lowercase font-serif-creative">
+              scelta
+            </span>
+            <br />
+            quella{" "}
+            <span className="italic font-light text-[#136d58] lowercase font-serif-creative">
+              sicura
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="text-xl text-[#5a6a65] mb-10 font-medium leading-relaxed max-w-sm"
+          >
+            Analizziamo il tuo profilo e troviamo il prodotto più adatto a te.
+            Protezione senza complicazioni.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="flex flex-col gap-4 items-start mb-16"
+          >
+            <button className="h-16 px-10 bg-black text-[#b2ffda] rounded-full font-bold flex items-center gap-3 hover:scale-105 transition-transform group uppercase tracking-widest text-sm">
+              La tua scelta sicura{" "}
+              <MoveRight className="group-hover:translate-x-2 transition-transform" />
+            </button>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-black/40 ml-4">
+              Una valutazione semplice e sicura.
+            </span>
+          </motion.div>
+
           <motion.div
             style={{ rotate: rotateScroll }}
-            className="hidden lg:block w-64 h-64 border-2 border-black rounded-[60px] flex items-center justify-center p-12"
+            className="w-40 h-40 border-2 border-black/20 rounded-[40px] flex items-center justify-center"
           >
             <div className="text-center">
-              <div className="text-5xl font-black mb-2">12+</div>
-              <div className="text-[10px] font-bold uppercase tracking-widest opacity-40">
+              <div className="text-4xl font-black mb-1">12+</div>
+              <div className="text-[9px] font-bold uppercase tracking-widest opacity-40">
                 Compagnie Leader
               </div>
             </div>
           </motion.div>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-12 items-start">
-          <div className="lg:col-span-4">
-            <p className="text-2xl text-[#5a6a65] lengthing-tight mb-12 font-medium">
-              Analizziamo il tuo profilo e troviamo il prodotto più adatto a te.
-              Protezione senza complicazioni.
-            </p>
-            <div className="flex flex-col gap-4 items-start">
-              <button className="h-16 px-10 bg-black text-[#b2ffda] rounded-full font-bold flex items-center gap-3 hover:scale-105 transition-transform group uppercase tracking-widest text-sm">
-                La tua scelta sicura{" "}
-                <MoveRight className="group-hover:translate-x-2 transition-transform" />
-              </button>
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-black/40 ml-4">
-                Una valutazione semplice e sicura.
-              </span>
-            </div>
-          </div>
-          <div className="lg:col-span-8 relative rounded-[80px] overflow-hidden aspect-[16/9] shadow-2xl">
-            <img
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop"
-              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
-              alt="Architecture"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0b2d24]/60 to-transparent" />
-            <div className="absolute bottom-16 left-16 right-16 flex justify-between items-end text-white">
-              <div className="text-4xl italic font-serif-creative leading-none">
-                "La precisione è la nostra unica metrica."
-              </div>
-              <div className="flex gap-4">
-                <CheckCircle className="text-[#b2ffda] w-8 h-8" />
-                <span className="font-bold uppercase tracking-widest text-xs">
-                  Zero Scartoffie
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Mobile: immagine sotto il testo */}
+        <motion.div
+          className="lg:hidden mt-16 -mx-6 relative"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+        >
+          <img
+            src="/hero-img.png"
+            alt="Professionisti ScelgoSicuro"
+            className="w-full object-contain"
+          />
+        </motion.div>
       </div>
     </section>
   );
