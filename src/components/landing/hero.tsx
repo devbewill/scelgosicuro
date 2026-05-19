@@ -9,11 +9,24 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center pt-24 sm:pt-32 pb-16 sm:pb-20 overflow-hidden bg-warm-white">
+      {/* ambient blob */}
       <div
         className="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] opacity-15 pointer-events-none blur-[80px]"
         style={{ background: "radial-gradient(circle, var(--color-forest) 0%, transparent 70%)" }}
       />
 
+      {/* mobile: immagine di sfondo quasi invisibile */}
+      <div className="absolute inset-0 lg:hidden pointer-events-none">
+        <img
+          src="/hero-2.jpg"
+          alt=""
+          aria-hidden="true"
+          className="w-full h-full object-cover opacity-[0.07]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-warm-white/20 via-transparent to-warm-white/60" />
+      </div>
+
+      {/* desktop: immagine a destra con parallax */}
       <motion.div
         className="absolute right-[-14%] top-0 bottom-0 w-[54%] hidden lg:flex items-center overflow-hidden"
         style={{ y: imageY }}
@@ -30,37 +43,39 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-warm-white to-transparent pointer-events-none" />
       </motion.div>
 
-      <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10 w-full">
-        <div className="flex flex-col lg:flex-row items-end justify-between gap-6 sm:gap-12 mb-10 sm:mb-20">
-          <div className="max-w-6xl">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-3 mb-6 sm:mb-8"
-            >
-              <div className="h-px w-8 sm:w-12 bg-ink" />
-              <span className="text-xs font-bold uppercase tracking-[0.3em]">
-                Oltre la polizza standard
-              </span>
-            </motion.div>
+      <div className="max-w-[1800px] mx-auto px-5 sm:px-6 md:px-12 relative z-10 w-full">
+        <div className="mb-6 sm:mb-20">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-3 mb-4 sm:mb-8"
+          >
+            <div className="h-px w-8 sm:w-12 bg-ink" />
+            <span className="text-xs font-bold uppercase tracking-[0.3em]">
+              Oltre la polizza standard
+            </span>
+          </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-              className="text-[clamp(2.5rem,8vw,9rem)] font-black leading-[0.85] tracking-tighter text-ink uppercase"
-            >
-              Una{" "}
-              <span className="italic font-light text-sage lowercase font-serif">
-                scelta
-              </span>
-              <br />
-              quella{" "}
-              <span className="italic font-light text-sage lowercase font-serif">
-                sicura
-              </span>
-            </motion.h1>
-          </div>
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            className="text-[22vw] sm:text-[clamp(3rem,9vw,9rem)] font-black leading-[0.82] tracking-tighter text-ink uppercase"
+          >
+            Una
+            <br className="sm:hidden" />
+            {" "}
+            <span className="italic font-light text-sage lowercase font-serif">
+              scelta
+            </span>
+            <br />
+            quella
+            <br className="sm:hidden" />
+            {" "}
+            <span className="italic font-light text-sage lowercase font-serif">
+              sicura
+            </span>
+          </motion.h1>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-8 sm:gap-12 items-start">
@@ -79,14 +94,6 @@ export function Hero() {
               </span>
             </div>
           </div>
-        </div>
-
-        <div className="lg:hidden mt-10 sm:mt-16 overflow-hidden rounded-2xl">
-          <img
-            src="/hero-2.jpg"
-            alt="Professionisti ScelgoSicuro"
-            className="w-full object-cover"
-          />
         </div>
       </div>
     </section>

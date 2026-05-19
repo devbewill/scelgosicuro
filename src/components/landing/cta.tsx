@@ -11,7 +11,7 @@ export function CTA() {
             Protezione.
           </h2>
           <button className="h-14 sm:h-24 px-8 sm:px-16 bg-mint text-ink rounded-full text-lg sm:text-2xl font-black uppercase tracking-tighter hover:scale-110 transition-transform shadow-2xl">
-            Ottieni la tua polizza ora
+            Ottieni la tua polizza
           </button>
         </div>
       </div>

@@ -71,13 +71,13 @@ export function NlForm() {
 
   return (
     <section className="py-16 sm:py-40 bg-forest text-white overflow-hidden">
-      <div className="max-w-[1800px] mx-auto px-6 md:px-12">
+      <div className="max-w-[1800px] mx-auto px-4 sm:px-6 md:px-12">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <div className="flex items-center gap-4 mb-8 sm:mb-12">
+          <div className="flex items-center gap-4 mb-6 sm:mb-12">
             <div className="w-8 sm:w-12 h-px bg-mint" />
             <span className="text-mint text-xs font-bold uppercase tracking-[0.3em]">
               Analisi del Profilo
