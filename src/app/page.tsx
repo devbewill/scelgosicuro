@@ -162,30 +162,30 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-[#fdfdfb]">
-
       {/* Hero image — right side, parallax, slight tilt */}
       <motion.div
-        className="absolute right-[-4%] top-0 bottom-0 w-[56%] hidden lg:flex items-center"
+        className="absolute right-[4%] top-0 bottom-0 hidden lg:flex items-center"
         style={{ y: imageY }}
       >
         <motion.img
-          src="/hero-img.png"
+          src="/hero.png"
           alt="Professionisti ScelgoSicuro"
-          className="w-full h-auto object-contain drop-shadow-2xl"
-          initial={{ opacity: 0, x: 80, rotate: 4 }}
+          width={443}
+          height={525}
+          className="w-auto h-auto max-w-[440px] drop-shadow-xl"
+          initial={{ opacity: 0, x: 60, rotate: 4 }}
           animate={{ opacity: 1, x: 0, rotate: 2 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
         />
-        {/* Fade sul bordo sinistro per fusione con lo sfondo */}
-        <div className="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-[#fdfdfb] to-transparent pointer-events-none" />
+        {/* Fade sul bordo sinistro */}
+        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#fdfdfb] to-transparent pointer-events-none" />
         {/* Fade sul bordo inferiore */}
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#fdfdfb] to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#fdfdfb] to-transparent pointer-events-none" />
       </motion.div>
 
       {/* Contenuto testuale — sinistra */}
       <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10 w-full pt-32 pb-20">
         <div className="lg:w-[48%]">
-
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -238,18 +238,6 @@ const Hero = () => {
               Una valutazione semplice e sicura.
             </span>
           </motion.div>
-
-          <motion.div
-            style={{ rotate: rotateScroll }}
-            className="w-40 h-40 border-2 border-black/20 rounded-[40px] flex items-center justify-center"
-          >
-            <div className="text-center">
-              <div className="text-4xl font-black mb-1">12+</div>
-              <div className="text-[9px] font-bold uppercase tracking-widest opacity-40">
-                Compagnie Leader
-              </div>
-            </div>
-          </motion.div>
         </div>
 
         {/* Mobile: immagine sotto il testo */}
@@ -260,7 +248,7 @@ const Hero = () => {
           transition={{ delay: 0.4, duration: 0.8 }}
         >
           <img
-            src="/hero-img.png"
+            src="/hero.png"
             alt="Professionisti ScelgoSicuro"
             className="w-full object-contain"
           />
