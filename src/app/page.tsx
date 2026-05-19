@@ -147,7 +147,7 @@ const Navbar = () => {
           </a>
         </div>
 
-        <button className="h-12 px-8 bg-black text-[#b2ffda] rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-[#136d58] hover:text-white transition-all">
+        <button className="h-12 px-8 bg-black text-white rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-[#136d58] hover:text-white transition-all">
           Calcola Preventivo
         </button>
       </div>
@@ -220,7 +220,7 @@ const Hero = () => {
               Protezione senza complicazioni.
             </p>
             <div className="flex flex-col gap-4 items-start">
-              <button className="h-16 px-10 bg-black text-[#b2ffda] rounded-full font-bold flex items-center gap-3 hover:scale-105 transition-transform group uppercase tracking-widest text-sm">
+              <button className="h-16 px-10 bg-black text-white rounded-full font-bold flex items-center gap-3 hover:scale-105 transition-transform group uppercase tracking-widest text-sm">
                 La tua scelta sicura{" "}
                 <MoveRight className="group-hover:translate-x-2 transition-transform" />
               </button>
@@ -506,23 +506,99 @@ const ImmersiveSection = () => {
   );
 };
 
+const AnalisiGraphic = () => (
+  <svg viewBox="0 0 300 260" fill="none" className="w-full max-w-xs">
+    {/* Bars */}
+    <rect x="18"  y="150" width="42" height="90"  rx="8" fill="rgba(178,255,218,0.12)"/>
+    <rect x="74"  y="70"  width="42" height="170" rx="8" fill="#b2ffda"/>
+    <rect x="130" y="110" width="42" height="130" rx="8" fill="rgba(178,255,218,0.18)"/>
+    <rect x="186" y="90"  width="42" height="150" rx="8" fill="rgba(178,255,218,0.14)"/>
+    <rect x="242" y="130" width="42" height="110" rx="8" fill="rgba(178,255,218,0.10)"/>
+    {/* Best match label */}
+    <text x="95" y="56" textAnchor="middle" fill="#b2ffda" fontSize="11" fontWeight="800" letterSpacing="2">BEST MATCH</text>
+    <text x="95" y="38" textAnchor="middle" fill="#b2ffda" fontSize="22" fontWeight="900">€850</text>
+    {/* Baseline */}
+    <line x1="10" y1="248" x2="290" y2="248" stroke="rgba(178,255,218,0.12)" strokeWidth="1"/>
+    <text x="39"  y="258" textAnchor="middle" fill="rgba(178,255,218,0.35)" fontSize="9" fontWeight="700">AXA</text>
+    <text x="95"  y="258" textAnchor="middle" fill="#b2ffda"                 fontSize="9" fontWeight="900">✦</text>
+    <text x="151" y="258" textAnchor="middle" fill="rgba(178,255,218,0.35)" fontSize="9" fontWeight="700">UNI</text>
+    <text x="207" y="258" textAnchor="middle" fill="rgba(178,255,218,0.35)" fontSize="9" fontWeight="700">GEN</text>
+    <text x="263" y="258" textAnchor="middle" fill="rgba(178,255,218,0.35)" fontSize="9" fontWeight="700">AIG</text>
+  </svg>
+);
+
+const ChiarezzaGraphic = () => (
+  <svg viewBox="0 0 280 290" fill="none" className="w-full max-w-xs">
+    {/* Document */}
+    <rect x="24" y="16" width="232" height="258" rx="20" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5"/>
+    {/* Header */}
+    <rect x="50" y="44" width="100" height="10" rx="4" fill="rgba(255,255,255,0.45)"/>
+    <rect x="50" y="60" width="70"  height="7"  rx="3" fill="rgba(255,255,255,0.2)"/>
+    {/* Clause 1 — crossed out */}
+    <rect x="50" y="98"  width="164" height="8" rx="3" fill="rgba(255,255,255,0.15)"/>
+    <rect x="50" y="112" width="120" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
+    <line x1="50" y1="101" x2="214" y2="101" stroke="rgba(255,100,100,0.55)" strokeWidth="1.5"/>
+    <text x="228" y="110" textAnchor="middle" fill="rgba(255,100,100,0.7)" fontSize="14" fontWeight="700">✕</text>
+    {/* Clause 2 — crossed out */}
+    <rect x="50" y="142" width="164" height="8" rx="3" fill="rgba(255,255,255,0.15)"/>
+    <rect x="50" y="156" width="90"  height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
+    <line x1="50" y1="145" x2="214" y2="145" stroke="rgba(255,100,100,0.55)" strokeWidth="1.5"/>
+    <text x="228" y="154" textAnchor="middle" fill="rgba(255,100,100,0.7)" fontSize="14" fontWeight="700">✕</text>
+    {/* Clause 3 — highlighted OK */}
+    <rect x="38" y="188" width="204" height="60" rx="14" fill="rgba(255,255,255,0.13)" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5"/>
+    <rect x="58" y="204" width="130" height="8" rx="4" fill="rgba(255,255,255,0.8)"/>
+    <rect x="58" y="218" width="90"  height="6" rx="3" fill="rgba(255,255,255,0.45)"/>
+    <text x="222" y="222" textAnchor="middle" fill="#b2ffda" fontSize="22" fontWeight="800">✓</text>
+  </svg>
+);
+
+const EmissioneGraphic = () => (
+  <svg viewBox="0 0 280 290" fill="none" className="w-full max-w-xs">
+    {/* Outer track */}
+    <circle cx="140" cy="126" r="94" stroke="rgba(11,45,36,0.12)" strokeWidth="14"/>
+    {/* Progress arc — quasi completo */}
+    <circle cx="140" cy="126" r="94"
+      stroke="#0b2d24" strokeWidth="14" strokeLinecap="round"
+      strokeDasharray="591" strokeDashoffset="70"
+      transform="rotate(-90 140 126)"/>
+    {/* Center text */}
+    <text x="140" y="116" textAnchor="middle" fill="#0b2d24" fontSize="52" fontWeight="900">2'</text>
+    <text x="140" y="140" textAnchor="middle" fill="rgba(11,45,36,0.45)" fontSize="11" fontWeight="800" letterSpacing="4">MINUTI</text>
+    {/* Steps */}
+    <circle cx="70"  cy="256" r="14" fill="#0b2d24"/>
+    <text x="70"  y="261" textAnchor="middle" fill="#b2ffda" fontSize="13" fontWeight="800">✓</text>
+    <text x="70"  y="278" textAnchor="middle" fill="rgba(11,45,36,0.5)" fontSize="9" fontWeight="700">COMPILA</text>
+    <line x1="84" y1="256" x2="126" y2="256" stroke="rgba(11,45,36,0.2)" strokeWidth="1.5"/>
+    <circle cx="140" cy="256" r="14" fill="#0b2d24"/>
+    <text x="140" y="261" textAnchor="middle" fill="#b2ffda" fontSize="13" fontWeight="800">✓</text>
+    <text x="140" y="278" textAnchor="middle" fill="rgba(11,45,36,0.5)" fontSize="9" fontWeight="700">CONFRONTA</text>
+    <line x1="154" y1="256" x2="196" y2="256" stroke="rgba(11,45,36,0.2)" strokeWidth="1.5"/>
+    <circle cx="210" cy="256" r="14" fill="#0b2d24"/>
+    <text x="210" y="261" textAnchor="middle" fill="#b2ffda" fontSize="13" fontWeight="800">✓</text>
+    <text x="210" y="278" textAnchor="middle" fill="rgba(11,45,36,0.5)" fontSize="9" fontWeight="700">FIRMA</text>
+  </svg>
+);
+
 const StackedStory = () => {
   const cards = [
     {
       title: "Analisi",
       body: "Analizziamo 12+ Compagnie e ordiniamo le proposte per coerenza con il tuo profilo professionale.",
       bg: "#0b2d24",
+      graphic: <AnalisiGraphic />,
     },
     {
       title: "Chiarezza",
       body: "Ti spieghiamo ogni clausola e franchigia prima che tu decida. Zero termini nascosti.",
       bg: "#136d58",
+      graphic: <ChiarezzaGraphic />,
     },
     {
       title: "Emissione",
       body: "Preventivo in 2 minuti. Nessun modulo infinito. Solo firma digitale e sei coperto subito.",
       bg: "#b2ffda",
       textColor: "black",
+      graphic: <EmissioneGraphic />,
     },
   ];
 
@@ -558,8 +634,8 @@ const StackedStory = () => {
                   {card.body}
                 </p>
               </div>
-              <div className="bg-black/10 backdrop-blur-sm flex items-center justify-center p-20">
-                <BrandLogo className="w-64 h-64 opacity-10" invert />
+              <div className="flex items-center justify-center p-16">
+                {card.graphic}
               </div>
             </div>
           </div>
