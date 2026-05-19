@@ -31,4 +31,16 @@ declare module "lucide-react" {
   export const FileTextIcon: FC<SVGProps<SVGSVGElement>>
   export const DownloadIcon: FC<SVGProps<SVGSVGElement>>
   export const UploadIcon: FC<SVGProps<SVGSVGElement>>
+  export const ChevronDown: FC<SVGProps<SVGSVGElement>>
+  export const Plus: FC<SVGProps<SVGSVGElement>>
+  export const MoveRight: FC<SVGProps<SVGSVGElement>>
+  export const Compass: FC<SVGProps<SVGSVGElement>>
+  export const Zap: FC<SVGProps<SVGSVGElement>>
+  export const Layers: FC<SVGProps<SVGSVGElement>>
+  export const CheckCircle: FC<SVGProps<SVGSVGElement>>
+  export const ArrowRight: FC<SVGProps<SVGSVGElement>>
+  export const Globe: FC<SVGProps<SVGSVGElement>>
+  export const Shield: FC<SVGProps<SVGSVGElement>>
+  export const Award: FC<SVGProps<SVGSVGElement>>
+  export const Asterisk: FC<SVGProps<SVGSVGElement>>
 }
