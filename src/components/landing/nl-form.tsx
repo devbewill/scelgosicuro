@@ -3,10 +3,29 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const PROFESSIONI = ["medico", "avvocato", "ingegnere", "architetto", "commercialista", "geometra", "consulente"];
-const ATTIVITA    = ["studio individuale", "studio associato", "società professionale", "libero professionista"];
-const MASSIMALI   = ["€250.000", "€500.000", "€1.000.000", "€2.000.000", "€5.000.000"];
-const FRANCHIGIE  = ["nessuna", "€500", "€1.000", "€2.500", "€5.000"];
+const PROFESSIONI = [
+  "medico",
+  "avvocato",
+  "ingegnere",
+  "architetto",
+  "commercialista",
+  "geometra",
+  "consulente",
+];
+const ATTIVITA = [
+  "studio individuale",
+  "studio associato",
+  "società professionale",
+  "libero professionista",
+];
+const MASSIMALI = [
+  "€250.000",
+  "€500.000",
+  "€1.000.000",
+  "€2.000.000",
+  "€5.000.000",
+];
+const FRANCHIGIE = ["nessuna", "€500", "€1.000", "€2.500", "€5.000"];
 
 function Dropdown({
   value,
@@ -24,7 +43,8 @@ function Dropdown({
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -47,7 +67,10 @@ function Dropdown({
             {options.map((opt) => (
               <button
                 key={opt}
-                onClick={() => { onChange(opt); setOpen(false); }}
+                onClick={() => {
+                  onChange(opt);
+                  setOpen(false);
+                }}
                 className="text-sm sm:text-lg font-semibold uppercase tracking-[0.05em] text-white px-4 sm:px-5 py-2 sm:py-3 rounded-xl transition-colors hover:bg-mint hover:text-forest text-left font-sans not-italic"
               >
                 {opt}
@@ -62,9 +85,9 @@ function Dropdown({
 
 export function NlForm() {
   const [professione, setProfessione] = useState("medico");
-  const [attivita, setAttivita]       = useState("studio individuale");
-  const [massimale, setMassimale]     = useState("€1.000.000");
-  const [franchigia, setFranchigia]   = useState("media");
+  const [attivita, setAttivita] = useState("studio individuale");
+  const [massimale, setMassimale] = useState("€1.000.000");
+  const [franchigia, setFranchigia] = useState("media");
 
   return (
     <section className="py-16 sm:py-40 bg-forest text-white overflow-hidden">
@@ -83,16 +106,34 @@ export function NlForm() {
 
           <div className="nl-form-text">
             Sono un{" "}
-            <Dropdown value={professione} options={PROFESSIONI} onChange={setProfessione} placeholder="professione" />
-            {" "}e lavoro come{" "}
-            <Dropdown value={attivita} options={ATTIVITA} onChange={setAttivita} placeholder="tipo di attività" />
-            {" "}cerco una RC con massimale{" "}
-            <Dropdown value={massimale} options={MASSIMALI} onChange={setMassimale} placeholder="massimale" />
-            {" "}e franchigia{" "}
-            <Dropdown value={franchigia} options={FRANCHIGIE} onChange={setFranchigia} placeholder="franchigia" />
+            <Dropdown
+              value={professione}
+              options={PROFESSIONI}
+              onChange={setProfessione}
+              placeholder="professione"
+            />{" "}
+            lavoro come{" "}
+            <Dropdown
+              value={attivita}
+              options={ATTIVITA}
+              onChange={setAttivita}
+              placeholder="tipo di attività"
+            />{" "}
+            pensavo a una polizza con massimale di{" "}
+            <Dropdown
+              value={massimale}
+              options={MASSIMALI}
+              onChange={setMassimale}
+              placeholder="massimale"
+            />{" "}
+            e franchigia{" "}
+            <Dropdown
+              value={franchigia}
+              options={FRANCHIGIE}
+              onChange={setFranchigia}
+              placeholder="franchigia"
+            />
           </div>
-
-
         </motion.div>
       </div>
     </section>

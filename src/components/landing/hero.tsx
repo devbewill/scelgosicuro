@@ -12,7 +12,10 @@ export function Hero() {
       {/* ambient blob */}
       <div
         className="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] opacity-15 pointer-events-none blur-[80px]"
-        style={{ background: "radial-gradient(circle, var(--color-forest) 0%, transparent 70%)" }}
+        style={{
+          background:
+            "radial-gradient(circle, var(--color-forest) 0%, transparent 70%)",
+        }}
       />
 
       {/* mobile: immagine di sfondo quasi invisibile */}
@@ -63,15 +66,13 @@ export function Hero() {
             className="text-[22vw] sm:text-[clamp(3rem,9vw,9rem)] font-black leading-[0.82] tracking-tighter text-ink uppercase"
           >
             Una
-            <br className="sm:hidden" />
-            {" "}
+            <br className="sm:hidden" />{" "}
             <span className="italic font-light text-sage lowercase font-serif">
               scelta
             </span>
             <br />
             quella
-            <br className="sm:hidden" />
-            {" "}
+            <br className="sm:hidden" />{" "}
             <span className="italic font-light text-sage lowercase font-serif">
               sicura
             </span>

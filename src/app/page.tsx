@@ -11,7 +11,7 @@ import { CTA } from "@/components/landing/cta";
 import { Footer } from "@/components/landing/footer";
 
 export const metadata: Metadata = {
-  title: "ScelgoSicuro | Boutique Risk Management per Professionisti",
+  title: "ScelgoSicuro | Risk Management per Professionisti",
 };
 
 export default function Home() {
