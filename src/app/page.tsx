@@ -476,12 +476,15 @@ const ImmersiveSection = () => {
   const scale        = useTransform(scrollYProgress, [0, 0.5],  [0.8, 1]);
   const borderRadius = useTransform(scrollYProgress, [0, 0.5],  [80, 0]);
 
-  // Testo: parte quasi subito, finisce a metà scroll — in sincronia con lo zoom
-  const textXLeft   = useTransform(scrollYProgress, [0.05, 0.45], [-1800, 0]);
-  const textXRight  = useTransform(scrollYProgress, [0.05, 0.45], [1800, 0]);
-  const textYTop    = useTransform(scrollYProgress, [0.05, 0.45], [-50, 0]);
-  const textYBottom = useTransform(scrollYProgress, [0.05, 0.45], [50, 0]);
-  const textOpacity = useTransform(scrollYProgress, [0.05, 0.35], [0, 1]);
+  // Testo: parte in sincronia con lo zoom dell'immagine
+  const textXLeft    = useTransform(scrollYProgress, [0, 0.4], [-1800, 0]);
+  const textXRight   = useTransform(scrollYProgress, [0, 0.4], [1800, 0]);
+  const textYTop     = useTransform(scrollYProgress, [0, 0.4], [-60, 0]);
+  const textYBottom  = useTransform(scrollYProgress, [0, 0.4], [60, 0]);
+  const textOpacity  = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
+  // "di essere" — zoom-out dal centro
+  const centerScale  = useTransform(scrollYProgress, [0, 0.4], [1.4, 1]);
+  const centerOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
   return (
     <section ref={containerRef} className="pin-section">
@@ -493,24 +496,31 @@ const ImmersiveSection = () => {
           <img
             src="/sage-friedman.jpg"
             className="w-full h-full object-cover"
-            alt="Serenità"
+            alt="Scegli di essere sicuro"
           />
         </motion.div>
 
         <div className="pin-content">
-          {/* Top-left — scivola da sinistra + dall'alto */}
+          {/* Top-left — scivola da sinistra */}
           <motion.div
             style={{ x: textXLeft, y: textYTop, opacity: textOpacity }}
             className="pin-word pin-word-top"
           >
-            SERENITÀ
+            SCEGLI
           </motion.div>
-          {/* Bottom-right — scivola da destra + dal basso */}
+          {/* Center — zoom-out dal mezzo */}
+          <motion.div
+            style={{ scale: centerScale, opacity: centerOpacity }}
+            className="pin-word pin-word-center"
+          >
+            di essere
+          </motion.div>
+          {/* Bottom-right — scivola da destra */}
           <motion.div
             style={{ x: textXRight, y: textYBottom, opacity: textOpacity }}
             className="pin-word pin-word-bottom"
           >
-            È UNA SCELTA
+            SICURO
           </motion.div>
         </div>
       </div>
