@@ -170,7 +170,7 @@ const Hero = () => {
         style={{ y: imageY }}
       >
         <motion.img
-          src="/hero.png"
+          src="/hero-2.jpg"
           alt="Professionisti ScelgoSicuro"
           className="w-full h-auto object-contain drop-shadow-2xl"
           initial={{ opacity: 0, x: 80, rotate: 4 }}
@@ -245,7 +245,7 @@ const Hero = () => {
         {/* Mobile: immagine sotto il testo */}
         <div className="lg:hidden mt-16 -mx-6">
           <img
-            src="/hero.png"
+            src="/hero-2.jpg"
             alt="Professionisti ScelgoSicuro"
             className="w-full object-contain"
           />
